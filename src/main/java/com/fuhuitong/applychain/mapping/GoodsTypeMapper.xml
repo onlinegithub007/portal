@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.GoodsTypeMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.GoodsType">
+    <id column="GOODS_TYPE_ID" jdbcType="VARCHAR" property="goodsTypeId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="GOODS_TYPE_NAME" jdbcType="VARCHAR" property="goodsTypeName" />
+    <result column="PARENT_TYPE_ID" jdbcType="VARCHAR" property="parentTypeId" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    GOODS_TYPE_ID, MER_ID, GOODS_TYPE_NAME, PARENT_TYPE_ID, STATUS, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_TYPE
+    where GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByMerId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_TYPE
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectTopTypeByMerId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_TYPE
+    where MER_ID = #{merId,jdbcType=VARCHAR} and PARENT_TYPE_ID is null
+  </select>
+  
+  <select id="selectSubTypeByMerId" parameterType="com.fuhuitong.applychain.model.GoodsType" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_TYPE
+    where MER_ID = #{merId,jdbcType=VARCHAR} and PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByParentId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_TYPE
+    where PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from GOODS_TYPE
+    where GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.GoodsType">
+    insert into GOODS_TYPE (GOODS_TYPE_ID, MER_ID, GOODS_TYPE_NAME, 
+      PARENT_TYPE_ID, STATUS, CREATE_DATE, 
+      UPDATE_DATE)
+    values (#{goodsTypeId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, #{goodsTypeName,jdbcType=VARCHAR}, 
+      #{parentTypeId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.GoodsType">
+    insert into GOODS_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsTypeId != null">
+        GOODS_TYPE_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="goodsTypeName != null">
+        GOODS_TYPE_NAME,
+      </if>
+      <if test="parentTypeId != null">
+        PARENT_TYPE_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsTypeId != null">
+        #{goodsTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeName != null">
+        #{goodsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentTypeId != null">
+        #{parentTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.GoodsType">
+    update GOODS_TYPE
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeName != null">
+        GOODS_TYPE_NAME = #{goodsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentTypeId != null">
+        PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.GoodsType">
+    update GOODS_TYPE
+    set MER_ID = #{merId,jdbcType=VARCHAR},
+      GOODS_TYPE_NAME = #{goodsTypeName,jdbcType=VARCHAR},
+      PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

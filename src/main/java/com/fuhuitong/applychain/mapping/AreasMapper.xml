@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.AreasMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.Areas">
+    <id column="AREA_ID" jdbcType="VARCHAR" property="areaId" />
+    <result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
+    <result column="PARENT_AREA_ID" jdbcType="VARCHAR" property="parentAreaId" />
+    <result column="LEVEL" jdbcType="INTEGER" property="level" />
+    <result column="FULL_NAME" jdbcType="VARCHAR" property="fullName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    AREA_ID, AREA_NAME, PARENT_AREA_ID, LEVEL, FULL_NAME
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AREAS
+    where AREA_ID = #{areaId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectTopAreas" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AREAS
+    where PARENT_AREA_ID = '0'
+  </select>
+  
+  <select id="selectLevelAreas" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AREAS
+    where PARENT_AREA_ID = #{parentAreaId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from AREAS
+    where AREA_ID = #{areaId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.Areas">
+    insert into AREAS (AREA_ID, AREA_NAME, PARENT_AREA_ID, 
+      LEVEL, FULL_NAME)
+    values (#{areaId,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, #{parentAreaId,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{fullName,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.Areas">
+    insert into AREAS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="areaId != null">
+        AREA_ID,
+      </if>
+      <if test="areaName != null">
+        AREA_NAME,
+      </if>
+      <if test="parentAreaId != null">
+        PARENT_AREA_ID,
+      </if>
+      <if test="level != null">
+        LEVEL,
+      </if>
+      <if test="fullName != null">
+        FULL_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="areaId != null">
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentAreaId != null">
+        #{parentAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="fullName != null">
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.Areas">
+    update AREAS
+    <set>
+      <if test="areaName != null">
+        AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentAreaId != null">
+        PARENT_AREA_ID = #{parentAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        LEVEL = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="fullName != null">
+        FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where AREA_ID = #{areaId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.Areas">
+    update AREAS
+    set AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      PARENT_AREA_ID = #{parentAreaId,jdbcType=VARCHAR},
+      LEVEL = #{level,jdbcType=INTEGER},
+      FULL_NAME = #{fullName,jdbcType=VARCHAR}
+    where AREA_ID = #{areaId,jdbcType=VARCHAR}
+  </update>
+</mapper>

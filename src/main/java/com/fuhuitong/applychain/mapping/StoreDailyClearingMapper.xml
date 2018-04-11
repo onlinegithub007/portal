@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.StoreDailyClearingMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.StoreDailyClearing">
+    <id column="DAILY_CLEAR_ID" jdbcType="INTEGER" property="dailyClearId" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="CLEARING_DATE" jdbcType="TIMESTAMP" property="clearingDate" />
+    <result column="ORDER_COUNT" jdbcType="INTEGER" property="orderCount" />
+    <result column="ORDER_AMOUNT" jdbcType="INTEGER" property="orderAmount" />
+    <result column="ORDER_PROFIT" jdbcType="INTEGER" property="orderProfit" />
+    <result column="CASH_ORDER_COUNT" jdbcType="INTEGER" property="cashOrderCount" />
+    <result column="CASH_ORDER_AMOUNT" jdbcType="INTEGER" property="cashOrderAmount" />
+    <result column="WEIXIN_ORDER_COUNT" jdbcType="INTEGER" property="weixinOrderCount" />
+    <result column="WEIXIN_ORDER_AMOUNT" jdbcType="INTEGER" property="weixinOrderAmount" />
+    <result column="ALIPAY_ORDER_COUNT" jdbcType="INTEGER" property="alipayOrderCount" />
+    <result column="ALIPAY_ORDER_AMOUNT" jdbcType="INTEGER" property="alipayOrderAmount" />
+    <result column="YIPAY_ORDER_COUNT" jdbcType="INTEGER" property="yipayOrderCount" />
+    <result column="YIPAY_ORDER_AMOUNT" jdbcType="INTEGER" property="yipayOrderAmount" />
+    <result column="CARD_ORDER_COUNT" jdbcType="INTEGER" property="cardOrderCount" />
+    <result column="CARD_ORDER_AMOUNT" jdbcType="INTEGER" property="cardOrderAmount" />
+    <result column="CASH_CLEAR" jdbcType="BIT" property="cashClear" />
+    <result column="CASH_CLEAR_TIME" jdbcType="TIMESTAMP" property="cashClearTime" />
+    <result column="CASH_CLEAR_AMOUNT" jdbcType="INTEGER" property="cashClearAmount" />
+    <result column="CASH_CLEAR_PERSON_ID" jdbcType="VARCHAR" property="cashClearPersonId" />
+    <result column="CASH_CLEAR_PERSON_NAME" jdbcType="VARCHAR" property="cashClearPersonName" />
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    DAILY_CLEAR_ID, MER_GROUP_ID, MER_ID, CLEARING_DATE, ORDER_COUNT, ORDER_AMOUNT, ORDER_PROFIT, 
+    CASH_ORDER_COUNT, CASH_ORDER_AMOUNT, WEIXIN_ORDER_COUNT, WEIXIN_ORDER_AMOUNT, ALIPAY_ORDER_COUNT, 
+    ALIPAY_ORDER_AMOUNT, YIPAY_ORDER_COUNT, YIPAY_ORDER_AMOUNT, CARD_ORDER_COUNT, CARD_ORDER_AMOUNT, 
+    CASH_CLEAR, CASH_CLEAR_TIME, CASH_CLEAR_AMOUNT, CASH_CLEAR_PERSON_ID, CASH_CLEAR_PERSON_NAME
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STORE_DAILY_CLEARING
+    where DAILY_CLEAR_ID = #{dailyClearId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectStoreDaily" parameterType="com.fuhuitong.applychain.model.StoreDailyClearing" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STORE_DAILY_CLEARING
+    where MER_ID = #{merId,jdbcType=VARCHAR} and MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    <if test="clearingDateText != null">
+	    AND DATE_FORMAT(CLEARING_DATE,'%Y-%m') = #{clearingDateText,jdbcType=VARCHAR}
+    </if>
+    <if test="cashClear != null">
+       AND CASH_CLEAR = #{cashClear,jdbcType=BIT}
+    </if>
+    order by CLEARING_DATE desc
+  </select>
+  
+  <select id="selectStoreDailyCount" parameterType="com.fuhuitong.applychain.model.StoreDailyClearing" resultMap="allRecordCount">
+    select 
+    	COUNT(*) as DATA_COUNT
+    from STORE_DAILY_CLEARING
+    where MER_ID = #{merId,jdbcType=VARCHAR} and MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    <if test="clearingDateText != null">
+	    AND DATE_FORMAT(CLEARING_DATE,'%Y-%m') = #{clearingDateText,jdbcType=VARCHAR}
+    </if>
+    <if test="cashClear != null">
+       AND CASH_CLEAR = #{cashClear,jdbcType=BIT}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from STORE_DAILY_CLEARING
+    where DAILY_CLEAR_ID = #{dailyClearId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByDate" parameterType="com.fuhuitong.applychain.model.StoreDailyClearing">
+    delete from STORE_DAILY_CLEARING
+    where MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR} AND DATE_FORMAT(CLEARING_DATE,'%Y-%m-%d') = #{clearingDateText,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.StoreDailyClearing">
+    insert into STORE_DAILY_CLEARING (DAILY_CLEAR_ID, MER_GROUP_ID, MER_ID, 
+      CLEARING_DATE, ORDER_COUNT, ORDER_AMOUNT, 
+      ORDER_PROFIT, CASH_ORDER_COUNT, CASH_ORDER_AMOUNT, 
+      WEIXIN_ORDER_COUNT, WEIXIN_ORDER_AMOUNT, ALIPAY_ORDER_COUNT, 
+      ALIPAY_ORDER_AMOUNT, YIPAY_ORDER_COUNT, YIPAY_ORDER_AMOUNT, 
+      CARD_ORDER_COUNT, CARD_ORDER_AMOUNT, CASH_CLEAR, 
+      CASH_CLEAR_TIME, CASH_CLEAR_AMOUNT, CASH_CLEAR_PERSON_ID, 
+      CASH_CLEAR_PERSON_NAME)
+    values (#{dailyClearId,jdbcType=INTEGER}, #{merGroupId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, 
+      #{clearingDate,jdbcType=TIMESTAMP}, #{orderCount,jdbcType=INTEGER}, #{orderAmount,jdbcType=INTEGER}, 
+      #{orderProfit,jdbcType=INTEGER}, #{cashOrderCount,jdbcType=INTEGER}, #{cashOrderAmount,jdbcType=INTEGER}, 
+      #{weixinOrderCount,jdbcType=INTEGER}, #{weixinOrderAmount,jdbcType=INTEGER}, #{alipayOrderCount,jdbcType=INTEGER}, 
+      #{alipayOrderAmount,jdbcType=INTEGER}, #{yipayOrderCount,jdbcType=INTEGER}, #{yipayOrderAmount,jdbcType=INTEGER}, 
+      #{cardOrderCount,jdbcType=INTEGER}, #{cardOrderAmount,jdbcType=INTEGER}, #{cashClear,jdbcType=BIT}, 
+      #{cashClearTime,jdbcType=TIMESTAMP}, #{cashClearAmount,jdbcType=INTEGER}, #{cashClearPersonId,jdbcType=VARCHAR}, 
+      #{cashClearPersonName,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.StoreDailyClearing">
+    insert into STORE_DAILY_CLEARING
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dailyClearId != null">
+        DAILY_CLEAR_ID,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="clearingDate != null">
+        CLEARING_DATE,
+      </if>
+      <if test="orderCount != null">
+        ORDER_COUNT,
+      </if>
+      <if test="orderAmount != null">
+        ORDER_AMOUNT,
+      </if>
+      <if test="orderProfit != null">
+        ORDER_PROFIT,
+      </if>
+      <if test="cashOrderCount != null">
+        CASH_ORDER_COUNT,
+      </if>
+      <if test="cashOrderAmount != null">
+        CASH_ORDER_AMOUNT,
+      </if>
+      <if test="weixinOrderCount != null">
+        WEIXIN_ORDER_COUNT,
+      </if>
+      <if test="weixinOrderAmount != null">
+        WEIXIN_ORDER_AMOUNT,
+      </if>
+      <if test="alipayOrderCount != null">
+        ALIPAY_ORDER_COUNT,
+      </if>
+      <if test="alipayOrderAmount != null">
+        ALIPAY_ORDER_AMOUNT,
+      </if>
+      <if test="yipayOrderCount != null">
+        YIPAY_ORDER_COUNT,
+      </if>
+      <if test="yipayOrderAmount != null">
+        YIPAY_ORDER_AMOUNT,
+      </if>
+      <if test="cardOrderCount != null">
+        CARD_ORDER_COUNT,
+      </if>
+      <if test="cardOrderAmount != null">
+        CARD_ORDER_AMOUNT,
+      </if>
+      <if test="cashClear != null">
+        CASH_CLEAR,
+      </if>
+      <if test="cashClearTime != null">
+        CASH_CLEAR_TIME,
+      </if>
+      <if test="cashClearAmount != null">
+        CASH_CLEAR_AMOUNT,
+      </if>
+      <if test="cashClearPersonId != null">
+        CASH_CLEAR_PERSON_ID,
+      </if>
+      <if test="cashClearPersonName != null">
+        CASH_CLEAR_PERSON_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dailyClearId != null">
+        #{dailyClearId,jdbcType=INTEGER},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="clearingDate != null">
+        #{clearingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCount != null">
+        #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmount != null">
+        #{orderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="orderProfit != null">
+        #{orderProfit,jdbcType=INTEGER},
+      </if>
+      <if test="cashOrderCount != null">
+        #{cashOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="cashOrderAmount != null">
+        #{cashOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="weixinOrderCount != null">
+        #{weixinOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="weixinOrderAmount != null">
+        #{weixinOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="alipayOrderCount != null">
+        #{alipayOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="alipayOrderAmount != null">
+        #{alipayOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="yipayOrderCount != null">
+        #{yipayOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="yipayOrderAmount != null">
+        #{yipayOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cardOrderCount != null">
+        #{cardOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="cardOrderAmount != null">
+        #{cardOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cashClear != null">
+        #{cashClear,jdbcType=BIT},
+      </if>
+      <if test="cashClearTime != null">
+        #{cashClearTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashClearAmount != null">
+        #{cashClearAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cashClearPersonId != null">
+        #{cashClearPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="cashClearPersonName != null">
+        #{cashClearPersonName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.StoreDailyClearing">
+    update STORE_DAILY_CLEARING
+    <set>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="clearingDate != null">
+        CLEARING_DATE = #{clearingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCount != null">
+        ORDER_COUNT = #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmount != null">
+        ORDER_AMOUNT = #{orderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="orderProfit != null">
+        ORDER_PROFIT = #{orderProfit,jdbcType=INTEGER},
+      </if>
+      <if test="cashOrderCount != null">
+        CASH_ORDER_COUNT = #{cashOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="cashOrderAmount != null">
+        CASH_ORDER_AMOUNT = #{cashOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="weixinOrderCount != null">
+        WEIXIN_ORDER_COUNT = #{weixinOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="weixinOrderAmount != null">
+        WEIXIN_ORDER_AMOUNT = #{weixinOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="alipayOrderCount != null">
+        ALIPAY_ORDER_COUNT = #{alipayOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="alipayOrderAmount != null">
+        ALIPAY_ORDER_AMOUNT = #{alipayOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="yipayOrderCount != null">
+        YIPAY_ORDER_COUNT = #{yipayOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="yipayOrderAmount != null">
+        YIPAY_ORDER_AMOUNT = #{yipayOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cardOrderCount != null">
+        CARD_ORDER_COUNT = #{cardOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="cardOrderAmount != null">
+        CARD_ORDER_AMOUNT = #{cardOrderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cashClear != null">
+        CASH_CLEAR = #{cashClear,jdbcType=BIT},
+      </if>
+      <if test="cashClearTime != null">
+        CASH_CLEAR_TIME = #{cashClearTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashClearAmount != null">
+        CASH_CLEAR_AMOUNT = #{cashClearAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cashClearPersonId != null">
+        CASH_CLEAR_PERSON_ID = #{cashClearPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="cashClearPersonName != null">
+        CASH_CLEAR_PERSON_NAME = #{cashClearPersonName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DAILY_CLEAR_ID = #{dailyClearId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.StoreDailyClearing">
+    update STORE_DAILY_CLEARING
+    set MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      CLEARING_DATE = #{clearingDate,jdbcType=TIMESTAMP},
+      ORDER_COUNT = #{orderCount,jdbcType=INTEGER},
+      ORDER_AMOUNT = #{orderAmount,jdbcType=INTEGER},
+      ORDER_PROFIT = #{orderProfit,jdbcType=INTEGER},
+      CASH_ORDER_COUNT = #{cashOrderCount,jdbcType=INTEGER},
+      CASH_ORDER_AMOUNT = #{cashOrderAmount,jdbcType=INTEGER},
+      WEIXIN_ORDER_COUNT = #{weixinOrderCount,jdbcType=INTEGER},
+      WEIXIN_ORDER_AMOUNT = #{weixinOrderAmount,jdbcType=INTEGER},
+      ALIPAY_ORDER_COUNT = #{alipayOrderCount,jdbcType=INTEGER},
+      ALIPAY_ORDER_AMOUNT = #{alipayOrderAmount,jdbcType=INTEGER},
+      YIPAY_ORDER_COUNT = #{yipayOrderCount,jdbcType=INTEGER},
+      YIPAY_ORDER_AMOUNT = #{yipayOrderAmount,jdbcType=INTEGER},
+      CARD_ORDER_COUNT = #{cardOrderCount,jdbcType=INTEGER},
+      CARD_ORDER_AMOUNT = #{cardOrderAmount,jdbcType=INTEGER},
+      CASH_CLEAR = #{cashClear,jdbcType=BIT},
+      CASH_CLEAR_TIME = #{cashClearTime,jdbcType=TIMESTAMP},
+      CASH_CLEAR_AMOUNT = #{cashClearAmount,jdbcType=INTEGER},
+      CASH_CLEAR_PERSON_ID = #{cashClearPersonId,jdbcType=VARCHAR},
+      CASH_CLEAR_PERSON_NAME = #{cashClearPersonName,jdbcType=VARCHAR}
+    where DAILY_CLEAR_ID = #{dailyClearId,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

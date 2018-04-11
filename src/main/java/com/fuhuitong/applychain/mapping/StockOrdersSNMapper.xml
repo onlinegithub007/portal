@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.StockOrdersSNMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.StockOrdersSN">
+    <id column="STOCK_ORDER_SN" jdbcType="INTEGER" property="stockOrderSn" />
+    <result column="STOCK_ORDER_ID" jdbcType="VARCHAR" property="stockOrderId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    STOCK_ORDER_SN, STOCK_ORDER_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STOCK_ORDERS_SN
+    where STOCK_ORDER_SN = #{stockOrderSn,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STOCK_ORDERS_SN
+    where STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from STOCK_ORDERS_SN
+    where STOCK_ORDER_SN = #{stockOrderSn,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.StockOrdersSN">
+    insert into STOCK_ORDERS_SN (STOCK_ORDER_SN, STOCK_ORDER_ID)
+    values (#{stockOrderSn,jdbcType=INTEGER}, #{stockOrderId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.StockOrdersSN">
+    insert into STOCK_ORDERS_SN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockOrderSn != null">
+        STOCK_ORDER_SN,
+      </if>
+      <if test="stockOrderId != null">
+        STOCK_ORDER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockOrderSn != null">
+        #{stockOrderSn,jdbcType=INTEGER},
+      </if>
+      <if test="stockOrderId != null">
+        #{stockOrderId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.StockOrdersSN">
+    update STOCK_ORDERS_SN
+    <set>
+      <if test="stockOrderId != null">
+        STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where STOCK_ORDER_SN = #{stockOrderSn,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.StockOrdersSN">
+    update STOCK_ORDERS_SN
+    set STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR}
+    where STOCK_ORDER_SN = #{stockOrderSn,jdbcType=INTEGER}
+  </update>
+</mapper>

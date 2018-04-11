@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.SysDictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.SysDictionary">
+    <id column="DIC_CODE" jdbcType="VARCHAR" property="dicCode" />
+    <result column="DIC_VALUES" jdbcType="VARCHAR" property="dicValues" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DIC_CODE, DIC_VALUES
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_DICTIONARY
+    where DIC_CODE = #{dicCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllSysDictionarys" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_DICTIONARY order by DIC_CODE
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYS_DICTIONARY
+    where DIC_CODE = #{dicCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.SysDictionary">
+    insert into SYS_DICTIONARY (DIC_CODE, DIC_VALUES)
+    values (#{dicCode,jdbcType=VARCHAR}, #{dicValues,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.SysDictionary">
+    insert into SYS_DICTIONARY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dicCode != null">
+        DIC_CODE,
+      </if>
+      <if test="dicValues != null">
+        DIC_VALUES,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dicCode != null">
+        #{dicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dicValues != null">
+        #{dicValues,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.SysDictionary">
+    update SYS_DICTIONARY
+    <set>
+      <if test="dicValues != null">
+        DIC_VALUES = #{dicValues,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DIC_CODE = #{dicCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.SysDictionary">
+    update SYS_DICTIONARY
+    set DIC_VALUES = #{dicValues,jdbcType=VARCHAR}
+    where DIC_CODE = #{dicCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

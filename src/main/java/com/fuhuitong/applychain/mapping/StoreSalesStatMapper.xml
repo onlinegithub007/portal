@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.StoreSalesStatMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.StoreSalesStat">
+    <id column="SALE_STAT_ID" jdbcType="INTEGER" property="saleStatId" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="GOODS_TYPE_NAME" jdbcType="VARCHAR" property="goodsTypeName" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="GOODS_SALE_COUNT" jdbcType="INTEGER" property="goodsSaleCount" />
+    <result column="GOODS_STOCK_COUNT" jdbcType="INTEGER" property="goodsStockCount" />
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    SALE_STAT_ID, MER_GROUP_ID, MER_ID, GOODS_ID, CREATE_DATE, GOODS_SALE_COUNT, GOODS_STOCK_COUNT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STORE_SALES_STAT
+    where SALE_STAT_ID = #{saleStatId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByDate" parameterType="com.fuhuitong.applychain.model.StoreSalesStat" resultMap="BaseResultMap">
+    SELECT
+		GOODS_TYPE.GOODS_TYPE_NAME,
+		GOODS_INFO.GOODS_NAME,
+		STORE_SALES_STAT.SALE_STAT_ID,
+		STORE_SALES_STAT.MER_GROUP_ID,
+		STORE_SALES_STAT.MER_ID,
+		STORE_SALES_STAT.GOODS_ID,
+		STORE_SALES_STAT.CREATE_DATE,
+		STORE_SALES_STAT.GOODS_SALE_COUNT,
+		STORE_SALES_STAT.GOODS_STOCK_COUNT
+	FROM
+		GOODS_INFO
+		JOIN GOODS_TYPE
+		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID 
+		JOIN STORE_SALES_STAT
+		ON STORE_SALES_STAT.GOODS_ID = GOODS_INFO.GOODS_ID
+	where DATE_FORMAT(STORE_SALES_STAT.CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR}
+    	AND STORE_SALES_STAT.MER_ID = #{merId,jdbcType=VARCHAR} AND STORE_SALES_STAT.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    ORDER BY GOODS_SALE_COUNT desc
+  </select>
+  
+  <select id="selectCountByDate" parameterType="com.fuhuitong.applychain.model.StoreSalesStat" resultMap="allRecordCount">
+    SELECT
+		COUNT(*) AS DATA_COUNT
+	FROM
+		STORE_SALES_STAT
+	where DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR}
+    	AND MER_ID = #{merId,jdbcType=VARCHAR} AND MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from STORE_SALES_STAT
+    where SALE_STAT_ID = #{saleStatId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByDate" parameterType="com.fuhuitong.applychain.model.StoreSalesStat">
+    delete from STORE_SALES_STAT
+    where DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR}
+    	AND MER_ID = #{merId,jdbcType=VARCHAR} AND MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.StoreSalesStat">
+    insert into STORE_SALES_STAT (SALE_STAT_ID, MER_GROUP_ID, MER_ID, 
+      GOODS_ID, CREATE_DATE, GOODS_SALE_COUNT, 
+      GOODS_STOCK_COUNT)
+    values (#{saleStatId,jdbcType=INTEGER}, #{merGroupId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, 
+      #{goodsId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{goodsSaleCount,jdbcType=INTEGER}, 
+      #{goodsStockCount,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.StoreSalesStat">
+    insert into STORE_SALES_STAT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="saleStatId != null">
+        SALE_STAT_ID,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="goodsSaleCount != null">
+        GOODS_SALE_COUNT,
+      </if>
+      <if test="goodsStockCount != null">
+        GOODS_STOCK_COUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="saleStatId != null">
+        #{saleStatId,jdbcType=INTEGER},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsSaleCount != null">
+        #{goodsSaleCount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsStockCount != null">
+        #{goodsStockCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.StoreSalesStat">
+    update STORE_SALES_STAT
+    <set>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsSaleCount != null">
+        GOODS_SALE_COUNT = #{goodsSaleCount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsStockCount != null">
+        GOODS_STOCK_COUNT = #{goodsStockCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where SALE_STAT_ID = #{saleStatId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.StoreSalesStat">
+    update STORE_SALES_STAT
+    set MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      GOODS_SALE_COUNT = #{goodsSaleCount,jdbcType=INTEGER},
+      GOODS_STOCK_COUNT = #{goodsStockCount,jdbcType=INTEGER}
+    where SALE_STAT_ID = #{saleStatId,jdbcType=INTEGER}
+  </update>
+</mapper>

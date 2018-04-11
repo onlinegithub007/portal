@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.MerchantsGroupsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.MerchantsGroups">
+    <id column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="AREA_ID" jdbcType="VARCHAR" property="areaId" />
+    <result column="FULL_NAME" jdbcType="VARCHAR" property="areaFullName" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="MER_CODE" jdbcType="VARCHAR" property="merCode" />
+    <result column="CLIENT_LEVEL_ID" jdbcType="VARCHAR" property="clientLevelId" />
+    <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+    <result column="PARENT_GROUP_ID" jdbcType="VARCHAR" property="parentGroupId" />
+    <result column="GROUP_CODE" jdbcType="VARCHAR" property="groupCode" />
+    <result column="GROUP_TYPE" jdbcType="INTEGER" property="groupType" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="GROUP_DESC" jdbcType="VARCHAR" property="groupDesc" />
+    <result column="GROUP_INDEX" jdbcType="INTEGER" property="groupIndex" />
+    <result column="DETAIL_ADDRESS" jdbcType="VARCHAR" property="detailAddress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MER_GROUP_ID, AREA_ID, MER_ID, CLIENT_LEVEL_ID, GROUP_NAME, PARENT_GROUP_ID, GROUP_CODE, 
+    GROUP_TYPE, CREATE_DATE, GROUP_DESC, GROUP_INDEX, DETAIL_ADDRESS
+  </sql>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANT_GROUPS
+    where MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllGroups" parameterType="java.lang.String"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANT_GROUPS
+    where MER_ID = #{merId,jdbcType=VARCHAR} and GROUP_TYPE = 0
+    order by GROUP_INDEX asc
+  </select>
+  
+  <select id="selectAllStores" parameterType="java.lang.String"  resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_GROUPS.MER_GROUP_ID,
+		MERCHANT_GROUPS.AREA_ID,
+		MERCHANT_GROUPS.MER_ID,
+		MERCHANT_GROUPS.CLIENT_LEVEL_ID,
+		MERCHANT_GROUPS.GROUP_NAME,
+		MERCHANT_GROUPS.PARENT_GROUP_ID,
+		MERCHANT_GROUPS.GROUP_CODE,
+		MERCHANT_GROUPS.GROUP_TYPE,
+		MERCHANT_GROUPS.CREATE_DATE,
+		MERCHANT_GROUPS.GROUP_DESC,
+		MERCHANT_GROUPS.GROUP_INDEX,
+		MERCHANT_GROUPS.DETAIL_ADDRESS,
+		AREAS.FULL_NAME
+	FROM
+		MERCHANT_GROUPS
+		LEFT JOIN AREAS
+		ON MERCHANT_GROUPS.AREA_ID = AREAS.AREA_ID
+    where MERCHANT_GROUPS.MER_ID = #{merId,jdbcType=VARCHAR} and MERCHANT_GROUPS.GROUP_TYPE = 3
+    order by MERCHANT_GROUPS.GROUP_INDEX asc
+  </select>
+  
+  <select id="selectAllStores2" parameterType="com.fuhuitong.applychain.model.MerchantsGroups"  resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_GROUPS.MER_GROUP_ID,
+		MERCHANT_GROUPS.AREA_ID,
+		MERCHANT_GROUPS.MER_ID,
+		MERCHANT_GROUPS.CLIENT_LEVEL_ID,
+		MERCHANT_GROUPS.GROUP_NAME,
+		MERCHANT_GROUPS.PARENT_GROUP_ID,
+		MERCHANT_GROUPS.GROUP_CODE,
+		MERCHANT_GROUPS.GROUP_TYPE,
+		MERCHANT_GROUPS.CREATE_DATE,
+		MERCHANT_GROUPS.GROUP_DESC,
+		MERCHANT_GROUPS.GROUP_INDEX,
+		MERCHANT_GROUPS.DETAIL_ADDRESS,
+		AREAS.FULL_NAME
+	FROM
+		MERCHANT_GROUPS
+		LEFT JOIN AREAS
+		ON MERCHANT_GROUPS.AREA_ID = AREAS.AREA_ID
+    where MERCHANT_GROUPS.MER_ID = #{merId,jdbcType=VARCHAR} and MERCHANT_GROUPS.GROUP_TYPE = 3
+    <if test="areaId != null">
+        AND MERCHANT_GROUPS.AREA_ID like concat(#{areaId,jdbcType=VARCHAR},"%")
+    </if>
+    <if test="groupName != null">
+        AND MERCHANT_GROUPS.GROUP_NAME like concat("%", concat(#{groupName,jdbcType=VARCHAR},"%"))
+    </if>
+    order by MERCHANT_GROUPS.GROUP_INDEX asc limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectAllStores2Count" parameterType="com.fuhuitong.applychain.model.MerchantsGroups"  resultMap="allRecordCount">
+    SELECT
+		COUNT(*) AS DATA_COUNT
+	FROM
+		MERCHANT_GROUPS
+		LEFT JOIN AREAS
+		ON MERCHANT_GROUPS.AREA_ID = AREAS.AREA_ID
+    where MERCHANT_GROUPS.MER_ID = #{merId,jdbcType=VARCHAR} and MERCHANT_GROUPS.GROUP_TYPE = 3
+    <if test="areaId != null">
+        AND MERCHANT_GROUPS.AREA_ID like concat(#{areaId,jdbcType=VARCHAR},"%")
+    </if>
+    <if test="groupName != null">
+        AND MERCHANT_GROUPS.GROUP_NAME like concat("%", concat(#{groupName,jdbcType=VARCHAR},"%"))
+    </if>
+  </select>
+  
+  <select id="selectGroupCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		MERCHANTS.MER_CODE,
+		MERCHANT_GROUPS.GROUP_CODE
+	FROM
+		MERCHANTS
+		JOIN MERCHANT_GROUPS
+	ON MERCHANTS.MER_ID = MERCHANT_GROUPS.MER_ID
+    where MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from MERCHANT_GROUPS
+    where MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.MerchantsGroups">
+    insert into MERCHANT_GROUPS (MER_GROUP_ID, AREA_ID, MER_ID, 
+      CLIENT_LEVEL_ID, GROUP_NAME, PARENT_GROUP_ID, 
+      GROUP_CODE, GROUP_TYPE, CREATE_DATE, 
+      GROUP_DESC, GROUP_INDEX, DETAIL_ADDRESS)
+    values (#{merGroupId,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, 
+      #{clientLevelId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{parentGroupId,jdbcType=VARCHAR}, 
+      #{groupCode,jdbcType=VARCHAR}, #{groupType,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{groupDesc,jdbcType=VARCHAR}, #{groupIndex,jdbcType=INTEGER}, #{detailAddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.MerchantsGroups">
+    insert into MERCHANT_GROUPS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="areaId != null">
+        AREA_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="clientLevelId != null">
+        CLIENT_LEVEL_ID,
+      </if>
+      <if test="groupName != null">
+        GROUP_NAME,
+      </if>
+      <if test="parentGroupId != null">
+        PARENT_GROUP_ID,
+      </if>
+      <if test="groupCode != null">
+        GROUP_CODE,
+      </if>
+      <if test="groupType != null">
+        GROUP_TYPE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="groupDesc != null">
+        GROUP_DESC,
+      </if>
+      <if test="groupIndex != null">
+        GROUP_INDEX,
+      </if>
+      <if test="detailAddress != null">
+        DETAIL_ADDRESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientLevelId != null">
+        #{clientLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentGroupId != null">
+        #{parentGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCode != null">
+        #{groupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null">
+        #{groupType,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupDesc != null">
+        #{groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="groupIndex != null">
+        #{groupIndex,jdbcType=INTEGER},
+      </if>
+      <if test="detailAddress != null">
+        #{detailAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.MerchantsGroups">
+    update MERCHANT_GROUPS
+    <set>
+      <if test="areaId != null">
+        AREA_ID = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientLevelId != null">
+        CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentGroupId != null">
+        PARENT_GROUP_ID = #{parentGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCode != null">
+        GROUP_CODE = #{groupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null">
+        GROUP_TYPE = #{groupType,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupDesc != null">
+        GROUP_DESC = #{groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="groupIndex != null">
+        GROUP_INDEX = #{groupIndex,jdbcType=INTEGER},
+      </if>
+      <if test="detailAddress != null">
+        DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.MerchantsGroups">
+    update MERCHANT_GROUPS
+    set AREA_ID = #{areaId,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR},
+      GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      PARENT_GROUP_ID = #{parentGroupId,jdbcType=VARCHAR},
+      GROUP_CODE = #{groupCode,jdbcType=VARCHAR},
+      GROUP_TYPE = #{groupType,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      GROUP_DESC = #{groupDesc,jdbcType=VARCHAR},
+      GROUP_INDEX = #{groupIndex,jdbcType=INTEGER},
+      DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR}
+    where MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </update>
+</mapper>

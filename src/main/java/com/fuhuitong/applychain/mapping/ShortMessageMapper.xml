@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.ShortMessageMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.ShortMessage">
+    <id column="MSG_ID" jdbcType="INTEGER" property="msgId" />
+    <result column="DEST_ADDR" jdbcType="VARCHAR" property="destAddr" />
+    <result column="MESSAGE" jdbcType="VARCHAR" property="message" />
+    <result column="SEND_DATE" jdbcType="TIMESTAMP" property="sendDate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    MSG_ID, DEST_ADDR, MESSAGE, SEND_DATE
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SHORT_MESSAGE
+    where MSG_ID = #{msgId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByDate" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SHORT_MESSAGE
+    where DATE_FORMAT(SEND_DATE,'%Y-%m-%d') = #{sendDateText,jdbcType=VARCHAR}
+    order by MSG_ID DESC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from SHORT_MESSAGE
+    where MSG_ID = #{msgId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.ShortMessage">
+    insert into SHORT_MESSAGE (MSG_ID, DEST_ADDR, MESSAGE, 
+      SEND_DATE)
+    values (#{msgId,jdbcType=INTEGER}, #{destAddr,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
+      #{sendDate,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.ShortMessage">
+    insert into SHORT_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="msgId != null">
+        MSG_ID,
+      </if>
+      <if test="destAddr != null">
+        DEST_ADDR,
+      </if>
+      <if test="message != null">
+        MESSAGE,
+      </if>
+      <if test="sendDate != null">
+        SEND_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="msgId != null">
+        #{msgId,jdbcType=INTEGER},
+      </if>
+      <if test="destAddr != null">
+        #{destAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null">
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.ShortMessage">
+    update SHORT_MESSAGE
+    <set>
+      <if test="destAddr != null">
+        DEST_ADDR = #{destAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        MESSAGE = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null">
+        SEND_DATE = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where MSG_ID = #{msgId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.ShortMessage">
+    update SHORT_MESSAGE
+    set DEST_ADDR = #{destAddr,jdbcType=VARCHAR},
+      MESSAGE = #{message,jdbcType=VARCHAR},
+      SEND_DATE = #{sendDate,jdbcType=TIMESTAMP}
+    where MSG_ID = #{msgId,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

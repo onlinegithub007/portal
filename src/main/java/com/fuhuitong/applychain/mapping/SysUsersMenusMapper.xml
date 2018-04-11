@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.SysUsersMenusMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.SysUsersMenus">
+    <id column="SYS_USER_MENU_ID" jdbcType="BIGINT" property="sysUserMenuId" />
+    <result column="MENU_ID" jdbcType="VARCHAR" property="menuId" />
+    <result column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SYS_USER_MENU_ID, MENU_ID, ACCOUNT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_USER_MENUS
+    where SYS_USER_MENU_ID = #{sysUserMenuId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SYS_USER_MENUS
+    where SYS_USER_MENU_ID = #{sysUserMenuId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.SysUsersMenus">
+    insert into SYS_USER_MENUS (SYS_USER_MENU_ID, MENU_ID, ACCOUNT
+      )
+    values (#{sysUserMenuId,jdbcType=BIGINT}, #{menuId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.SysUsersMenus">
+    insert into SYS_USER_MENUS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sysUserMenuId != null">
+        SYS_USER_MENU_ID,
+      </if>
+      <if test="menuId != null">
+        MENU_ID,
+      </if>
+      <if test="account != null">
+        ACCOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sysUserMenuId != null">
+        #{sysUserMenuId,jdbcType=BIGINT},
+      </if>
+      <if test="menuId != null">
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.SysUsersMenus">
+    update SYS_USER_MENUS
+    <set>
+      <if test="menuId != null">
+        MENU_ID = #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        ACCOUNT = #{account,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SYS_USER_MENU_ID = #{sysUserMenuId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.SysUsersMenus">
+    update SYS_USER_MENUS
+    set MENU_ID = #{menuId,jdbcType=VARCHAR},
+      ACCOUNT = #{account,jdbcType=VARCHAR}
+    where SYS_USER_MENU_ID = #{sysUserMenuId,jdbcType=BIGINT}
+  </update>
+</mapper>

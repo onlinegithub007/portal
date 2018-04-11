@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.BatchStockStoreDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.BatchStockStoreDetails">
+    <id column="BATCH_STOCK_STORE_ID" jdbcType="INTEGER" property="batchStockStoreId" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="BATCH_STOCK_ORDER_ID" jdbcType="VARCHAR" property="batchStockOrderId" />
+    <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+    <result column="GROUP_DESC" jdbcType="VARCHAR" property="groupDesc" />
+    <result column="DETAIL_ADDRESS" jdbcType="VARCHAR" property="detailAddress" />
+    <result column="AREA_FULL_NAME" jdbcType="VARCHAR" property="areaFullName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    BATCH_STOCK_STORE_ID, MER_GROUP_ID, BATCH_STOCK_ORDER_ID, GROUP_NAME
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BATCH_STOCK_STORE_DETAILS
+    where BATCH_STOCK_STORE_ID = #{batchStockStoreId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByStockOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		BATCH_STOCK_STORE_DETAILS.GROUP_NAME,
+		MERCHANT_GROUPS.GROUP_DESC,
+		MERCHANT_GROUPS.DETAIL_ADDRESS,
+		AREAS.FULL_NAME as AREA_FULL_NAME,
+		BATCH_STOCK_STORE_DETAILS.MER_GROUP_ID,
+		BATCH_STOCK_STORE_DETAILS.BATCH_STOCK_STORE_ID,
+		BATCH_STOCK_STORE_DETAILS.BATCH_STOCK_ORDER_ID
+	FROM
+		BATCH_STOCK_STORE_DETAILS
+		JOIN MERCHANT_GROUPS
+		ON BATCH_STOCK_STORE_DETAILS.MER_GROUP_ID = MERCHANT_GROUPS.MER_GROUP_ID 
+		JOIN AREAS
+		ON MERCHANT_GROUPS.AREA_ID = AREAS.AREA_ID
+    where BATCH_STOCK_STORE_DETAILS.BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from BATCH_STOCK_STORE_DETAILS
+    where BATCH_STOCK_STORE_ID = #{batchStockStoreId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByStore" parameterType="com.fuhuitong.applychain.model.BatchStockStoreDetails">
+    delete from BATCH_STOCK_STORE_DETAILS
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+    	AND MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByStockId" parameterType="java.lang.String">
+    delete from BATCH_STOCK_STORE_DETAILS
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.BatchStockStoreDetails">
+    insert into BATCH_STOCK_STORE_DETAILS (BATCH_STOCK_STORE_ID, MER_GROUP_ID, BATCH_STOCK_ORDER_ID, 
+      GROUP_NAME)
+    values (#{batchStockStoreId,jdbcType=INTEGER}, #{merGroupId,jdbcType=VARCHAR}, #{batchStockOrderId,jdbcType=VARCHAR}, 
+      #{groupName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.BatchStockStoreDetails">
+    insert into BATCH_STOCK_STORE_DETAILS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="batchStockStoreId != null">
+        BATCH_STOCK_STORE_ID,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="batchStockOrderId != null">
+        BATCH_STOCK_ORDER_ID,
+      </if>
+      <if test="groupName != null">
+        GROUP_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="batchStockStoreId != null">
+        #{batchStockStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchStockOrderId != null">
+        #{batchStockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.BatchStockStoreDetails">
+    update BATCH_STOCK_STORE_DETAILS
+    <set>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchStockOrderId != null">
+        BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BATCH_STOCK_STORE_ID = #{batchStockStoreId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.BatchStockStoreDetails">
+    update BATCH_STOCK_STORE_DETAILS
+    set MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR},
+      GROUP_NAME = #{groupName,jdbcType=VARCHAR}
+    where BATCH_STOCK_STORE_ID = #{batchStockStoreId,jdbcType=INTEGER}
+  </update>
+</mapper>

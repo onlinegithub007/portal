@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.MerchantUsersSessionMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.MerchantUsersSession">
+    <id column="MER_USER_TOKEN" jdbcType="VARCHAR" property="merUserToken" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="MER_USER_ID" jdbcType="VARCHAR" property="merUserId" />
+    <result column="EXPIRED_DATE" jdbcType="TIMESTAMP" property="expiredDate" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="VERSION" jdbcType="VARCHAR" property="version" />
+    <result column="OS" jdbcType="VARCHAR" property="os" />
+    <result column="DEVICE_TYPE" jdbcType="VARCHAR" property="deviceType" />
+    <result column="IP_ADDRESS" jdbcType="VARCHAR" property="ipAddress" />
+    <result column="LONGITUDE" jdbcType="VARCHAR" property="longitude" />
+    <result column="LATITUDE" jdbcType="VARCHAR" property="latitude" />
+    <result column="VALID" jdbcType="BIT" property="valid" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MER_USER_TOKEN, MER_GROUP_ID, MER_ID, MER_USER_ID, EXPIRED_DATE, CREATE_DATE, VERSION, 
+    OS, DEVICE_TYPE, IP_ADDRESS, LONGITUDE, LATITUDE, VALID, USER_NAME, GROUP_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANT_USER_SESSION
+    where MER_USER_TOKEN = #{merUserToken,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from MERCHANT_USER_SESSION
+    where MER_USER_TOKEN = #{merUserToken,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.MerchantUsersSession">
+    insert into MERCHANT_USER_SESSION (MER_USER_TOKEN, MER_GROUP_ID, MER_ID, 
+      MER_USER_ID, EXPIRED_DATE, CREATE_DATE, 
+      VERSION, OS, DEVICE_TYPE, 
+      IP_ADDRESS, LONGITUDE, LATITUDE, 
+      VALID, USER_NAME, GROUP_NAME)
+    values (#{merUserToken,jdbcType=VARCHAR}, #{merGroupId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, 
+      #{merUserId,jdbcType=VARCHAR}, #{expiredDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}, #{deviceType,jdbcType=VARCHAR}, 
+      #{ipAddress,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
+      #{valid,jdbcType=BIT}, #{userName,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.MerchantUsersSession">
+    insert into MERCHANT_USER_SESSION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merUserToken != null">
+        MER_USER_TOKEN,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="merUserId != null">
+        MER_USER_ID,
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+      <if test="os != null">
+        OS,
+      </if>
+      <if test="deviceType != null">
+        DEVICE_TYPE,
+      </if>
+      <if test="ipAddress != null">
+        IP_ADDRESS,
+      </if>
+      <if test="longitude != null">
+        LONGITUDE,
+      </if>
+      <if test="latitude != null">
+        LATITUDE,
+      </if>
+      <if test="valid != null">
+        VALID,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="groupName != null">
+        GROUP_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merUserToken != null">
+        #{merUserToken,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="merUserId != null">
+        #{merUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="expiredDate != null">
+        #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="os != null">
+        #{os,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddress != null">
+        #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=BIT},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.MerchantUsersSession">
+    update MERCHANT_USER_SESSION
+    <set>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="merUserId != null">
+        MER_USER_ID = #{merUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="os != null">
+        OS = #{os,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddress != null">
+        IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        LONGITUDE = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        LATITUDE = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        VALID = #{valid,jdbcType=BIT},
+      </if>
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MER_USER_TOKEN = #{merUserToken,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.MerchantUsersSession">
+    update MERCHANT_USER_SESSION
+    set MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      MER_USER_ID = #{merUserId,jdbcType=VARCHAR},
+      EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=VARCHAR},
+      OS = #{os,jdbcType=VARCHAR},
+      DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+      IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
+      LONGITUDE = #{longitude,jdbcType=VARCHAR},
+      LATITUDE = #{latitude,jdbcType=VARCHAR},
+      VALID = #{valid,jdbcType=BIT},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      GROUP_NAME = #{groupName,jdbcType=VARCHAR}
+    where MER_USER_TOKEN = #{merUserToken,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateSession" parameterType="java.lang.String">
+    update MERCHANT_USER_SESSION
+    set 
+      VALID = false
+    where MER_USER_ID = #{merUserId,jdbcType=VARCHAR}
+  </update>
+</mapper>

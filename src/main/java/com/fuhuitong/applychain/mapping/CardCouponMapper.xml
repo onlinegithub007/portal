@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.CardCouponMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.CardCoupon">
+    <id column="CARD_COUPON_ID" jdbcType="VARCHAR" property="cardCouponId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="COUPON_TITLE" jdbcType="VARCHAR" property="couponTitle" />
+    <result column="TOTAL_COUNT" jdbcType="INTEGER" property="totalCount" />
+    <result column="COUPON_AMOUNT" jdbcType="INTEGER" property="couponAmount" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="EXPIRED_DATE" jdbcType="TIMESTAMP" property="expiredDate" />
+    <result column="VALID_STATUS" jdbcType="INTEGER" property="validStatus" />
+    <result column="ENABLED_COUNT" jdbcType="INTEGER" property="enabledCount" />
+    <result column="UNENABLED_COUNT" jdbcType="INTEGER" property="unenabledCount" />
+    <result column="MEMBER_LEVEL_ID" jdbcType="VARCHAR" property="memberLevelId" />
+    <result column="LEVEL_NAME" jdbcType="VARCHAR" property="levelName" />
+    
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    CARD_COUPON_ID, MER_ID, COUPON_TITLE, TOTAL_COUNT, COUPON_AMOUNT, CREATE_DATE, EXPIRED_DATE, 
+    VALID_STATUS, ENABLED_COUNT, UNENABLED_COUNT, MEMBER_LEVEL_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CARD_COUPON
+    where CARD_COUPON_ID = #{cardCouponId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAll" parameterType="com.fuhuitong.applychain.model.CardCoupon" resultMap="BaseResultMap">
+    SELECT
+		CARD_COUPON.CARD_COUPON_ID,
+		CARD_COUPON.MER_ID,
+		CARD_COUPON.COUPON_TITLE,
+		CARD_COUPON.TOTAL_COUNT,
+		CARD_COUPON.COUPON_AMOUNT,
+		CARD_COUPON.CREATE_DATE,
+		CARD_COUPON.EXPIRED_DATE,
+		CARD_COUPON.VALID_STATUS,
+		CARD_COUPON.ENABLED_COUNT,
+		CARD_COUPON.UNENABLED_COUNT,
+		CARD_COUPON.MEMBER_LEVEL_ID,
+		CLIENT_LEVEL.LEVEL_NAME
+	FROM
+		CLIENT_LEVEL
+		RIGHT JOIN CARD_COUPON
+		ON CLIENT_LEVEL.CLIENT_LEVEL_ID = CARD_COUPON.MEMBER_LEVEL_ID
+    where CARD_COUPON.MER_ID = #{merId,jdbcType=VARCHAR}
+  	<if test="memberLevelId != null">
+    	and CARD_COUPON.MEMBER_LEVEL_ID = #{memberLevelId,jdbcType=VARCHAR}
+    </if>
+    <if test="createDateText != null">
+    	AND DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR}
+    </if>
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectAllCount" parameterType="com.fuhuitong.applychain.model.CardCoupon" resultMap="allRecordCount">
+    SELECT
+		COUNT(CARD_COUPON.CARD_COUPON_ID) AS DATA_COUNT
+	FROM
+		CLIENT_LEVEL
+		RIGHT JOIN CARD_COUPON
+		ON CLIENT_LEVEL.CLIENT_LEVEL_ID = CARD_COUPON.MEMBER_LEVEL_ID
+    where CARD_COUPON.MER_ID = #{merId,jdbcType=VARCHAR}
+  	<if test="memberLevelId != null">
+    	and CARD_COUPON.MEMBER_LEVEL_ID = #{memberLevelId,jdbcType=VARCHAR}
+    </if>
+  	<if test="createDateText != null">
+    	AND DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CARD_COUPON
+    where CARD_COUPON_ID = #{cardCouponId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.CardCoupon">
+    insert into CARD_COUPON (CARD_COUPON_ID, MER_ID, COUPON_TITLE, 
+      TOTAL_COUNT, COUPON_AMOUNT, CREATE_DATE, 
+      EXPIRED_DATE, VALID_STATUS, ENABLED_COUNT, 
+      UNENABLED_COUNT, MEMBER_LEVEL_ID)
+    values (#{cardCouponId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, #{couponTitle,jdbcType=VARCHAR}, 
+      #{totalCount,jdbcType=INTEGER}, #{couponAmount,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{expiredDate,jdbcType=TIMESTAMP}, #{validStatus,jdbcType=INTEGER}, #{enabledCount,jdbcType=INTEGER}, 
+      #{unenabledCount,jdbcType=INTEGER}, #{memberLevelId,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.CardCoupon">
+    insert into CARD_COUPON
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cardCouponId != null">
+        CARD_COUPON_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="couponTitle != null">
+        COUPON_TITLE,
+      </if>
+      <if test="totalCount != null">
+        TOTAL_COUNT,
+      </if>
+      <if test="couponAmount != null">
+        COUPON_AMOUNT,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE,
+      </if>
+      <if test="validStatus != null">
+        VALID_STATUS,
+      </if>
+      <if test="enabledCount != null">
+        ENABLED_COUNT,
+      </if>
+      <if test="unenabledCount != null">
+        UNENABLED_COUNT,
+      </if>
+      <if test="memberLevelId != null">
+        MEMBER_LEVEL_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cardCouponId != null">
+        #{cardCouponId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="couponTitle != null">
+        #{couponTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCount != null">
+        #{totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponAmount != null">
+        #{couponAmount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStatus != null">
+        #{validStatus,jdbcType=INTEGER},
+      </if>
+      <if test="enabledCount != null">
+        #{enabledCount,jdbcType=INTEGER},
+      </if>
+      <if test="unenabledCount != null">
+        #{unenabledCount,jdbcType=INTEGER},
+      </if>
+      <if test="memberLevelId != null">
+        #{memberLevelId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.CardCoupon">
+    update CARD_COUPON
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="couponTitle != null">
+        COUPON_TITLE = #{couponTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCount != null">
+        TOTAL_COUNT = #{totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponAmount != null">
+        COUPON_AMOUNT = #{couponAmount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStatus != null">
+        VALID_STATUS = #{validStatus,jdbcType=INTEGER},
+      </if>
+      <if test="enabledCount != null">
+        ENABLED_COUNT = #{enabledCount,jdbcType=INTEGER},
+      </if>
+      <if test="unenabledCount != null">
+        UNENABLED_COUNT = #{unenabledCount,jdbcType=INTEGER},
+      </if>
+      <if test="memberLevelId != null">
+        MEMBER_LEVEL_ID = #{memberLevelId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CARD_COUPON_ID = #{cardCouponId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.CardCoupon">
+    update CARD_COUPON
+    set MER_ID = #{merId,jdbcType=VARCHAR},
+      COUPON_TITLE = #{couponTitle,jdbcType=VARCHAR},
+      TOTAL_COUNT = #{totalCount,jdbcType=INTEGER},
+      COUPON_AMOUNT = #{couponAmount,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      VALID_STATUS = #{validStatus,jdbcType=INTEGER},
+      ENABLED_COUNT = #{enabledCount,jdbcType=INTEGER},
+      UNENABLED_COUNT = #{unenabledCount,jdbcType=INTEGER},
+      MEMBER_LEVEL_ID = #{memberLevelId,jdbcType=VARCHAR}
+    where CARD_COUPON_ID = #{cardCouponId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateValidStatus" parameterType="com.fuhuitong.applychain.model.CardCoupon">
+    update CARD_COUPON
+    set 
+      VALID_STATUS = #{validStatus,jdbcType=INTEGER}
+    where CARD_COUPON_ID = #{cardCouponId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

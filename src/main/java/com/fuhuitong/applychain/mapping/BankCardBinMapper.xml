@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.BankCardBinMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.BankCardBin">
+    <id column="CARD_BIN_ID" jdbcType="INTEGER" property="cardBinId" />
+    <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
+    <result column="BANK_INS_CODE" jdbcType="VARCHAR" property="bankInsCode" />
+    <result column="CARD_NAME" jdbcType="VARCHAR" property="cardName" />
+    <result column="CARD_NO_LEN" jdbcType="INTEGER" property="cardNoLen" />
+    <result column="CARD_BIN" jdbcType="VARCHAR" property="cardBin" />
+    <result column="CARD_TYPE" jdbcType="INTEGER" property="cardType" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    CARD_BIN_ID, BANK_NAME, BANK_INS_CODE, CARD_NAME, CARD_NO_LEN, CARD_BIN, CARD_TYPE
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BANK_CARD_BIN
+    where CARD_BIN_ID = #{cardBinId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCardNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BANK_CARD_BIN
+    where CARD_NO_LEN = length(#{cardNo,jdbcType=VARCHAR}) and CARD_BIN = substring(#{cardNo,jdbcType=VARCHAR},1,length(CARD_BIN))
+  	limit 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from BANK_CARD_BIN
+    where CARD_BIN_ID = #{cardBinId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.BankCardBin">
+    insert into BANK_CARD_BIN (CARD_BIN_ID, BANK_NAME, BANK_INS_CODE, 
+      CARD_NAME, CARD_NO_LEN, CARD_BIN, 
+      CARD_TYPE)
+    values (#{cardBinId,jdbcType=INTEGER}, #{bankName,jdbcType=VARCHAR}, #{bankInsCode,jdbcType=VARCHAR}, 
+      #{cardName,jdbcType=VARCHAR}, #{cardNoLen,jdbcType=INTEGER}, #{cardBin,jdbcType=VARCHAR}, 
+      #{cardType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.BankCardBin">
+    insert into BANK_CARD_BIN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cardBinId != null">
+        CARD_BIN_ID,
+      </if>
+      <if test="bankName != null">
+        BANK_NAME,
+      </if>
+      <if test="bankInsCode != null">
+        BANK_INS_CODE,
+      </if>
+      <if test="cardName != null">
+        CARD_NAME,
+      </if>
+      <if test="cardNoLen != null">
+        CARD_NO_LEN,
+      </if>
+      <if test="cardBin != null">
+        CARD_BIN,
+      </if>
+      <if test="cardType != null">
+        CARD_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cardBinId != null">
+        #{cardBinId,jdbcType=INTEGER},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankInsCode != null">
+        #{bankInsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null">
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNoLen != null">
+        #{cardNoLen,jdbcType=INTEGER},
+      </if>
+      <if test="cardBin != null">
+        #{cardBin,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        #{cardType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.BankCardBin">
+    update BANK_CARD_BIN
+    <set>
+      <if test="bankName != null">
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankInsCode != null">
+        BANK_INS_CODE = #{bankInsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null">
+        CARD_NAME = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNoLen != null">
+        CARD_NO_LEN = #{cardNoLen,jdbcType=INTEGER},
+      </if>
+      <if test="cardBin != null">
+        CARD_BIN = #{cardBin,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        CARD_TYPE = #{cardType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where CARD_BIN_ID = #{cardBinId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.BankCardBin">
+    update BANK_CARD_BIN
+    set BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      BANK_INS_CODE = #{bankInsCode,jdbcType=VARCHAR},
+      CARD_NAME = #{cardName,jdbcType=VARCHAR},
+      CARD_NO_LEN = #{cardNoLen,jdbcType=INTEGER},
+      CARD_BIN = #{cardBin,jdbcType=VARCHAR},
+      CARD_TYPE = #{cardType,jdbcType=INTEGER}
+    where CARD_BIN_ID = #{cardBinId,jdbcType=INTEGER}
+  </update>
+</mapper>

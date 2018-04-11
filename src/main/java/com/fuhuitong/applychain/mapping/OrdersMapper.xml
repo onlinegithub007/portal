@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.OrdersMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.Orders">
+    <id column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="MER_USER_ID" jdbcType="VARCHAR" property="merUserId" />
+    <result column="MEMBER_ID" jdbcType="BIGINT" property="memberId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="SP_CODE" jdbcType="VARCHAR" property="spCode" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+    <result column="ORDER_CODE" jdbcType="VARCHAR" property="orderCode" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="TOTAL_PRICE" jdbcType="INTEGER" property="totalPrice" />
+    <result column="TOTAL_COUNT" jdbcType="INTEGER" property="totalCount" />
+    <result column="FINAL_PRICE" jdbcType="INTEGER" property="finalPrice" />
+    <result column="MEMBER_DISCOUNT" jdbcType="INTEGER" property="memberDiscount" />
+    <result column="MEMBER_CODE" jdbcType="VARCHAR" property="memberCode" />
+    <result column="PAYMENT_INFO" jdbcType="VARCHAR" property="paymentInfo" />
+    <result column="ORDER_STATUS" jdbcType="INTEGER" property="orderStatus" />
+    <result column="PAY_AMOUNT" jdbcType="INTEGER" property="payAmount" />
+    <result column="PAY_METHOD" jdbcType="INTEGER" property="payMethod" />
+    <result column="PAY_DATE" jdbcType="TIMESTAMP" property="payDate" />
+    <result column="PAY_BILL_NUMBER" jdbcType="VARCHAR" property="payBillNumber" />
+    <result column="CASH_AMOUNT" jdbcType="INTEGER" property="cashAmount" />
+    <result column="CASH_CHANGE" jdbcType="INTEGER" property="cashChange" />
+    <result column="MEMBER_BALANCE_PAY" jdbcType="INTEGER" property="memberBalancePay" />
+    <result column="DISCOUNT_AMOUNT" jdbcType="INTEGER" property="discountAmount" />
+    <result column="CARD_COUPON_PAY" jdbcType="INTEGER" property="cardCouponPay" />
+    <result column="VERSION" jdbcType="VARCHAR" property="version" />
+    <result column="OS" jdbcType="VARCHAR" property="os" />
+    <result column="DEVICE_TYPE" jdbcType="VARCHAR" property="deviceType" />
+    <result column="LONGITUDE" jdbcType="VARCHAR" property="longitude" />
+    <result column="LATITUDE" jdbcType="VARCHAR" property="latitude" />
+    <result column="IP_ADDRESS" jdbcType="VARCHAR" property="ipAddress" />
+    <result column="ORDER_BILL_PRINT" jdbcType="BIT" property="orderBillPrint" />
+    
+    <result column="OPERATOR_ID" jdbcType="VARCHAR" property="operatorId" />
+    <result column="OPERATOR_NAME" jdbcType="VARCHAR" property="operatorName" />
+    <result column="ORDER_BILL" jdbcType="VARCHAR" property="orderBill" />
+    
+    <result column="ORDER_PROFIT" jdbcType="INTEGER" property="orderProfit" />
+    
+    <result column="SECOND_PAY_NUMBER" jdbcType="VARCHAR" property="secondPayNumber" />
+    <result column="MER_CODE" jdbcType="VARCHAR" property="merCode" />
+    <result column="MER_NAME" jdbcType="VARCHAR" property="merName" />
+    <result column="TERM_CODE" jdbcType="VARCHAR" property="termCode" />
+    <result column="TERM_SN" jdbcType="VARCHAR" property="termSn" />
+    <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
+    <result column="BANK_CARD" jdbcType="VARCHAR" property="bankCard" />
+    <result column="BANK_CARD_EXPIRED" jdbcType="VARCHAR" property="bankCardExpired" />
+    <result column="AUTHOR_CODE" jdbcType="VARCHAR" property="authorCode" />
+    <result column="TRADE_BATCH_CODE" jdbcType="VARCHAR" property="tradeBatchCode" />
+    <result column="REFER_CODE" jdbcType="VARCHAR" property="referCode" />
+    <result column="ORDER_TYPE" jdbcType="INTEGER" property="orderType" />
+    
+    <result column="ORDER_CONFIRM" jdbcType="INTEGER" property="orderConfirm" />
+    <result column="ORDER_CONFIRM_DATE" jdbcType="TIMESTAMP" property="orderConfirmDate" />
+    <result column="ORDER_CONFIRM_PERSON" jdbcType="VARCHAR" property="orderConfirmPerson" />
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ORDER_ID, MER_USER_ID, MEMBER_ID, MER_ID, SP_CODE, MER_GROUP_ID, ORDER_CODE, CREATE_DATE, 
+    TOTAL_PRICE, FINAL_PRICE, MEMBER_DISCOUNT, MEMBER_CODE, PAYMENT_INFO, ORDER_STATUS, 
+    PAY_AMOUNT, PAY_METHOD, PAY_DATE, PAY_BILL_NUMBER, CASH_AMOUNT, CASH_CHANGE, MEMBER_BALANCE_PAY, 
+    DISCOUNT_AMOUNT, CARD_COUPON_PAY, VERSION, OS, DEVICE_TYPE, LONGITUDE, LATITUDE, 
+    IP_ADDRESS, ORDER_BILL_PRINT, OPERATOR_ID, OPERATOR_NAME, ORDER_BILL, ORDER_PROFIT,
+    SECOND_PAY_NUMBER, MER_CODE, MER_NAME, TERM_CODE, BANK_NAME, BANK_CARD, BANK_CARD_EXPIRED, 
+    AUTHOR_CODE, TRADE_BATCH_CODE, REFER_CODE, ORDER_TYPE, 
+    ORDER_CONFIRM, 
+    ORDER_CONFIRM_DATE, ORDER_CONFIRM_PERSON
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDERS
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="statOnClearingByDate" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
+    select 
+    COUNT(*) AS TOTAL_COUNT, SUM(FINAL_PRICE) AS FINAL_PRICE, SUM(ORDER_PROFIT) AS ORDER_PROFIT
+    from ORDERS
+    where DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR} 
+    and MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    <if test="payMethod != null">
+      AND PAY_METHOD = #{payMethod,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectStoreSaleDataByDates" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
+    SELECT 
+    	SUM(ORDERS.TOTAL_PRICE) AS TOTAL_PRICE,
+    	SUM(ORDERS.ORDER_PROFIT) AS ORDER_PROFIT,
+    	MERCHANT_GROUPS.GROUP_NAME
+    FROM
+		MERCHANT_GROUPS
+		JOIN ORDERS
+		ON MERCHANT_GROUPS.MER_GROUP_ID = ORDERS.MER_GROUP_ID
+    WHERE 
+    	ORDERS.MER_ID = #{merId,jdbcType=VARCHAR}
+    	AND DATEDIFF(ORDERS.CREATE_DATE, #{createDateText,jdbcType=VARCHAR}) >= 0
+		AND DATEDIFF(#{endDateText,jdbcType=VARCHAR}, ORDERS.CREATE_DATE) >= 0
+	GROUP BY MERCHANT_GROUPS.GROUP_NAME
+	<if test="indexType == 0">
+		ORDER BY SUM(ORDERS.FINAL_PRICE) DESC
+	</if>
+	<if test="indexType == 1">
+		ORDER BY SUM(ORDERS.ORDER_PROFIT) DESC
+	</if>
+  </select>
+  
+  <select id="selectByDate" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDERS
+    where DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR} 
+    <if test="merGroupId != null">
+    	and MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    </if>
+    and MER_ID = #{merId,jdbcType=VARCHAR}
+    order by CREATE_DATE desc
+  </select>
+  
+  <select id="selectByDatetime" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDERS
+    where DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR} 
+    <if test="merGroupId != null">
+    	and MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    </if>
+    and MER_ID = #{merId,jdbcType=VARCHAR}
+    order by CREATE_DATE
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDERS
+  </select>
+  
+  <select id="selectByDate2" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_GROUPS.GROUP_NAME,
+		ORDERS.ORDER_ID,
+		ORDERS.MER_USER_ID,
+		ORDERS.MEMBER_ID,
+		ORDERS.MER_ID,
+		ORDERS.SP_CODE,
+		ORDERS.MER_GROUP_ID,
+		ORDERS.ORDER_CODE,
+		ORDERS.CREATE_DATE,
+		ORDERS.TOTAL_PRICE,
+		ORDERS.FINAL_PRICE,
+		ORDERS.MEMBER_DISCOUNT,
+		ORDERS.MEMBER_CODE,
+		ORDERS.PAYMENT_INFO,
+		ORDERS.ORDER_STATUS,
+		ORDERS.PAY_AMOUNT,
+		ORDERS.PAY_DATE,
+		ORDERS.PAY_METHOD,
+		ORDERS.PAY_BILL_NUMBER,
+		ORDERS.CASH_AMOUNT,
+		ORDERS.CASH_CHANGE,
+		ORDERS.MEMBER_BALANCE_PAY,
+		ORDERS.DISCOUNT_AMOUNT,
+		ORDERS.CARD_COUPON_PAY,
+		ORDERS.OPERATOR_ID,
+		ORDERS.OPERATOR_NAME,
+		ORDERS.ORDER_PROFIT,
+		ORDERS.ORDER_CONFIRM,
+		ORDERS.ORDER_CONFIRM_DATE,
+		ORDERS.ORDER_CONFIRM_PERSON,
+		ORDERS.TERM_CODE,
+		ORDERS.TERM_SN 
+	FROM
+		ORDERS JOIN MERCHANT_GROUPS
+		ON ORDERS.MER_GROUP_ID = MERCHANT_GROUPS.MER_GROUP_ID
+    where ORDERS.MER_ID = #{merId,jdbcType=VARCHAR} 
+    <if test="createDateText != null">
+    	AND DATE_FORMAT(ORDERS.CREATE_DATE,'%Y-%m-%d') <![CDATA[ >= ]]> #{createDateText,jdbcType=VARCHAR} 
+    </if>
+      <if test="endDateText != null">
+   	AND DATE_FORMAT(ORDERS.CREATE_DATE,'%Y-%m-%d') <![CDATA[ <= ]]> #{endDateText,jdbcType=VARCHAR} 
+    </if>
+    <if test="merGroupId != null">
+        AND ORDERS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    </if>
+    <if test="orderCode != null">
+        AND ORDERS.ORDER_CODE = #{orderCode,jdbcType=VARCHAR}
+    </if>
+     <if test="termCode != null">
+        AND TERM_CODE = #{termCode,jdbcType=VARCHAR}
+    </if>
+     <if test="termSn != null">
+        AND TERM_SN = #{termSn,jdbcType=VARCHAR}
+    </if>
+    order by ORDERS.CREATE_DATE desc
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectByDate2EXCEL" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
+    SELECT * FROM ZHIGOU	
+    where MER_ID = #{merId,jdbcType=VARCHAR} 
+    <if test="createDateText != null">
+    	AND DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') <![CDATA[ >= ]]> #{createDateText,jdbcType=VARCHAR} 
+    </if>
+      <if test="endDateText != null">
+   	AND DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') <![CDATA[ <= ]]> #{endDateText,jdbcType=VARCHAR} 
+    </if>
+    <if test="merGroupId != null">
+        AND MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    </if>
+    <if test="orderCode != null">
+        AND ORDER_CODE = #{orderCode,jdbcType=VARCHAR}
+    </if>
+        <if test="termCode != null">
+        AND TERM_CODE = #{termCode,jdbcType=VARCHAR}
+    </if>
+    <if test="termSn != null">
+        AND TERM_SN = #{termSn,jdbcType=VARCHAR}
+    </if>
+    order by CREATE_DATE desc
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectCountByDate2" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="allRecordCount">
+    select 
+    count(ORDER_ID) as DATA_COUNT
+    from ORDERS
+    where ORDERS.MER_ID = #{merId,jdbcType=VARCHAR} 
+    <if test="createDateText != null">
+    	AND DATE_FORMAT(ORDERS.CREATE_DATE,'%Y-%m-%d') <![CDATA[ >= ]]> #{createDateText,jdbcType=VARCHAR} 
+    </if>
+      <if test="endDateText != null">
+   	AND DATE_FORMAT(ORDERS.CREATE_DATE,'%Y-%m-%d') <![CDATA[ <= ]]> #{endDateText,jdbcType=VARCHAR} 
+    </if>
+    <if test="merGroupId != null">
+    	AND MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    </if>
+    <if test="orderCode != null">
+        AND ORDER_CODE = #{orderCode,jdbcType=VARCHAR}
+    </if>
+    <if test="termCode != null">
+        AND TERM_CODE = #{termCode,jdbcType=VARCHAR}
+    </if>
+    <if test="termSn != null">
+        AND TERM_SN = #{termSn,jdbcType=VARCHAR}
+    </if>
+    order by CREATE_DATE desc
+  </select>
+  
+  <select id="selectByOrderCode" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDERS
+    where ORDER_CODE = #{orderCode,jdbcType=VARCHAR} and MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectPrintByOrderCode" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDERS
+    where ORDER_CODE = #{orderCode,jdbcType=VARCHAR} and MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ORDERS
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.Orders">
+    insert into ORDERS (ORDER_ID, MER_USER_ID, MEMBER_ID, 
+      MER_ID, SP_CODE, MER_GROUP_ID, 
+      ORDER_CODE, CREATE_DATE, TOTAL_PRICE, 
+      FINAL_PRICE, MEMBER_DISCOUNT, MEMBER_CODE, 
+      PAYMENT_INFO, ORDER_STATUS, PAY_AMOUNT, PAY_METHOD, 
+      PAY_DATE, PAY_BILL_NUMBER, CASH_AMOUNT, 
+      CASH_CHANGE, MEMBER_BALANCE_PAY, DISCOUNT_AMOUNT, 
+      CARD_COUPON_PAY, VERSION, OS, 
+      DEVICE_TYPE, LONGITUDE, LATITUDE, 
+      IP_ADDRESS, ORDER_BILL_PRINT, ORDER_BILL, OPERATOR_ID, OPERATOR_NAME, ORDER_TYPE
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{merUserId,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, 
+      #{merId,jdbcType=VARCHAR}, #{spCode,jdbcType=VARCHAR}, #{merGroupId,jdbcType=VARCHAR}, 
+      #{orderCode,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{totalPrice,jdbcType=INTEGER}, 
+      #{finalPrice,jdbcType=INTEGER}, #{memberDiscount,jdbcType=INTEGER}, #{memberCode,jdbcType=VARCHAR}, 
+      #{paymentInfo,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, #{payMethod,jdbcType=INTEGER}, 
+      #{payDate,jdbcType=TIMESTAMP}, #{payBillNumber,jdbcType=VARCHAR}, #{cashAmount,jdbcType=INTEGER}, 
+      #{cashChange,jdbcType=INTEGER}, #{memberBalancePay,jdbcType=INTEGER}, #{discountAmount,jdbcType=INTEGER}, 
+      #{cardCouponPay,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}, 
+      #{deviceType,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
+      #{ipAddress,jdbcType=VARCHAR}, #{orderBillPrint,jdbcType=BIT}, #{orderBill,jdbcType=VARCHAR}, 
+      #{operatorId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.Orders">
+    insert into ORDERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="merUserId != null">
+        MER_USER_ID,
+      </if>
+      <if test="memberId != null">
+        MEMBER_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="spCode != null">
+        SP_CODE,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="orderCode != null">
+        ORDER_CODE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="totalPrice != null">
+        TOTAL_PRICE,
+      </if>
+      <if test="finalPrice != null">
+        FINAL_PRICE,
+      </if>
+      <if test="memberDiscount != null">
+        MEMBER_DISCOUNT,
+      </if>
+      <if test="memberCode != null">
+        MEMBER_CODE,
+      </if>
+      <if test="paymentInfo != null">
+        PAYMENT_INFO,
+      </if>
+      <if test="orderStatus != null">
+        ORDER_STATUS,
+      </if>
+      <if test="payAmount != null">
+        PAY_AMOUNT,
+      </if>
+      <if test="payMethod != null">
+        PAY_METHOD,
+      </if>
+      <if test="payDate != null">
+        PAY_DATE,
+      </if>
+      <if test="payBillNumber != null">
+        PAY_BILL_NUMBER,
+      </if>
+      <if test="cashAmount != null">
+        CASH_AMOUNT,
+      </if>
+      <if test="cashChange != null">
+        CASH_CHANGE,
+      </if>
+      <if test="memberBalancePay != null">
+        MEMBER_BALANCE_PAY,
+      </if>
+      <if test="discountAmount != null">
+        DISCOUNT_AMOUNT,
+      </if>
+      <if test="cardCouponPay != null">
+        CARD_COUPON_PAY,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+      <if test="os != null">
+        OS,
+      </if>
+      <if test="deviceType != null">
+        DEVICE_TYPE,
+      </if>
+      <if test="longitude != null">
+        LONGITUDE,
+      </if>
+      <if test="latitude != null">
+        LATITUDE,
+      </if>
+      <if test="ipAddress != null">
+        IP_ADDRESS,
+      </if>
+      <if test="orderBillPrint != null">
+        ORDER_BILL_PRINT,
+      </if>
+      <if test="orderBill != null">
+        ORDER_BILL,
+      </if>
+      <if test="operatorId != null">
+        OPERATOR_ID,
+      </if>
+      <if test="operatorName != null">
+        OPERATOR_NAME,
+      </if>
+      <if test="orderProfit != null">
+        ORDER_PROFIT,
+      </if>
+      <if test="secondPayNumber != null">
+        SECOND_PAY_NUMBER,
+      </if>
+      <if test="merCode != null">
+        MER_CODE,
+      </if>
+      <if test="merName != null">
+        MER_NAME,
+      </if>
+      <if test="termCode != null">
+        TERM_CODE,
+      </if>
+      <if test="termSn != null">
+        TERM_SN,
+      </if>
+      <if test="bankName != null">
+        BANK_NAME,
+      </if>
+      <if test="bankCard != null">
+        BANK_CARD,
+      </if>
+      <if test="bankCardType != null">
+        BANK_CARD_TYPE,
+      </if> 
+      <if test="bankCardExpired != null">
+        BANK_CARD_EXPIRED,
+      </if>
+      <if test="authorCode != null">
+        AUTHOR_CODE,
+      </if>
+      <if test="tradeBatchCode != null">
+        TRADE_BATCH_CODE,
+      </if>
+      <if test="referCode != null">
+        REFER_CODE,
+      </if>
+      <if test="orderType != null">
+        ORDER_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merUserId != null">
+        #{merUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="spCode != null">
+        #{spCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="finalPrice != null">
+        #{finalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="memberDiscount != null">
+        #{memberDiscount,jdbcType=INTEGER},
+      </if>
+      <if test="memberCode != null">
+        #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentInfo != null">
+        #{paymentInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payAmount != null">
+        #{payAmount,jdbcType=INTEGER},
+      </if>
+      <if test="payMethod != null">
+        #{payMethod,jdbcType=INTEGER},
+      </if>
+      <if test="payDate != null">
+        #{payDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payBillNumber != null">
+        #{payBillNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cashAmount != null">
+        #{cashAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cashChange != null">
+        #{cashChange,jdbcType=INTEGER},
+      </if>
+      <if test="memberBalancePay != null">
+        #{memberBalancePay,jdbcType=INTEGER},
+      </if>
+      <if test="discountAmount != null">
+        #{discountAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cardCouponPay != null">
+        #{cardCouponPay,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="os != null">
+        #{os,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddress != null">
+        #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBillPrint != null">
+        #{orderBillPrint,jdbcType=BIT},
+      </if>
+      <if test="orderBill != null">
+        #{orderBill,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null">
+         #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderProfit != null">
+        #{orderProfit,jdbcType=INTEGER},
+      </if>
+      <if test="secondPayNumber != null">
+        #{secondPayNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="merCode != null">
+        #{merCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merName != null">
+        #{merName,jdbcType=VARCHAR},
+      </if>
+      <if test="termCode != null">
+        #{termCode,jdbcType=VARCHAR},
+      </if>
+       <if test="termSn != null">
+        #{termSn,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null">
+        #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardType != null">
+        #{bankCardType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardExpired != null">
+        #{bankCardExpired,jdbcType=VARCHAR},
+      </if>
+      <if test="authorCode != null">
+        #{authorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeBatchCode != null">
+        #{tradeBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="referCode != null">
+        #{referCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.Orders">
+    update ORDERS
+    <set>
+      <if test="merUserId != null">
+        MER_USER_ID = #{merUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        MEMBER_ID = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="spCode != null">
+        SP_CODE = #{spCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null">
+        ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalPrice != null">
+        TOTAL_PRICE = #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="finalPrice != null">
+        FINAL_PRICE = #{finalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="memberDiscount != null">
+        MEMBER_DISCOUNT = #{memberDiscount,jdbcType=INTEGER},
+      </if>
+      <if test="memberCode != null">
+        MEMBER_CODE = #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentInfo != null">
+        PAYMENT_INFO = #{paymentInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        ORDER_STATUS = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payAmount != null">
+        PAY_AMOUNT = #{payAmount,jdbcType=INTEGER},
+      </if>
+      <if test="payMethod != null">
+        PAY_METHOD = #{payMethod,jdbcType=INTEGER},
+      </if>
+      <if test="payDate != null">
+        PAY_DATE = #{payDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payBillNumber != null">
+        PAY_BILL_NUMBER = #{payBillNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cashAmount != null">
+        CASH_AMOUNT = #{cashAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cashChange != null">
+        CASH_CHANGE = #{cashChange,jdbcType=INTEGER},
+      </if>
+      <if test="memberBalancePay != null">
+        MEMBER_BALANCE_PAY = #{memberBalancePay,jdbcType=INTEGER},
+      </if>
+      <if test="discountAmount != null">
+        DISCOUNT_AMOUNT = #{discountAmount,jdbcType=INTEGER},
+      </if>
+      <if test="cardCouponPay != null">
+        CARD_COUPON_PAY = #{cardCouponPay,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="os != null">
+        OS = #{os,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        LONGITUDE = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        LATITUDE = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddress != null">
+        IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBillPrint != null">
+        ORDER_BILL_PRINT = #{orderBillPrint,jdbcType=BIT},
+      </if>
+      <if test="orderBill != null">
+        ORDER_BILL = #{orderBill,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null">
+       OPERATOR_ID =  #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null">
+        OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderProfit != null">
+        ORDER_PROFIT = #{orderProfit,jdbcType=INTEGER},
+      </if>
+      <if test="secondPayNumber != null">
+        SECOND_PAY_NUMBER = #{secondPayNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="merCode != null">
+        MER_CODE = #{merCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merName != null">
+        MER_NAME = #{merName,jdbcType=VARCHAR},
+      </if>
+      <if test="termCode != null">
+        TERM_CODE = #{termCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null">
+        BANK_CARD = #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardExpired != null">
+        BANK_CARD_EXPIRED = #{bankCardExpired,jdbcType=VARCHAR},
+      </if>
+      <if test="authorCode != null">
+        AUTHOR_CODE = #{authorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeBatchCode != null">
+        TRADE_BATCH_CODE = #{tradeBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="referCode != null">
+        REFER_CODE = #{referCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.Orders">
+    update ORDERS
+    set MER_USER_ID = #{merUserId,jdbcType=VARCHAR},
+      MEMBER_ID = #{memberId,jdbcType=BIGINT},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      SP_CODE = #{spCode,jdbcType=VARCHAR},
+      MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      TOTAL_PRICE = #{totalPrice,jdbcType=INTEGER},
+      FINAL_PRICE = #{finalPrice,jdbcType=INTEGER},
+      MEMBER_DISCOUNT = #{memberDiscount,jdbcType=INTEGER},
+      MEMBER_CODE = #{memberCode,jdbcType=VARCHAR},
+      PAYMENT_INFO = #{paymentInfo,jdbcType=VARCHAR},
+      ORDER_STATUS = #{orderStatus,jdbcType=INTEGER},
+      PAY_AMOUNT = #{payAmount,jdbcType=INTEGER},
+      PAY_DATE = #{payDate,jdbcType=TIMESTAMP},
+      PAY_BILL_NUMBER = #{payBillNumber,jdbcType=VARCHAR},
+      CASH_AMOUNT = #{cashAmount,jdbcType=INTEGER},
+      CASH_CHANGE = #{cashChange,jdbcType=INTEGER},
+      MEMBER_BALANCE_PAY = #{memberBalancePay,jdbcType=INTEGER},
+      DISCOUNT_AMOUNT = #{discountAmount,jdbcType=INTEGER},
+      CARD_COUPON_PAY = #{cardCouponPay,jdbcType=INTEGER},
+      VERSION = #{version,jdbcType=VARCHAR},
+      OS = #{os,jdbcType=VARCHAR},
+      DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+      LONGITUDE = #{longitude,jdbcType=VARCHAR},
+      LATITUDE = #{latitude,jdbcType=VARCHAR},
+      IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
+      ORDER_BILL_PRINT = #{orderBillPrint,jdbcType=BIT},
+      ORDER_BILL = #{orderBill,jdbcType=VARCHAR},
+      ORDER_PROFIT = #{orderProfit,jdbcType=INTEGER}
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateBillPrintFlag" parameterType="java.lang.String">
+    update ORDERS
+    set 
+      ORDER_BILL_PRINT = 1
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateOrderProfit" parameterType="java.lang.String">
+    update ORDERS
+    set 
+      ORDER_PROFIT = (select SUM((GOODS_SALE_PRICE - GOODS_COST) * GOODS_AMOUNT) from ORDER_DETAILS where ORDER_ID = #{orderId,jdbcType=VARCHAR})
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateOrderConfirm" parameterType="com.fuhuitong.applychain.model.Orders">
+    update ORDERS
+    set 
+      ORDER_CONFIRM = #{orderConfirm,jdbcType=INTEGER},
+      ORDER_CONFIRM_DATE = #{orderConfirmDate,jdbcType=DATE},
+      ORDER_CONFIRM_PERSON = #{orderConfirmPerson,jdbcType=VARCHAR}
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

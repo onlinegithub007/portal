@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.DiscountStoresMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.DiscountStores">
+    <id column="DISCOUNT_STORE_ID" jdbcType="INTEGER" property="discountStoreId" />
+    <result column="DISCOUNT_ID" jdbcType="VARCHAR" property="discountId" />
+    <result column="STORE_ID" jdbcType="VARCHAR" property="storeId" />
+    <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+    <result column="FULL_NAME" jdbcType="VARCHAR" property="areaFullName" />
+    <result column="DETAIL_ADDRESS" jdbcType="VARCHAR" property="detailAddress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DISCOUNT_STORE_ID, DISCOUNT_ID, STORE_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DISCOUNT_STORES
+    where DISCOUNT_STORE_ID = #{discountStoreId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByDiscountId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+	MERCHANT_GROUPS.GROUP_NAME,
+	MERCHANT_GROUPS.DETAIL_ADDRESS,
+	DISCOUNT_STORES.DISCOUNT_STORE_ID,
+	DISCOUNT_STORES.DISCOUNT_ID,
+	DISCOUNT_STORES.STORE_ID,
+	AREAS.FULL_NAME
+	FROM
+	DISCOUNT_STORES
+	JOIN MERCHANT_GROUPS
+	ON DISCOUNT_STORES.STORE_ID = MERCHANT_GROUPS.MER_GROUP_ID
+	JOIN AREAS
+	ON MERCHANT_GROUPS.AREA_ID = AREAS.AREA_ID
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from DISCOUNT_STORES
+    where DISCOUNT_STORE_ID = #{discountStoreId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByDiscountId" parameterType="java.lang.String">
+    delete from DISCOUNT_STORES
+    where DISCOUNT_ID = #{discountId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.DiscountStores">
+    insert into DISCOUNT_STORES (DISCOUNT_STORE_ID, DISCOUNT_ID, 
+      STORE_ID)
+    values (#{discountStoreId,jdbcType=INTEGER}, #{discountId,jdbcType=VARCHAR}, 
+      #{storeId,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.DiscountStores">
+    insert into DISCOUNT_STORES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="discountStoreId != null">
+        DISCOUNT_STORE_ID,
+      </if>
+      <if test="discountId != null">
+        DISCOUNT_ID,
+      </if>
+      <if test="storeId != null">
+        STORE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="discountStoreId != null">
+        #{discountStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="discountId != null">
+        #{discountId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.DiscountStores">
+    update DISCOUNT_STORES
+    <set>
+      <if test="discountId != null">
+        DISCOUNT_ID = #{discountId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null">
+        STORE_ID = #{storeId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DISCOUNT_STORE_ID = #{discountStoreId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.DiscountStores">
+    update DISCOUNT_STORES
+    set DISCOUNT_ID = #{discountId,jdbcType=VARCHAR},
+      STORE_ID = #{storeId,jdbcType=VARCHAR}
+    where DISCOUNT_STORE_ID = #{discountStoreId,jdbcType=INTEGER}
+  </update>
+</mapper>

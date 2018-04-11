@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.StockDispatchMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.StockDispatch">
+    <id column="STOCK_DISPATCH_ID" jdbcType="INTEGER" property="stockDispatchId" />
+    <result column="PURCHASE_ORDER_ID" jdbcType="VARCHAR" property="purchaseOrderId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="GOODS_STOCK_DETAIL_ID" jdbcType="INTEGER" property="goodsStockDetailId" />
+    <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+    <result column="OPERATOR_NAME" jdbcType="VARCHAR" property="operatorName" />
+    <result column="PROVIDER_ID" jdbcType="VARCHAR" property="providerId" />
+    <result column="PROVIDER_NAME" jdbcType="VARCHAR" property="providerName" />
+    <result column="PROVIDER_LINKMAN" jdbcType="VARCHAR" property="providerLinkman" />
+    <result column="FROM_STORE_ID" jdbcType="VARCHAR" property="fromStoreId" />
+    <result column="FROM_STORE_NAME" jdbcType="VARCHAR" property="fromStoreName" />
+    <result column="TO_STORE_ID" jdbcType="VARCHAR" property="toStoreId" />
+    <result column="TO_STORE_NAME" jdbcType="VARCHAR" property="toStoreName" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="GOODS_COST" jdbcType="REAL" property="goodsCost" />
+    <result column="PRODUCT_DATE" jdbcType="TIMESTAMP" property="productDate" />
+    <result column="EXPIRED_DATE" jdbcType="TIMESTAMP" property="expiredDate" />
+    <result column="CURRENT_STOCK_COUNT" jdbcType="INTEGER" property="currentStockCount" />
+    <result column="DISPATCH_STOCK_COUNT" jdbcType="INTEGER" property="dispatchStockCount" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="DISPATCH_STATUS" jdbcType="INTEGER" property="dispatchStatus" />
+    
+    <result column="MEASUR_UNIT" jdbcType="VARCHAR" property="measurUnit" />
+    <result column="PROVIDER_UNIT" jdbcType="VARCHAR" property="providerUnit" />
+    <result column="PROVIDER_UNIT_MULTIPLE" jdbcType="INTEGER" property="providerUnitMultiple" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    STOCK_DISPATCH_ID, MER_ID, PURCHASE_ORDER_ID, GOODS_ID, GOODS_STOCK_DETAIL_ID, OPERATOR, OPERATOR_NAME, PROVIDER_ID, 
+    PROVIDER_NAME, PROVIDER_LINKMAN, FROM_STORE_ID, FROM_STORE_NAME, TO_STORE_ID, TO_STORE_NAME, GOODS_NAME,
+    GOODS_COST, PRODUCT_DATE, EXPIRED_DATE, CURRENT_STOCK_COUNT, DISPATCH_STOCK_COUNT, 
+    CREATE_DATE, DISPATCH_STATUS
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STOCK_DISPATCH
+    where STOCK_DISPATCH_ID = #{stockDispatchId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByIds" parameterType="com.fuhuitong.applychain.model.StockDispatch" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STOCK_DISPATCH
+    where STOCK_DISPATCH_ID in
+    <foreach item="item" index="index" collection="stockDispatchIds" open="(" separator="," close=")">  
+	  #{item}  
+	 </foreach>
+  </select>
+  
+  <select id="selectMyTempDispatch" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		STOCK_DISPATCH.STOCK_DISPATCH_ID,
+		STOCK_DISPATCH.GOODS_ID,
+		STOCK_DISPATCH.MER_ID,
+		STOCK_DISPATCH.GOODS_STOCK_DETAIL_ID,
+		STOCK_DISPATCH.OPERATOR,
+		STOCK_DISPATCH.OPERATOR_NAME,
+		STOCK_DISPATCH.PROVIDER_ID,
+		STOCK_DISPATCH.PROVIDER_NAME,
+		STOCK_DISPATCH.PROVIDER_LINKMAN,
+		STOCK_DISPATCH.FROM_STORE_ID,
+		STOCK_DISPATCH.FROM_STORE_NAME,
+		STOCK_DISPATCH.TO_STORE_ID,
+		STOCK_DISPATCH.TO_STORE_NAME,
+		STOCK_DISPATCH.GOODS_NAME,
+		STOCK_DISPATCH.GOODS_COST,
+		STOCK_DISPATCH.PRODUCT_DATE,
+		STOCK_DISPATCH.EXPIRED_DATE,
+		STOCK_DISPATCH.CURRENT_STOCK_COUNT,
+		STOCK_DISPATCH.DISPATCH_STOCK_COUNT,
+		STOCK_DISPATCH.CREATE_DATE,
+		STOCK_DISPATCH.DISPATCH_STATUS,
+		GOODS_INFO.MEASUR_UNIT,
+		GOODS_INFO.PROVIDER_UNIT,
+		GOODS_INFO.PROVIDER_UNIT_MULTIPLE
+	FROM
+		GOODS_INFO
+		JOIN STOCK_DISPATCH ON GOODS_INFO.GOODS_ID = STOCK_DISPATCH.GOODS_ID
+    where STOCK_DISPATCH.MER_ID = #{merId,jdbcType=VARCHAR} AND STOCK_DISPATCH.DISPATCH_STATUS = 0
+    ORDER BY STOCK_DISPATCH.STOCK_DISPATCH_ID ASC
+  </select>
+  
+  <select id="selectFinishedByDay" parameterType="com.fuhuitong.applychain.model.StockDispatch" resultMap="BaseResultMap">
+    SELECT
+		STOCK_DISPATCH.STOCK_DISPATCH_ID,
+		STOCK_DISPATCH.GOODS_ID,
+		STOCK_DISPATCH.MER_ID,
+		STOCK_DISPATCH.GOODS_STOCK_DETAIL_ID,
+		STOCK_DISPATCH.OPERATOR,
+		STOCK_DISPATCH.OPERATOR_NAME,
+		STOCK_DISPATCH.PROVIDER_ID,
+		STOCK_DISPATCH.PROVIDER_NAME,
+		STOCK_DISPATCH.PROVIDER_LINKMAN,
+		STOCK_DISPATCH.FROM_STORE_ID,
+		STOCK_DISPATCH.FROM_STORE_NAME,
+		STOCK_DISPATCH.TO_STORE_ID,
+		STOCK_DISPATCH.TO_STORE_NAME,
+		STOCK_DISPATCH.GOODS_NAME,
+		STOCK_DISPATCH.GOODS_COST * STOCK_DISPATCH.DISPATCH_STOCK_COUNT as GOODS_COST,
+		STOCK_DISPATCH.PRODUCT_DATE,
+		STOCK_DISPATCH.EXPIRED_DATE,
+		STOCK_DISPATCH.CURRENT_STOCK_COUNT,
+		STOCK_DISPATCH.DISPATCH_STOCK_COUNT,
+		STOCK_DISPATCH.CREATE_DATE,
+		STOCK_DISPATCH.DISPATCH_STATUS,
+		GOODS_INFO.MEASUR_UNIT,
+		GOODS_INFO.PROVIDER_UNIT,
+		GOODS_INFO.PROVIDER_UNIT_MULTIPLE
+	FROM
+		GOODS_INFO
+		JOIN STOCK_DISPATCH ON GOODS_INFO.GOODS_ID = STOCK_DISPATCH.GOODS_ID
+    where STOCK_DISPATCH.MER_ID = #{merId,jdbcType=VARCHAR} AND STOCK_DISPATCH.DISPATCH_STATUS = 1
+    	AND DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') = #{dateText,jdbcType=VARCHAR}
+    ORDER BY STOCK_DISPATCH.STOCK_DISPATCH_ID ASC
+  </select>
+  
+  <select id="selectByPurchaseOrder" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		STOCK_DISPATCH.STOCK_DISPATCH_ID,
+		STOCK_DISPATCH.GOODS_ID,
+		STOCK_DISPATCH.MER_ID,
+		STOCK_DISPATCH.GOODS_STOCK_DETAIL_ID,
+		STOCK_DISPATCH.OPERATOR,
+		STOCK_DISPATCH.OPERATOR_NAME,
+		STOCK_DISPATCH.PROVIDER_ID,
+		STOCK_DISPATCH.PROVIDER_NAME,
+		STOCK_DISPATCH.PROVIDER_LINKMAN,
+		STOCK_DISPATCH.FROM_STORE_ID,
+		STOCK_DISPATCH.FROM_STORE_NAME,
+		STOCK_DISPATCH.TO_STORE_ID,
+		STOCK_DISPATCH.TO_STORE_NAME,
+		STOCK_DISPATCH.GOODS_NAME,
+		STOCK_DISPATCH.GOODS_COST,
+		STOCK_DISPATCH.PRODUCT_DATE,
+		STOCK_DISPATCH.EXPIRED_DATE,
+		STOCK_DISPATCH.CURRENT_STOCK_COUNT,
+		STOCK_DISPATCH.DISPATCH_STOCK_COUNT,
+		STOCK_DISPATCH.CREATE_DATE,
+		STOCK_DISPATCH.DISPATCH_STATUS,
+		GOODS_INFO.MEASUR_UNIT,
+		GOODS_INFO.PROVIDER_UNIT,
+		GOODS_INFO.PROVIDER_UNIT_MULTIPLE
+	FROM
+		GOODS_INFO
+		JOIN STOCK_DISPATCH ON GOODS_INFO.GOODS_ID = STOCK_DISPATCH.GOODS_ID
+    where STOCK_DISPATCH.PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR} AND STOCK_DISPATCH.DISPATCH_STATUS = 1
+    ORDER BY STOCK_DISPATCH.STOCK_DISPATCH_ID ASC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from STOCK_DISPATCH
+    where STOCK_DISPATCH_ID = #{stockDispatchId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.StockDispatch">
+    insert into STOCK_DISPATCH (STOCK_DISPATCH_ID, MER_ID, PURCHASE_ORDER_ID, GOODS_ID, GOODS_STOCK_DETAIL_ID, 
+      OPERATOR, OPERATOR_NAME, PROVIDER_ID, 
+      PROVIDER_NAME, PROVIDER_LINKMAN, FROM_STORE_ID, 
+      FROM_STORE_NAME, TO_STORE_ID, TO_STORE_NAME, 
+      GOODS_NAME, GOODS_COST, PRODUCT_DATE, EXPIRED_DATE, 
+      CURRENT_STOCK_COUNT, DISPATCH_STOCK_COUNT, 
+      CREATE_DATE, DISPATCH_STATUS)
+    values (#{stockDispatchId,jdbcType=INTEGER}, #{merId,jdbcType=VARCHAR}, #{purchaseOrderId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{goodsStockDetailId,jdbcType=INTEGER}, 
+      #{operator,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{providerId,jdbcType=VARCHAR}, 
+      #{providerName,jdbcType=VARCHAR}, #{providerLinkman,jdbcType=VARCHAR}, #{fromStoreId,jdbcType=VARCHAR}, 
+      #{fromStoreName,jdbcType=VARCHAR}, #{toStoreId,jdbcType=VARCHAR}, #{toStoreName,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{goodsCost,jdbcType=REAL}, #{productDate,jdbcType=TIMESTAMP}, #{expiredDate,jdbcType=TIMESTAMP}, 
+      #{currentStockCount,jdbcType=INTEGER}, #{dispatchStockCount,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{dispatchStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.StockDispatch">
+    insert into STOCK_DISPATCH
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockDispatchId != null">
+        STOCK_DISPATCH_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="purchaseOrderId != null">
+        PURCHASE_ORDER_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="goodsStockDetailId != null">
+        GOODS_STOCK_DETAIL_ID,
+      </if>
+      <if test="operator != null">
+        OPERATOR,
+      </if>
+      <if test="operatorName != null">
+        OPERATOR_NAME,
+      </if>
+      <if test="providerId != null">
+        PROVIDER_ID,
+      </if>
+      <if test="providerName != null">
+        PROVIDER_NAME,
+      </if>
+      <if test="providerLinkman != null">
+        PROVIDER_LINKMAN,
+      </if>
+      <if test="fromStoreId != null">
+        FROM_STORE_ID,
+      </if>
+      <if test="fromStoreName != null">
+        FROM_STORE_NAME,
+      </if>
+      <if test="toStoreId != null">
+        TO_STORE_ID,
+      </if>
+      <if test="toStoreName != null">
+        TO_STORE_NAME,
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME,
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST,
+      </if>
+      <if test="productDate != null">
+        PRODUCT_DATE,
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE,
+      </if>
+      <if test="currentStockCount != null">
+        CURRENT_STOCK_COUNT,
+      </if>
+      <if test="dispatchStockCount != null">
+        DISPATCH_STOCK_COUNT,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="dispatchStatus != null">
+        DISPATCH_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockDispatchId != null">
+        #{stockDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseOrderId != null">
+        #{purchaseOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsStockDetailId != null">
+        #{goodsStockDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null">
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="providerId != null">
+        #{providerId,jdbcType=VARCHAR},
+      </if>
+      <if test="providerName != null">
+        #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="providerLinkman != null">
+        #{providerLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="fromStoreId != null">
+        #{fromStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromStoreName != null">
+        #{fromStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="toStoreId != null">
+        #{toStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="toStoreName != null">
+        #{toStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        #{goodsCost,jdbcType=REAL},
+      </if>
+      <if test="productDate != null">
+        #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentStockCount != null">
+        #{currentStockCount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchStockCount != null">
+        #{dispatchStockCount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dispatchStatus != null">
+        #{dispatchStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.StockDispatch">
+    update STOCK_DISPATCH
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsStockDetailId != null">
+        GOODS_STOCK_DETAIL_ID = #{goodsStockDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null">
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null">
+        OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="providerId != null">
+        PROVIDER_ID = #{providerId,jdbcType=VARCHAR},
+      </if>
+      <if test="providerName != null">
+        PROVIDER_NAME = #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="providerLinkman != null">
+        PROVIDER_LINKMAN = #{providerLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="fromStoreId != null">
+        FROM_STORE_ID = #{fromStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromStoreName != null">
+        FROM_STORE_NAME = #{fromStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="toStoreId != null">
+        TO_STORE_ID = #{toStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="toStoreName != null">
+        TO_STORE_NAME = #{toStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST = #{goodsCost,jdbcType=REAL},
+      </if>
+      <if test="productDate != null">
+        PRODUCT_DATE = #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentStockCount != null">
+        CURRENT_STOCK_COUNT = #{currentStockCount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchStockCount != null">
+        DISPATCH_STOCK_COUNT = #{dispatchStockCount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dispatchStatus != null">
+        DISPATCH_STATUS = #{dispatchStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where STOCK_DISPATCH_ID = #{stockDispatchId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.StockDispatch">
+    update STOCK_DISPATCH
+    set MER_ID = #{merId,jdbcType=VARCHAR},
+      GOODS_STOCK_DETAIL_ID = #{goodsStockDetailId,jdbcType=INTEGER},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+      PROVIDER_ID = #{providerId,jdbcType=VARCHAR},
+      PROVIDER_NAME = #{providerName,jdbcType=VARCHAR},
+      PROVIDER_LINKMAN = #{providerLinkman,jdbcType=VARCHAR},
+      FROM_STORE_ID = #{fromStoreId,jdbcType=VARCHAR},
+      FROM_STORE_NAME = #{fromStoreName,jdbcType=VARCHAR},
+      TO_STORE_ID = #{toStoreId,jdbcType=VARCHAR},
+      TO_STORE_NAME = #{toStoreName,jdbcType=VARCHAR},
+      GOODS_COST = #{goodsCost,jdbcType=REAL},
+      PRODUCT_DATE = #{productDate,jdbcType=TIMESTAMP},
+      EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      CURRENT_STOCK_COUNT = #{currentStockCount,jdbcType=INTEGER},
+      DISPATCH_STOCK_COUNT = #{dispatchStockCount,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      DISPATCH_STATUS = #{dispatchStatus,jdbcType=INTEGER}
+    where STOCK_DISPATCH_ID = #{stockDispatchId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateStatus" parameterType="com.fuhuitong.applychain.model.StockDispatch">
+    update STOCK_DISPATCH
+    set PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR},
+      DISPATCH_STATUS = #{dispatchStatus,jdbcType=INTEGER}
+    where STOCK_DISPATCH_ID = #{stockDispatchId,jdbcType=INTEGER}
+  </update>
+</mapper>

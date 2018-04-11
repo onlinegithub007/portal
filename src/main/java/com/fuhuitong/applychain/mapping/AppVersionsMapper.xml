@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.AppVersionsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.AppVersions">
+    <id column="APP_VERSION_ID" jdbcType="INTEGER" property="appVersionId" />
+    <result column="SOFT_ID" jdbcType="BIGINT" property="softId" />
+    <result column="APP_NAME" jdbcType="VARCHAR" property="appName" />
+    <result column="OS" jdbcType="VARCHAR" property="os" />
+    <result column="SP_CODE" jdbcType="VARCHAR" property="spCode" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="VERSION" jdbcType="VARCHAR" property="version" />
+    <result column="VERSION_SN" jdbcType="INTEGER" property="versionSn" />
+    <result column="APP_SIZE" jdbcType="INTEGER" property="appSize" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="APP_DESC" jdbcType="VARCHAR" property="appDesc" />
+    <result column="UPGRADE_OPTION" jdbcType="INTEGER" property="upgradeOption" />
+    <result column="MD5" jdbcType="VARCHAR" property="md5" />
+    <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    APP_VERSION_ID, SOFT_ID, SP_CODE, MER_ID, VERSION, VERSION_SN, APP_SIZE, CREATE_DATE, 
+    APP_DESC, UPGRADE_OPTION, MD5, FILE_PATH, FILE_NAME
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from APP_VERSIONS
+    where APP_VERSION_ID = #{appVersionId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectLastedVersion" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from APP_VERSIONS
+    where SOFT_ID = #{softId,jdbcType=INTEGER}
+    order by CREATE_DATE DESC limit 1;
+  </select>
+  
+  <select id="selectByVersion" parameterType="com.fuhuitong.applychain.model.AppVersions" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from APP_VERSIONS
+    where SOFT_ID = #{softId,jdbcType=INTEGER} 
+    	and VERSION = #{version,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllVersion" parameterType="com.fuhuitong.applychain.model.AppVersions" resultMap="BaseResultMap">
+    SELECT
+		APP_VERSIONS.APP_VERSION_ID,
+		APP_VERSIONS.SP_CODE,
+		APP_VERSIONS.MER_ID,
+		APP_VERSIONS.VERSION,
+		APP_VERSIONS.VERSION_SN,
+		APP_VERSIONS.APP_SIZE,
+		APP_VERSIONS.CREATE_DATE,
+		APP_VERSIONS.APP_DESC,
+		APP_VERSIONS.UPGRADE_OPTION,
+		APP_VERSIONS.MD5,
+		APP_VERSIONS.FILE_PATH,
+		APP_VERSIONS.FILE_NAME,
+		APP_SOFTWARE.APP_NAME,
+		APP_SOFTWARE.OS
+	FROM
+		APP_SOFTWARE
+	JOIN APP_VERSIONS
+		ON APP_SOFTWARE.SOFT_ID = APP_VERSIONS.SOFT_ID
+    <if test="softId != null">
+        where APP_SOFTWARE.SOFT_ID = #{softId,jdbcType=INTEGER}
+    </if>
+    order by APP_VERSIONS.APP_VERSION_ID DESC;
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from APP_VERSIONS
+    where APP_VERSION_ID = #{appVersionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.AppVersions">
+    insert into APP_VERSIONS (APP_VERSION_ID, SOFT_ID, SP_CODE, 
+      MER_ID, VERSION, VERSION_SN, 
+      APP_SIZE, CREATE_DATE, APP_DESC, 
+      UPGRADE_OPTION, MD5, FILE_PATH, 
+      FILE_NAME)
+    values (#{appVersionId,jdbcType=INTEGER}, #{softId,jdbcType=BIGINT}, #{spCode,jdbcType=VARCHAR}, 
+      #{merId,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{versionSn,jdbcType=INTEGER}, 
+      #{appSize,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{appDesc,jdbcType=VARCHAR}, 
+      #{upgradeOption,jdbcType=INTEGER}, #{md5,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{fileName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.AppVersions">
+    insert into APP_VERSIONS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appVersionId != null">
+        APP_VERSION_ID,
+      </if>
+      <if test="softId != null">
+        SOFT_ID,
+      </if>
+      <if test="spCode != null">
+        SP_CODE,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+      <if test="versionSn != null">
+        VERSION_SN,
+      </if>
+      <if test="appSize != null">
+        APP_SIZE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="appDesc != null">
+        APP_DESC,
+      </if>
+      <if test="upgradeOption != null">
+        UPGRADE_OPTION,
+      </if>
+      <if test="md5 != null">
+        MD5,
+      </if>
+      <if test="filePath != null">
+        FILE_PATH,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appVersionId != null">
+        #{appVersionId,jdbcType=INTEGER},
+      </if>
+      <if test="softId != null">
+        #{softId,jdbcType=BIGINT},
+      </if>
+      <if test="spCode != null">
+        #{spCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="versionSn != null">
+        #{versionSn,jdbcType=INTEGER},
+      </if>
+      <if test="appSize != null">
+        #{appSize,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appDesc != null">
+        #{appDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradeOption != null">
+        #{upgradeOption,jdbcType=INTEGER},
+      </if>
+      <if test="md5 != null">
+        #{md5,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.AppVersions">
+    update APP_VERSIONS
+    <set>
+      <if test="softId != null">
+        SOFT_ID = #{softId,jdbcType=BIGINT},
+      </if>
+      <if test="spCode != null">
+        SP_CODE = #{spCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="versionSn != null">
+        VERSION_SN = #{versionSn,jdbcType=INTEGER},
+      </if>
+      <if test="appSize != null">
+        APP_SIZE = #{appSize,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appDesc != null">
+        APP_DESC = #{appDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradeOption != null">
+        UPGRADE_OPTION = #{upgradeOption,jdbcType=INTEGER},
+      </if>
+      <if test="md5 != null">
+        MD5 = #{md5,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where APP_VERSION_ID = #{appVersionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.AppVersions">
+    update APP_VERSIONS
+    set SOFT_ID = #{softId,jdbcType=BIGINT},
+      SP_CODE = #{spCode,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=VARCHAR},
+      VERSION_SN = #{versionSn,jdbcType=INTEGER},
+      APP_SIZE = #{appSize,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      APP_DESC = #{appDesc,jdbcType=VARCHAR},
+      UPGRADE_OPTION = #{upgradeOption,jdbcType=INTEGER},
+      MD5 = #{md5,jdbcType=VARCHAR},
+      FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR}
+    where APP_VERSION_ID = #{appVersionId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.GoodsMemberPriceMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.GoodsMemberPrice">
+    <id column="GOODS_MEMB_PRICE_ID" jdbcType="BIGINT" property="goodsMembPriceId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="CLIENT_LEVEL_ID" jdbcType="VARCHAR" property="clientLevelId" />
+    <result column="GOODS_TYPE_ID" jdbcType="VARCHAR" property="goodsTypeId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="GOODS_PRICE" jdbcType="INTEGER" property="goodsPrice" />
+    <result column="PRICE_PERCENT" jdbcType="INTEGER" property="pricePercent" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="EXPIRED_DATE" jdbcType="TIMESTAMP" property="expiredDate" />
+    <result column="VALID" jdbcType="BIT" property="valid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    GOODS_MEMB_PRICE_ID, MER_ID, CLIENT_LEVEL_ID, GOODS_TYPE_ID, GOODS_ID, GOODS_PRICE, PRICE_PERCENT, 
+    CREATE_DATE, EXPIRED_DATE, VALID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_MEMBER_PRICE
+    where GOODS_MEMB_PRICE_ID = #{goodsMembPriceId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByMemberLevel" parameterType="com.fuhuitong.applychain.model.GoodsMemberPrice" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_MEMBER_PRICE
+    where CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR} 
+    	and GOODS_ID = #{goodsId,jdbcType=VARCHAR} and VALID = true
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from GOODS_MEMBER_PRICE
+    where GOODS_MEMB_PRICE_ID = #{goodsMembPriceId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.GoodsMemberPrice">
+    insert into GOODS_MEMBER_PRICE (GOODS_MEMB_PRICE_ID, MER_ID, CLIENT_LEVEL_ID, 
+      GOODS_TYPE_ID, GOODS_ID, GOODS_PRICE, PRICE_PERCENT,
+      CREATE_DATE, EXPIRED_DATE, VALID
+      )
+    values (#{goodsMembPriceId,jdbcType=BIGINT}, #{merId,jdbcType=VARCHAR}, #{clientLevelId,jdbcType=VARCHAR}, 
+      #{goodsTypeId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=INTEGER}, 
+      #{pricePercent,jdbcType=INTEGER},
+      #{createDate,jdbcType=TIMESTAMP}, #{expiredDate,jdbcType=TIMESTAMP}, #{valid,jdbcType=BIT}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.GoodsMemberPrice">
+    insert into GOODS_MEMBER_PRICE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsMembPriceId != null">
+        GOODS_MEMB_PRICE_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="clientLevelId != null">
+        CLIENT_LEVEL_ID,
+      </if>
+      <if test="goodsTypeId != null">
+        GOODS_TYPE_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="goodsPrice != null">
+        GOODS_PRICE,
+      </if>
+      <if test="pricePercent != null">
+        PRICE_PERCENT,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE,
+      </if>
+      <if test="valid != null">
+        VALID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsMembPriceId != null">
+        #{goodsMembPriceId,jdbcType=BIGINT},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientLevelId != null">
+        #{clientLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeId != null">
+        #{goodsTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="pricePercent != null">
+        #{pricePercent,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.GoodsMemberPrice">
+    update GOODS_MEMBER_PRICE
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientLevelId != null">
+        CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeId != null">
+        GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="pricePercent != null">
+        PRICE_PERCENT = #{pricePercent,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="valid != null">
+        VALID = #{valid,jdbcType=BIT},
+      </if>
+    </set>
+    where GOODS_MEMB_PRICE_ID = #{goodsMembPriceId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.GoodsMemberPrice">
+    update GOODS_MEMBER_PRICE
+    set MER_ID = #{merId,jdbcType=VARCHAR},
+      CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR},
+      GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR},
+      GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+      PRICE_PERCENT = #{pricePercent,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      VALID = #{valid,jdbcType=BIT}
+    where GOODS_MEMB_PRICE_ID = #{goodsMembPriceId,jdbcType=BIGINT}
+  </update>
+</mapper>

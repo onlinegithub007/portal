@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.MemberTokensMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.MemberTokens">
+    <id column="MEM_TOKEN_ID" jdbcType="BIGINT" property="memTokenId" />
+    <result column="MEMBER_ID" jdbcType="BIGINT" property="memberId" />
+    <result column="MENMBER_TOKEN" jdbcType="VARCHAR" property="menmberToken" />
+    <result column="EXPIRED_DATE" jdbcType="TIMESTAMP" property="expiredDate" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MEM_TOKEN_ID, MEMBER_ID, MENMBER_TOKEN, EXPIRED_DATE, CREATE_DATE
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MEMBER_TOKENS
+    where MEM_TOKEN_ID = #{memTokenId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByToken" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MEMBER_TOKENS
+    where MENMBER_TOKEN = #{menmberToken,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from MEMBER_TOKENS
+    where MEM_TOKEN_ID = #{memTokenId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.MemberTokens">
+    insert into MEMBER_TOKENS (MEM_TOKEN_ID, MEMBER_ID, MENMBER_TOKEN, EXPIRED_DATE, CREATE_DATE)
+    values (#{memTokenId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{menmberToken,jdbcType=VARCHAR}, 
+    #{expiredDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.MemberTokens">
+    insert into MEMBER_TOKENS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memTokenId != null">
+        MEM_TOKEN_ID,
+      </if>
+      <if test="memberId != null">
+        MEMBER_ID,
+      </if>
+      <if test="menmberToken != null">
+        MENMBER_TOKEN,
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memTokenId != null">
+        #{memTokenId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="menmberToken != null">
+        #{menmberToken,jdbcType=VARCHAR},
+      </if>
+      <if test="expiredDate != null">
+        #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.MemberTokens">
+    update MEMBER_TOKENS
+    <set>
+      <if test="memberId != null">
+        MEMBER_ID = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="menmberToken != null">
+        MENMBER_TOKEN = #{menmberToken,jdbcType=VARCHAR},
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where MEM_TOKEN_ID = #{memTokenId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.MemberTokens">
+    update MEMBER_TOKENS
+    set MEMBER_ID = #{memberId,jdbcType=BIGINT},
+      MENMBER_TOKEN = #{menmberToken,jdbcType=VARCHAR},
+      EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP}
+    where MEM_TOKEN_ID = #{memTokenId,jdbcType=BIGINT}
+  </update>
+</mapper>

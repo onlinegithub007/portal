@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.StoreSalesReportsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.StoreSalesReports">
+    <id column="SALE_REPORT_ID" jdbcType="INTEGER" property="saleReportId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="GOODS_COST" jdbcType="REAL" property="goodsCost" />
+    <result column="GOODS_SALE_PRICE" jdbcType="INTEGER" property="goodsSalePrice" />
+    <result column="STOCK_BUY_COUNT" jdbcType="INTEGER" property="stockBuyCount" />
+    <result column="STOCK_BUY_AMOUNT" jdbcType="INTEGER" property="stockBuyAmount" />
+    <result column="GOODS_SALE_COUNT" jdbcType="INTEGER" property="goodsSaleCount" />
+    <result column="GOODS_SALE_AMOUNT" jdbcType="INTEGER" property="goodsSaleAmount" />
+    <result column="GOODS_PROFIT" jdbcType="INTEGER" property="goodsProfit" />
+    <result column="DISPATCH_OUT_COUNT" jdbcType="INTEGER" property="dispatchOutCount" />
+    <result column="DISPATCH_OUT_AMOUNT" jdbcType="INTEGER" property="dispatchOutAmount" />
+    <result column="DISPATCH_IN_COUNT" jdbcType="INTEGER" property="dispatchInCount" />
+    <result column="DISPATCH_IN_AMOUNT" jdbcType="INTEGER" property="dispatchInAmount" />
+    <result column="RETURN_COUNT" jdbcType="INTEGER" property="returnCount" />
+    <result column="RETURN_AMOUNT" jdbcType="INTEGER" property="returnAmount" />
+    <result column="GOODS_STOCK_COUNT" jdbcType="INTEGER" property="goodsStockCount" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CREATE_DATE_TEXT" jdbcType="VARCHAR" property="createDateText" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SALE_REPORT_ID, GOODS_ID, MER_ID, MER_GROUP_ID, GOODS_CODE, GOODS_NAME, GOODS_COST, 
+    GOODS_SALE_PRICE, STOCK_BUY_COUNT, STOCK_BUY_AMOUNT, GOODS_SALE_COUNT, GOODS_SALE_AMOUNT, 
+    GOODS_PROFIT, DISPATCH_OUT_COUNT, DISPATCH_OUT_AMOUNT, DISPATCH_IN_COUNT, DISPATCH_IN_AMOUNT, 
+    RETURN_COUNT, RETURN_AMOUNT, GOODS_STOCK_COUNT, CREATE_DATE, CREATE_DATE_TEXT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STORE_SALES_REPORTS
+    where SALE_REPORT_ID = #{saleReportId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByDate" parameterType="com.fuhuitong.applychain.model.StoreSalesReports" resultMap="BaseResultMap">
+    SELECT
+		STORE_SALES_REPORTS.SALE_REPORT_ID,
+		STORE_SALES_REPORTS.GOODS_ID,
+		STORE_SALES_REPORTS.MER_ID,
+		STORE_SALES_REPORTS.MER_GROUP_ID,
+		STORE_SALES_REPORTS.GOODS_CODE,
+		STORE_SALES_REPORTS.GOODS_NAME,
+		STORE_SALES_REPORTS.GOODS_COST,
+		STORE_SALES_REPORTS.GOODS_SALE_PRICE,
+		STORE_SALES_REPORTS.STOCK_BUY_COUNT,
+		STORE_SALES_REPORTS.STOCK_BUY_AMOUNT,
+		STORE_SALES_REPORTS.GOODS_SALE_COUNT,
+		STORE_SALES_REPORTS.GOODS_SALE_AMOUNT,
+		STORE_SALES_REPORTS.GOODS_PROFIT,
+		STORE_SALES_REPORTS.DISPATCH_OUT_COUNT,
+		STORE_SALES_REPORTS.DISPATCH_OUT_AMOUNT,
+		STORE_SALES_REPORTS.DISPATCH_IN_COUNT,
+		STORE_SALES_REPORTS.DISPATCH_IN_AMOUNT,
+		STORE_SALES_REPORTS.RETURN_COUNT,
+		STORE_SALES_REPORTS.RETURN_AMOUNT,
+		STORE_SALES_REPORTS.GOODS_STOCK_COUNT,
+		STORE_SALES_REPORTS.CREATE_DATE,
+		STORE_SALES_REPORTS.CREATE_DATE_TEXT,
+		GOODS_INFO.IMPORT_SN
+	FROM
+		STORE_SALES_REPORTS
+		JOIN GOODS_INFO
+		ON STORE_SALES_REPORTS.GOODS_ID = GOODS_INFO.GOODS_ID
+    where STORE_SALES_REPORTS.CREATE_DATE_TEXT = #{createDateText,jdbcType=VARCHAR}
+    	and STORE_SALES_REPORTS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+   	order by GOODS_INFO.IMPORT_SN ASC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from STORE_SALES_REPORTS
+    where SALE_REPORT_ID = #{saleReportId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByDay" parameterType="com.fuhuitong.applychain.model.StoreSalesReports">
+    delete from STORE_SALES_REPORTS
+    where MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR} and CREATE_DATE_TEXT = #{createDateText,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.StoreSalesReports">
+    insert into STORE_SALES_REPORTS (SALE_REPORT_ID, GOODS_ID, MER_ID, 
+      MER_GROUP_ID, GOODS_CODE, GOODS_NAME, 
+      GOODS_COST, GOODS_SALE_PRICE, STOCK_BUY_COUNT, 
+      STOCK_BUY_AMOUNT, GOODS_SALE_COUNT, GOODS_SALE_AMOUNT, 
+      GOODS_PROFIT, DISPATCH_OUT_COUNT, DISPATCH_OUT_AMOUNT, 
+      DISPATCH_IN_COUNT, DISPATCH_IN_AMOUNT, RETURN_COUNT, 
+      RETURN_AMOUNT, GOODS_STOCK_COUNT, CREATE_DATE, 
+      CREATE_DATE_TEXT)
+    values (#{saleReportId,jdbcType=INTEGER}, #{goodsId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, 
+      #{merGroupId,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{goodsCost,jdbcType=REAL}, #{goodsSalePrice,jdbcType=INTEGER}, #{stockBuyCount,jdbcType=INTEGER}, 
+      #{stockBuyAmount,jdbcType=INTEGER}, #{goodsSaleCount,jdbcType=INTEGER}, #{goodsSaleAmount,jdbcType=INTEGER}, 
+      #{goodsProfit,jdbcType=INTEGER}, #{dispatchOutCount,jdbcType=INTEGER}, #{dispatchOutAmount,jdbcType=INTEGER}, 
+      #{dispatchInCount,jdbcType=INTEGER}, #{dispatchInAmount,jdbcType=INTEGER}, #{returnCount,jdbcType=INTEGER}, 
+      #{returnAmount,jdbcType=INTEGER}, #{goodsStockCount,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createDateText,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="initReport" parameterType="com.fuhuitong.applychain.model.StoreSalesReports">
+    insert into STORE_SALES_REPORTS (GOODS_ID, MER_ID, 
+      MER_GROUP_ID, GOODS_CODE, GOODS_NAME, 
+      GOODS_COST, GOODS_STOCK_COUNT, CREATE_DATE, 
+      CREATE_DATE_TEXT)
+    SELECT
+		GOODS_STOCK_DETAIL.GOODS_ID,
+		#{merId,jdbcType=VARCHAR},
+		#{merGroupId,jdbcType=VARCHAR},
+		GOODS_INFO.GOODS_CODE,
+		GOODS_INFO.GOODS_NAME,
+		GOODS_STOCK_DETAIL.GOODS_COST,
+		sum(GOODS_STOCK_DETAIL.STOCK_COUNT),
+		#{createDate,jdbcType=TIMESTAMP},
+		 #{createDateText,jdbcType=VARCHAR}
+	FROM
+		GOODS_STOCK_DETAIL
+		JOIN GOODS_INFO
+		ON GOODS_STOCK_DETAIL.GOODS_ID = GOODS_INFO.GOODS_ID 
+		where GOODS_STOCK_DETAIL.OWNER_ID = #{merGroupId,jdbcType=VARCHAR}
+	group by GOODS_STOCK_DETAIL.GOODS_ID,GOODS_STOCK_DETAIL.GOODS_COST,
+		GOODS_INFO.GOODS_CODE,
+		GOODS_INFO.GOODS_NAME
+	order by GOODS_INFO.IMPORT_SN ASC
+  </insert>
+  
+  <update id="updateGoodsPrice" parameterType="com.fuhuitong.applychain.model.StoreSalesReports">
+    update STORE_SALES_REPORTS 
+    	INNER JOIN GOODS_PRICE ON STORE_SALES_REPORTS.GOODS_ID = GOODS_PRICE.GOODS_ID
+	SET STORE_SALES_REPORTS.GOODS_SALE_PRICE = GOODS_PRICE.GOODS_PRICE
+	WHERE GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR} AND STORE_SALES_REPORTS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+	AND STORE_SALES_REPORTS.CREATE_DATE_TEXT =  #{createDateText,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateGoodsDispathIn" parameterType="com.fuhuitong.applychain.model.StockDispatch">
+    update STORE_SALES_REPORTS 
+    set 
+        DISPATCH_IN_COUNT = #{dispatchStockCount,jdbcType=INTEGER},
+        DISPATCH_IN_AMOUNT = #{goodsCost,jdbcType=INTEGER}
+	WHERE MER_GROUP_ID = #{toStoreId,jdbcType=VARCHAR} AND GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+		AND CREATE_DATE_TEXT =  #{dateText,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateGoodsDispathOut" parameterType="com.fuhuitong.applychain.model.StockDispatch">
+    update STORE_SALES_REPORTS 
+    set 
+    	DISPATCH_OUT_COUNT = #{dispatchStockCount,jdbcType=INTEGER},
+        DISPATCH_OUT_AMOUNT = #{goodsCost,jdbcType=INTEGER}
+	WHERE MER_GROUP_ID = #{fromStoreId,jdbcType=VARCHAR} AND GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+		AND CREATE_DATE_TEXT =  #{dateText,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.StoreSalesReports">
+    insert into STORE_SALES_REPORTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="saleReportId != null">
+        SALE_REPORT_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE,
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME,
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST,
+      </if>
+      <if test="goodsSalePrice != null">
+        GOODS_SALE_PRICE,
+      </if>
+      <if test="stockBuyCount != null">
+        STOCK_BUY_COUNT,
+      </if>
+      <if test="stockBuyAmount != null">
+        STOCK_BUY_AMOUNT,
+      </if>
+      <if test="goodsSaleCount != null">
+        GOODS_SALE_COUNT,
+      </if>
+      <if test="goodsSaleAmount != null">
+        GOODS_SALE_AMOUNT,
+      </if>
+      <if test="goodsProfit != null">
+        GOODS_PROFIT,
+      </if>
+      <if test="dispatchOutCount != null">
+        DISPATCH_OUT_COUNT,
+      </if>
+      <if test="dispatchOutAmount != null">
+        DISPATCH_OUT_AMOUNT,
+      </if>
+      <if test="dispatchInCount != null">
+        DISPATCH_IN_COUNT,
+      </if>
+      <if test="dispatchInAmount != null">
+        DISPATCH_IN_AMOUNT,
+      </if>
+      <if test="returnCount != null">
+        RETURN_COUNT,
+      </if>
+      <if test="returnAmount != null">
+        RETURN_AMOUNT,
+      </if>
+      <if test="goodsStockCount != null">
+        GOODS_STOCK_COUNT,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="createDateText != null">
+        CREATE_DATE_TEXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="saleReportId != null">
+        #{saleReportId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        #{goodsCost,jdbcType=REAL},
+      </if>
+      <if test="goodsSalePrice != null">
+        #{goodsSalePrice,jdbcType=INTEGER},
+      </if>
+      <if test="stockBuyCount != null">
+        #{stockBuyCount,jdbcType=INTEGER},
+      </if>
+      <if test="stockBuyAmount != null">
+        #{stockBuyAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSaleCount != null">
+        #{goodsSaleCount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSaleAmount != null">
+        #{goodsSaleAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsProfit != null">
+        #{goodsProfit,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchOutCount != null">
+        #{dispatchOutCount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchOutAmount != null">
+        #{dispatchOutAmount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchInCount != null">
+        #{dispatchInCount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchInAmount != null">
+        #{dispatchInAmount,jdbcType=INTEGER},
+      </if>
+      <if test="returnCount != null">
+        #{returnCount,jdbcType=INTEGER},
+      </if>
+      <if test="returnAmount != null">
+        #{returnAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsStockCount != null">
+        #{goodsStockCount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDateText != null">
+        #{createDateText,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.StoreSalesReports">
+    update STORE_SALES_REPORTS
+    <set>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST = #{goodsCost,jdbcType=REAL},
+      </if>
+      <if test="goodsSalePrice != null">
+        GOODS_SALE_PRICE = #{goodsSalePrice,jdbcType=INTEGER},
+      </if>
+      <if test="stockBuyCount != null">
+        STOCK_BUY_COUNT = #{stockBuyCount,jdbcType=INTEGER},
+      </if>
+      <if test="stockBuyAmount != null">
+        STOCK_BUY_AMOUNT = #{stockBuyAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSaleCount != null">
+        GOODS_SALE_COUNT = #{goodsSaleCount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSaleAmount != null">
+        GOODS_SALE_AMOUNT = #{goodsSaleAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsProfit != null">
+        GOODS_PROFIT = #{goodsProfit,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchOutCount != null">
+        DISPATCH_OUT_COUNT = #{dispatchOutCount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchOutAmount != null">
+        DISPATCH_OUT_AMOUNT = #{dispatchOutAmount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchInCount != null">
+        DISPATCH_IN_COUNT = #{dispatchInCount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchInAmount != null">
+        DISPATCH_IN_AMOUNT = #{dispatchInAmount,jdbcType=INTEGER},
+      </if>
+      <if test="returnCount != null">
+        RETURN_COUNT = #{returnCount,jdbcType=INTEGER},
+      </if>
+      <if test="returnAmount != null">
+        RETURN_AMOUNT = #{returnAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsStockCount != null">
+        GOODS_STOCK_COUNT = #{goodsStockCount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDateText != null">
+        CREATE_DATE_TEXT = #{createDateText,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SALE_REPORT_ID = #{saleReportId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.StoreSalesReports">
+    update STORE_SALES_REPORTS
+    set GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      GOODS_COST = #{goodsCost,jdbcType=REAL},
+      GOODS_SALE_PRICE = #{goodsSalePrice,jdbcType=INTEGER},
+      STOCK_BUY_COUNT = #{stockBuyCount,jdbcType=INTEGER},
+      STOCK_BUY_AMOUNT = #{stockBuyAmount,jdbcType=INTEGER},
+      GOODS_SALE_COUNT = #{goodsSaleCount,jdbcType=INTEGER},
+      GOODS_SALE_AMOUNT = #{goodsSaleAmount,jdbcType=INTEGER},
+      GOODS_PROFIT = #{goodsProfit,jdbcType=INTEGER},
+      DISPATCH_OUT_COUNT = #{dispatchOutCount,jdbcType=INTEGER},
+      DISPATCH_OUT_AMOUNT = #{dispatchOutAmount,jdbcType=INTEGER},
+      DISPATCH_IN_COUNT = #{dispatchInCount,jdbcType=INTEGER},
+      DISPATCH_IN_AMOUNT = #{dispatchInAmount,jdbcType=INTEGER},
+      RETURN_COUNT = #{returnCount,jdbcType=INTEGER},
+      RETURN_AMOUNT = #{returnAmount,jdbcType=INTEGER},
+      GOODS_STOCK_COUNT = #{goodsStockCount,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_DATE_TEXT = #{createDateText,jdbcType=VARCHAR}
+    where SALE_REPORT_ID = #{saleReportId,jdbcType=INTEGER}
+  </update>
+</mapper>

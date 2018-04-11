@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.GoodsStockMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.GoodsStock">
+    <id column="GOODS_STOCK_ID" jdbcType="BIGINT" property="goodsStockId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="OWNER_TYPE" jdbcType="INTEGER" property="ownerType" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="STOCK_AMOUNT" jdbcType="INTEGER" property="stockAmount" />
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    GOODS_STOCK_ID, GOODS_ID, OWNER_TYPE, OWNER_ID, GOODS_CODE, STOCK_AMOUNT
+  </sql>
+  
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_STOCK
+    where GOODS_STOCK_ID = #{goodsStockId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByStore" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_STOCK
+    where OWNER_ID = #{merGroupId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectStoreStockByGoodsId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		GOODS_STOCK.GOODS_STOCK_ID,
+		GOODS_STOCK.GOODS_ID,
+		GOODS_STOCK.OWNER_TYPE,
+		GOODS_STOCK.OWNER_ID,
+		GOODS_STOCK.GOODS_CODE,
+		GOODS_STOCK.STOCK_AMOUNT,
+		MERCHANT_GROUPS.GROUP_NAME,
+		MERCHANT_GROUPS.MER_GROUP_ID
+	FROM
+		GOODS_STOCK JOIN MERCHANT_GROUPS
+		ON GOODS_STOCK.OWNER_ID = MERCHANT_GROUPS.MER_GROUP_ID
+    where GOODS_STOCK.GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectStoreStockByGoodsId2" parameterType="com.fuhuitong.applychain.model.GoodsStock" resultMap="BaseResultMap">
+    SELECT
+		GOODS_STOCK.GOODS_STOCK_ID,
+		GOODS_STOCK.GOODS_ID,
+		GOODS_STOCK.OWNER_TYPE,
+		GOODS_STOCK.OWNER_ID,
+		GOODS_STOCK.GOODS_CODE,
+		GOODS_STOCK.STOCK_AMOUNT,
+		MERCHANT_GROUPS.GROUP_NAME,
+		MERCHANT_GROUPS.MER_GROUP_ID
+	FROM
+		GOODS_STOCK JOIN MERCHANT_GROUPS
+		ON GOODS_STOCK.OWNER_ID = MERCHANT_GROUPS.MER_GROUP_ID
+    where GOODS_STOCK.GOODS_ID = #{goodsId,jdbcType=VARCHAR} and GOODS_STOCK.OWNER_ID = #{ownerId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectStoreStockCountByGoodsId" parameterType="java.lang.String" resultMap="allRecordCount">
+    SELECT
+		COUNT(GOODS_STOCK.GOODS_STOCK_ID) as DATA_COUNT
+	FROM
+		GOODS_STOCK JOIN MERCHANT_GROUPS
+		ON GOODS_STOCK.OWNER_ID = MERCHANT_GROUPS.MER_GROUP_ID
+    where GOODS_STOCK.GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from GOODS_STOCK
+    where GOODS_STOCK_ID = #{goodsStockId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.GoodsStock">
+    insert into GOODS_STOCK (GOODS_STOCK_ID, GOODS_ID, OWNER_TYPE, 
+      OWNER_ID, GOODS_CODE, STOCK_AMOUNT
+      )
+    values (#{goodsStockId,jdbcType=BIGINT}, #{goodsId,jdbcType=VARCHAR}, #{ownerType,jdbcType=INTEGER}, 
+      #{ownerId,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, #{stockAmount,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.GoodsStock">
+    insert into GOODS_STOCK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsStockId != null">
+        GOODS_STOCK_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="ownerType != null">
+        OWNER_TYPE,
+      </if>
+      <if test="ownerId != null">
+        OWNER_ID,
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE,
+      </if>
+      <if test="stockAmount != null">
+        STOCK_AMOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsStockId != null">
+        #{goodsStockId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerType != null">
+        #{ownerType,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockAmount != null">
+        #{stockAmount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.GoodsStock">
+    update GOODS_STOCK
+    <set>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerType != null">
+        OWNER_TYPE = #{ownerType,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null">
+        OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockAmount != null">
+        STOCK_AMOUNT = #{stockAmount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where GOODS_STOCK_ID = #{goodsStockId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.GoodsStock">
+    update GOODS_STOCK
+    set GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      OWNER_TYPE = #{ownerType,jdbcType=INTEGER},
+      OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+      GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      STOCK_AMOUNT = #{stockAmount,jdbcType=INTEGER}
+    where GOODS_STOCK_ID = #{goodsStockId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateMerchantStock" parameterType="com.fuhuitong.applychain.model.GoodsStock">
+    update GOODS_STOCK
+    set 
+      STOCK_AMOUNT = #{stockAmount,jdbcType=INTEGER}
+    where GOODS_STOCK_ID = #{goodsStockId,jdbcType=BIGINT} and OWNER_ID = #{ownerId,jdbcType=VARCHAR} and GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateMerchantStock2" parameterType="com.fuhuitong.applychain.model.GoodsStock">
+    update GOODS_STOCK
+    set 
+      STOCK_AMOUNT = STOCK_AMOUNT + #{stockAmount,jdbcType=INTEGER}
+    where GOODS_STOCK_ID = #{goodsStockId,jdbcType=BIGINT} and OWNER_ID = #{ownerId,jdbcType=VARCHAR} and GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="statUpdateStoreStock" parameterType="com.fuhuitong.applychain.model.GoodsStock">
+    update GOODS_STOCK
+    set 
+      STOCK_AMOUNT = (select sum(STOCK_COUNT) from GOODS_STOCK_DETAIL where OWNER_ID = #{ownerId,jdbcType=VARCHAR} 
+      and GOODS_ID = #{goodsId,jdbcType=VARCHAR} and STOCK_DETAIL_STATUS=0 and STOCK_BILL_TYPE=0)
+    where OWNER_ID = #{ownerId,jdbcType=VARCHAR} and GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

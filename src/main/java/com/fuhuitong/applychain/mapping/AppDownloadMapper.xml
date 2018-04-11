@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.AppDownloadMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.AppDownload">
+    <id column="APP_DOWN_ID" jdbcType="BIGINT" property="appDownId" />
+    <result column="APP_VERSION_ID" jdbcType="INTEGER" property="appVersionId" />
+    <result column="SOFT_ID" jdbcType="INTEGER" property="softId" />
+    <result column="IP_ADDRESS" jdbcType="VARCHAR" property="ipAddress" />
+    <result column="LONGITUDE" jdbcType="VARCHAR" property="longitude" />
+    <result column="LATITUDE" jdbcType="VARCHAR" property="latitude" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="OS" jdbcType="VARCHAR" property="os" />
+    <result column="DEVICE_TYPE" jdbcType="VARCHAR" property="deviceType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    APP_DOWN_ID, APP_VERSION_ID, SOFT_ID, IP_ADDRESS, LONGITUDE, LATITUDE, CREATE_DATE, 
+    OS, DEVICE_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from APP_DOWNLOAD
+    where APP_DOWN_ID = #{appDownId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from APP_DOWNLOAD
+    where APP_DOWN_ID = #{appDownId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.AppDownload">
+    insert into APP_DOWNLOAD (APP_DOWN_ID, APP_VERSION_ID, SOFT_ID, 
+      IP_ADDRESS, LONGITUDE, LATITUDE, 
+      CREATE_DATE, OS, DEVICE_TYPE
+      )
+    values (#{appDownId,jdbcType=BIGINT}, #{appVersionId,jdbcType=INTEGER}, #{softId,jdbcType=INTEGER}, 
+      #{ipAddress,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{os,jdbcType=VARCHAR}, #{deviceType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.AppDownload">
+    insert into APP_DOWNLOAD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appDownId != null">
+        APP_DOWN_ID,
+      </if>
+      <if test="appVersionId != null">
+        APP_VERSION_ID,
+      </if>
+      <if test="softId != null">
+        SOFT_ID,
+      </if>
+      <if test="ipAddress != null">
+        IP_ADDRESS,
+      </if>
+      <if test="longitude != null">
+        LONGITUDE,
+      </if>
+      <if test="latitude != null">
+        LATITUDE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="os != null">
+        OS,
+      </if>
+      <if test="deviceType != null">
+        DEVICE_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appDownId != null">
+        #{appDownId,jdbcType=BIGINT},
+      </if>
+      <if test="appVersionId != null">
+        #{appVersionId,jdbcType=INTEGER},
+      </if>
+      <if test="softId != null">
+        #{softId,jdbcType=INTEGER},
+      </if>
+      <if test="ipAddress != null">
+        #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="os != null">
+        #{os,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.AppDownload">
+    update APP_DOWNLOAD
+    <set>
+      <if test="appVersionId != null">
+        APP_VERSION_ID = #{appVersionId,jdbcType=INTEGER},
+      </if>
+      <if test="softId != null">
+        SOFT_ID = #{softId,jdbcType=INTEGER},
+      </if>
+      <if test="ipAddress != null">
+        IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        LONGITUDE = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        LATITUDE = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="os != null">
+        OS = #{os,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where APP_DOWN_ID = #{appDownId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.AppDownload">
+    update APP_DOWNLOAD
+    set APP_VERSION_ID = #{appVersionId,jdbcType=INTEGER},
+      SOFT_ID = #{softId,jdbcType=INTEGER},
+      IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
+      LONGITUDE = #{longitude,jdbcType=VARCHAR},
+      LATITUDE = #{latitude,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      OS = #{os,jdbcType=VARCHAR},
+      DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR}
+    where APP_DOWN_ID = #{appDownId,jdbcType=BIGINT}
+  </update>
+</mapper>

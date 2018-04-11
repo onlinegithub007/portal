@@ -1,0 +1,354 @@
+[{
+	"id": "1",
+	"pid": "0",
+	"title": "基础管理",
+	"icon": "&#xe75c;",
+	"url": "",
+	"spread": false,
+	"children": [{
+		"id": "2",
+		"pid": "0",
+		"title": "首页",
+		"icon": "&#xe79c;",
+		"url": "main.html",
+		"spread": false
+	}, {
+		"id": "3",
+		"pid": "0",
+		"title": "我的面板",
+		"icon": "&#xe9b6;",
+		"url": "",
+		"spread": true,
+		"children": [{
+			"id": "4",
+			"pid": "0",
+			"title": "个人信息",
+			"icon": "&#xe689;",
+			"url": "personal.html",
+			"spread": false
+		}, {
+			"id": "5",
+			"pid": "0",
+			"title": "修改密码",
+			"icon": "&#xe7ce;",
+			"url": "password.html",
+			"spread": false
+		}]
+	}, 
+	{
+		"id": "10",
+		"pid": "0",
+		"title": "门店管理",
+		"icon": "&#xe64b;",
+		"url": "",
+		"spread": false,
+		"children": [{
+			"id": "11",
+			"pid": "0",
+			"title": "门店管理",
+			"icon": "&#xe8f4;",
+			"url": "merchant_stores.html",
+			"spread": false
+		}]
+	  },
+	{
+		"id": "6",
+		"pid": "0",
+		"title": "系统设置",
+		"icon": "&#xe64b;",
+		"url": "",
+		"spread": false,
+		"children": [{
+			"id": "7",
+			"pid": "0",
+			"title": "部门管理",
+			"icon": "&#xe8f4;",
+			"url": "merchant_groups.html",
+			"spread": false
+		},{
+			"id": "8",
+			"pid": "0",
+			"title": "用户管理",
+			"icon": "&#xe70b;",
+			"url": "merchant_users.html",
+			"spread": false
+		}]
+	}]
+}, {
+	"id": "1",
+	"pid": "0",
+	"title": "商品管理",
+	"icon": "&#xe89e;",
+	"url": "",
+	"spread": false,
+	"children": [{
+		"id": "6",
+		"pid": "0",
+		"title": "管理面板",
+		"icon": "&#xe9b6;",
+		"url": "",
+		"spread": true,
+		"children": [{
+			"id": "7",
+			"pid": "0",
+			"title": "商品分类管理",
+			"icon": "&#xe683;",
+			"url": "goods_types.html",
+			"spread": false
+		}, {
+			"id": "8",
+			"pid": "0",
+			"title": "供应商管理",
+			"icon": "&#xe8bf;",
+			"url": "merchant_providers.html",
+			"spread": false
+		},
+		 {
+			"id": "8",
+			"pid": "0",
+			"title": "商品信息管理",
+			"icon": "&#xe8e8;",
+			"url": "goods.html",
+			"spread": false
+		},
+		{
+			"id": "9",
+			"pid": "0",
+			"title": "门店价格管理",
+			"icon": "&#xe754;",
+			"url": "stores_goods_price_select.html",
+			"spread": false
+		},
+		{
+			"id": "10",
+			"pid": "0",
+			"title": "会员价格管理",
+			"icon": "&#xe978;",
+			"url": "member_price_select.html",
+			"spread": false
+		}]
+	}]
+},
+{
+	"id": "1",
+	"pid": "0",
+	"title": "库存管理",
+	"icon": "&#xe761;",
+	"url": "",
+	"spread": false,
+	"children": [{
+		"id": "6",
+		"pid": "0",
+		"title": "门店库存",
+		"icon": "&#xe78b;",
+		"url": "",
+		"spread": true,
+		"children": [{
+			"id": "7",
+			"pid": "0",
+			"title": "库存盘点",
+			"icon": "&#xe9c2;",
+			"url": "store_goods_stock.html",
+			"spread": false
+		},
+		{
+			"id": "8",
+			"pid": "0",
+			"title": "订货管理",
+			"icon": "&#xe930;",
+			"url": "store_stock_orders.html",
+			"spread": false
+		},
+		{
+			"id": "8",
+			"pid": "0",
+			"title": "收货确认",
+			"icon": "&#xea0a;",
+			"url": "store_stock_orders_ack.html",
+			"spread": false
+		},
+		{
+			"id": "8",
+			"pid": "0",
+			"title": "出库确认",
+			"icon": "&#xea0a;",
+			"url": "store_goods_stock_out.html",
+			"spread": false
+		}]
+	},
+	{
+		"id": "6",
+		"pid": "0",
+		"title": "总部库存管理",
+		"icon": "&#xe78b;",
+		"url": "",
+		"spread": true,
+		"children": [{
+			"id": "7",
+			"pid": "0",
+			"title": "库存盘点",
+			"icon": "&#xe9c2;",
+			"url": "merchant_goods_stock.html",
+			"spread": false
+		},
+		{
+			"id": "8",
+			"pid": "0",
+			"title": "订货初审",
+			"icon": "&#xe9a5;",
+			"url": "store_stock_orders_audit.html?stockOrderStatus=1",
+			"spread": false
+		},
+		{
+			"id": "8",
+			"pid": "0",
+			"title": "订货复审",
+			"icon": "&#xe9a5;",
+			"url": "store_stock_orders_audit.html?stockOrderStatus=2",
+			"spread": false
+		},
+		{
+			"id": "8",
+			"pid": "0",
+			"title": "进货单处理",
+			"icon": "&#xea0a;",
+			"url": "store_stock_orders_audit.html?stockOrderStatus=3",
+			"spread": false
+		},
+		{
+			"id": "8",
+			"pid": "0",
+			"title": "进货单综合查询",
+			"icon": "&#xea0a;",
+			"url": "merchant_info.html",
+			"spread": false
+		}
+		]
+	}
+	]
+},
+{
+	"id": "1",
+	"pid": "0",
+	"title": "销售管理",
+	"icon": "&#xe9b4;",
+	"url": "",
+	"spread": false,
+	"children": [{
+		"id": "6",
+		"pid": "0",
+		"title": "管理面板",
+		"icon": "&#xe78b;",
+		"url": "",
+		"spread": true,
+		"children": [{
+			"id": "7",
+			"pid": "0",
+			"title": "总部交易数据",
+			"icon": "&#xe88c;",
+			"url": "merchants.html",
+			"spread": false
+		}, {
+			"id": "8",
+			"pid": "0",
+			"title": "门店交易数据",
+			"icon": "&#xea0a;",
+			"url": "merchant_info.html",
+			"spread": false
+		},
+		{
+			"id": "9",
+			"pid": "0",
+			"title": "门店交易对账",
+			"icon": "&#xea0a;",
+			"url": "merchant_info.html",
+			"spread": false
+		}]
+	}]
+},
+{
+	"id": "1",
+	"pid": "0",
+	"title": "会员管理",
+	"icon": "&#xe9b4;",
+	"url": "",
+	"spread": false,
+	"children": [{
+		"id": "6",
+		"pid": "0",
+		"title": "会员信息",
+		"icon": "&#xe78b;",
+		"url": "",
+		"spread": true,
+		"children": [{
+			"id": "7",
+			"pid": "0",
+			"title": "会员级别定义",
+			"icon": "&#xe88c;",
+			"url": "member_client_level.html",
+			"spread": false
+		}, {
+			"id": "8",
+			"pid": "0",
+			"title": "会员信息管理",
+			"icon": "&#xea0a;",
+			"url": "merchant_info.html",
+			"spread": false
+		},
+		{
+			"id": "9",
+			"pid": "0",
+			"title": "新注册会员",
+			"icon": "&#xea0a;",
+			"url": "merchant_info.html",
+			"spread": false
+		},
+		{
+			"id": "9",
+			"pid": "0",
+			"title": "会员充值对账",
+			"icon": "&#xea0a;",
+			"url": "merchant_info.html",
+			"spread": false
+		},
+		{
+			"id": "9",
+			"pid": "0",
+			"title": "会员用户分析",
+			"icon": "&#xea0a;",
+			"url": "merchant_info.html",
+			"spread": false
+		}]
+	},
+	{
+		"id": "6",
+		"pid": "0",
+		"title": "会员促销",
+		"icon": "&#xe78b;",
+		"url": "",
+		"spread": true,
+		"children": [{
+			"id": "7",
+			"pid": "0",
+			"title": "会员优惠券",
+			"icon": "&#xe88c;",
+			"url": "merchants.html",
+			"spread": false
+		}, {
+			"id": "8",
+			"pid": "0",
+			"title": "会员卡券管理",
+			"icon": "&#xea0a;",
+			"url": "merchant_info.html",
+			"spread": false
+		},
+		{
+			"id": "8",
+			"pid": "0",
+			"title": "优惠活动管理",
+			"icon": "&#xea0a;",
+			"url": "merchant_info.html",
+			"spread": false
+		}]
+	}]
+}]

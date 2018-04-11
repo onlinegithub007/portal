@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.BindingGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.BindingGoods">
+    <id column="BIND_GOODS_ID" jdbcType="VARCHAR" property="bindGoodsId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="GOODS_PRICE" jdbcType="INTEGER" property="goodsPrice" />
+    <result column="BIND_ACTIVE" jdbcType="BIT" property="bindActive" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    BIND_GOODS_ID, MER_ID, MER_GROUP_ID, GOODS_CODE, GOODS_NAME, GOODS_PRICE, BIND_ACTIVE
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BINDING_GOODS
+    where BIND_GOODS_ID = #{bindGoodsId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByCode" parameterType="com.fuhuitong.applychain.model.BindingGoods" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BINDING_GOODS
+    where GOODS_CODE = #{goodsCode,jdbcType=VARCHAR} AND MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByStore" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BINDING_GOODS
+    where MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from BINDING_GOODS
+    where BIND_GOODS_ID = #{bindGoodsId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.BindingGoods">
+    insert into BINDING_GOODS (BIND_GOODS_ID, MER_ID, MER_GROUP_ID, 
+      GOODS_CODE, GOODS_NAME, GOODS_PRICE, 
+      BIND_ACTIVE)
+    values (#{bindGoodsId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, #{merGroupId,jdbcType=VARCHAR}, 
+      #{goodsCode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=INTEGER}, 
+      #{bindActive,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.BindingGoods">
+    insert into BINDING_GOODS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bindGoodsId != null">
+        BIND_GOODS_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE,
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME,
+      </if>
+      <if test="goodsPrice != null">
+        GOODS_PRICE,
+      </if>
+      <if test="bindActive != null">
+        BIND_ACTIVE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bindGoodsId != null">
+        #{bindGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="bindActive != null">
+        #{bindActive,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.BindingGoods">
+    update BINDING_GOODS
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="bindActive != null">
+        BIND_ACTIVE = #{bindActive,jdbcType=BIT},
+      </if>
+    </set>
+    where BIND_GOODS_ID = #{bindGoodsId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.BindingGoods">
+    update BINDING_GOODS
+    set MER_ID = #{merId,jdbcType=VARCHAR},
+      MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+      BIND_ACTIVE = #{bindActive,jdbcType=BIT}
+    where BIND_GOODS_ID = #{bindGoodsId,jdbcType=VARCHAR}
+  </update>
+</mapper>

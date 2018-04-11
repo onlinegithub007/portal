@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.MerchantsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.Merchants">
+    <id column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="SP_CODE" jdbcType="VARCHAR" property="spCode" />
+    <result column="AREA_ID" jdbcType="VARCHAR" property="areaId" />
+    <result column="MER_CODE" jdbcType="VARCHAR" property="merCode" />
+    <result column="MER_NAME" jdbcType="VARCHAR" property="merName" />
+    <result column="MER_FULL_NAME" jdbcType="VARCHAR" property="merFullName" />
+    <result column="MER_LOGO" jdbcType="VARCHAR" property="merLogo" />
+    <result column="TRADE" jdbcType="VARCHAR" property="trade" />
+    <result column="MER_SCALE" jdbcType="VARCHAR" property="merScale" />
+    <result column="MER_ADDRESS" jdbcType="VARCHAR" property="merAddress" />
+    <result column="LINK_MAN" jdbcType="VARCHAR" property="linkMan" />
+    <result column="LINK_MAN_PHONE" jdbcType="VARCHAR" property="linkManPhone" />
+    <result column="LINK_MAN_EMAIL" jdbcType="VARCHAR" property="linkManEmail" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CHECK_DATE" jdbcType="TIMESTAMP" property="checkDate" />
+    <result column="CHECKOR" jdbcType="VARCHAR" property="checkor" />
+    <result column="WEIXIN_PAY_CODE" jdbcType="VARCHAR" property="weixinPayCode" />
+    <result column="NOTICE_URL" jdbcType="VARCHAR" property="noticeUrl" />
+    <result column="ALIPAY_PAY_CODE" jdbcType="VARCHAR" property="alipayPayCode" />
+    <result column="MER_STATUS" jdbcType="INTEGER" property="merStatus" />
+    <result column="DEL_STATUS" jdbcType="INTEGER" property="delStatus" />
+    <result column="BEST_PAY_CODE" jdbcType="VARCHAR" property="bestPayCode" />
+    <result column="BANK_PAY_CODE" jdbcType="VARCHAR" property="bankPayCode" />
+    
+    <result column="PRODUCT_ROLE_ID" jdbcType="INTEGER" property="productRoleId" />
+    <result column="MER_ROLE_STATUS" jdbcType="INTEGER" property="merRoleStatus" />
+    <result column="FULL_NAME" jdbcType="VARCHAR" property="areaFullName" />
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    MER_ID, SP_CODE, AREA_ID, MER_CODE, MER_NAME, MER_FULL_NAME, MER_LOGO, TRADE, MER_SCALE, 
+    MER_ADDRESS, LINK_MAN, LINK_MAN_PHONE, LINK_MAN_EMAIL, CREATE_DATE, CREATOR, CHECK_DATE, 
+    CHECKOR, WEIXIN_PAY_CODE, NOTICE_URL, ALIPAY_PAY_CODE, MER_STATUS, DEL_STATUS, BEST_PAY_CODE, 
+    BANK_PAY_CODE
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANTS
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllByRole" parameterType="com.fuhuitong.applychain.model.Merchants" resultMap="BaseResultMap">
+    SELECT
+		AREAS.FULL_NAME,
+		MERCHANT_ROLE.PRODUCT_ROLE_ID,
+		MERCHANT_ROLE.MER_ROLE_STATUS,
+		MERCHANTS.MER_ID,
+		MERCHANTS.SP_CODE,
+		MERCHANTS.AREA_ID,
+		MERCHANTS.MER_CODE,
+		MERCHANTS.MER_NAME,
+		MERCHANTS.MER_FULL_NAME,
+		MERCHANTS.MER_LOGO,
+		MERCHANTS.TRADE,
+		MERCHANTS.MER_SCALE,
+		MERCHANTS.MER_ADDRESS,
+		MERCHANTS.LINK_MAN,
+		MERCHANTS.LINK_MAN_PHONE,
+		MERCHANTS.LINK_MAN_EMAIL,
+		MERCHANTS.CREATE_DATE,
+		MERCHANTS.CREATOR,
+		MERCHANTS.CHECK_DATE,
+		MERCHANTS.CHECKOR,
+		MERCHANTS.WEIXIN_PAY_CODE,
+		MERCHANTS.NOTICE_URL,
+		MERCHANTS.ALIPAY_PAY_CODE,
+		MERCHANTS.MER_STATUS,
+		MERCHANTS.BEST_PAY_CODE, 
+   		MERCHANTS.BANK_PAY_CODE
+	FROM
+		MERCHANTS
+		JOIN MERCHANT_ROLE ON MERCHANTS.MER_ID = MERCHANT_ROLE.MER_ID 
+		JOIN AREAS ON AREAS.AREA_ID = MERCHANTS.AREA_ID
+	WHERE MERCHANTS.DEL_STATUS = 0
+	<if test="productRoleId != null">
+		AND MERCHANT_ROLE.PRODUCT_ROLE_ID = #{productRoleId,jdbcType=INTEGER}
+	</if>
+	 order by MERCHANTS.CREATOR desc limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectCountByRole" parameterType="com.fuhuitong.applychain.model.Merchants" resultMap="allRecordCount">
+    SELECT
+		COUNT(MERCHANTS.MER_ID) as DATA_COUNT
+	FROM
+		MERCHANT_ROLE
+		JOIN MERCHANTS
+	ON MERCHANT_ROLE.MER_ID = MERCHANTS.MER_ID
+	WHERE MERCHANTS.DEL_STATUS = 0
+	<if test="productRoleId != null">
+		AND MERCHANT_ROLE.PRODUCT_ROLE_ID = #{productRoleId,jdbcType=INTEGER}
+	</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from MERCHANTS
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.Merchants">
+    insert into MERCHANTS (MER_ID, SP_CODE, AREA_ID, 
+      MER_CODE, MER_NAME, MER_FULL_NAME, 
+      MER_LOGO, TRADE, MER_SCALE, 
+      MER_ADDRESS, LINK_MAN, LINK_MAN_PHONE, 
+      LINK_MAN_EMAIL, CREATE_DATE, CREATOR, 
+      CHECK_DATE, CHECKOR, WEIXIN_PAY_CODE, 
+      NOTICE_URL, ALIPAY_PAY_CODE, MER_STATUS, DEL_STATUS, BEST_PAY_CODE, BANK_PAY_CODE)
+    values (#{merId,jdbcType=VARCHAR}, #{spCode,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, 
+      #{merCode,jdbcType=VARCHAR}, #{merName,jdbcType=VARCHAR}, #{merFullName,jdbcType=VARCHAR}, 
+      #{merLogo,jdbcType=VARCHAR}, #{trade,jdbcType=VARCHAR}, #{merScale,jdbcType=VARCHAR}, 
+      #{merAddress,jdbcType=VARCHAR}, #{linkMan,jdbcType=VARCHAR}, #{linkManPhone,jdbcType=VARCHAR}, 
+      #{linkManEmail,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
+      #{checkDate,jdbcType=TIMESTAMP}, #{checkor,jdbcType=VARCHAR}, #{weixinPayCode,jdbcType=VARCHAR}, 
+      #{noticeUrl,jdbcType=VARCHAR}, #{alipayPayCode,jdbcType=VARCHAR}, #{merStatus,jdbcType=INTEGER},
+      #{delStatus,jdbcType=INTEGER},  #{bestPayCode,jdbcType=VARCHAR}, #{bankPayCode,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.Merchants">
+    insert into MERCHANTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="spCode != null">
+        SP_CODE,
+      </if>
+      <if test="areaId != null">
+        AREA_ID,
+      </if>
+      <if test="merCode != null">
+        MER_CODE,
+      </if>
+      <if test="merName != null">
+        MER_NAME,
+      </if>
+      <if test="merFullName != null">
+        MER_FULL_NAME,
+      </if>
+      <if test="merLogo != null">
+        MER_LOGO,
+      </if>
+      <if test="trade != null">
+        TRADE,
+      </if>
+      <if test="merScale != null">
+        MER_SCALE,
+      </if>
+      <if test="merAddress != null">
+        MER_ADDRESS,
+      </if>
+      <if test="linkMan != null">
+        LINK_MAN,
+      </if>
+      <if test="linkManPhone != null">
+        LINK_MAN_PHONE,
+      </if>
+      <if test="linkManEmail != null">
+        LINK_MAN_EMAIL,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="checkDate != null">
+        CHECK_DATE,
+      </if>
+      <if test="checkor != null">
+        CHECKOR,
+      </if>
+      <if test="weixinPayCode != null">
+        WEIXIN_PAY_CODE,
+      </if>
+      <if test="noticeUrl != null">
+        NOTICE_URL,
+      </if>
+      <if test="alipayPayCode != null">
+        ALIPAY_PAY_CODE,
+      </if>
+      <if test="merStatus != null">
+        MER_STATUS,
+      </if>
+      <if test="delStatus != null">
+        DEL_STATUS,
+      </if>
+      <if test="bestPayCode != null">
+        BEST_PAY_CODE,
+      </if>
+      <if test="bankPayCode != null">
+        BANK_PAY_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="spCode != null">
+        #{spCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="merCode != null">
+        #{merCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merName != null">
+        #{merName,jdbcType=VARCHAR},
+      </if>
+      <if test="merFullName != null">
+        #{merFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="merLogo != null">
+        #{merLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="trade != null">
+        #{trade,jdbcType=VARCHAR},
+      </if>
+      <if test="merScale != null">
+        #{merScale,jdbcType=VARCHAR},
+      </if>
+      <if test="merAddress != null">
+        #{merAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMan != null">
+        #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkManPhone != null">
+        #{linkManPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkManEmail != null">
+        #{linkManEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null">
+        #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkor != null">
+        #{checkor,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinPayCode != null">
+        #{weixinPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeUrl != null">
+        #{noticeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="alipayPayCode != null">
+        #{alipayPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merStatus != null">
+        #{merStatus,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="bestPayCode != null">
+        #{bestPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankPayCode != null">
+        #{bankPayCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.Merchants">
+    update MERCHANTS
+    <set>
+      <if test="spCode != null">
+        SP_CODE = #{spCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        AREA_ID = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="merCode != null">
+        MER_CODE = #{merCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merName != null">
+        MER_NAME = #{merName,jdbcType=VARCHAR},
+      </if>
+      <if test="merFullName != null">
+        MER_FULL_NAME = #{merFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="merLogo != null">
+        MER_LOGO = #{merLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="trade != null">
+        TRADE = #{trade,jdbcType=VARCHAR},
+      </if>
+      <if test="merScale != null">
+        MER_SCALE = #{merScale,jdbcType=VARCHAR},
+      </if>
+      <if test="merAddress != null">
+        MER_ADDRESS = #{merAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMan != null">
+        LINK_MAN = #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkManPhone != null">
+        LINK_MAN_PHONE = #{linkManPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkManEmail != null">
+        LINK_MAN_EMAIL = #{linkManEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null">
+        CHECK_DATE = #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkor != null">
+        CHECKOR = #{checkor,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinPayCode != null">
+        WEIXIN_PAY_CODE = #{weixinPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeUrl != null">
+        NOTICE_URL = #{noticeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="alipayPayCode != null">
+        ALIPAY_PAY_CODE = #{alipayPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merStatus != null">
+      	MER_STATUS = #{merStatus,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        DEL_STATUS = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="bestPayCode != null">
+        BEST_PAY_CODE = #{bestPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankPayCode != null">
+        BANK_PAY_CODE = #{bankPayCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.Merchants">
+    update MERCHANTS
+    set SP_CODE = #{spCode,jdbcType=VARCHAR},
+      AREA_ID = #{areaId,jdbcType=VARCHAR},
+      MER_CODE = #{merCode,jdbcType=VARCHAR},
+      MER_NAME = #{merName,jdbcType=VARCHAR},
+      MER_FULL_NAME = #{merFullName,jdbcType=VARCHAR},
+      MER_LOGO = #{merLogo,jdbcType=VARCHAR},
+      TRADE = #{trade,jdbcType=VARCHAR},
+      MER_SCALE = #{merScale,jdbcType=VARCHAR},
+      MER_ADDRESS = #{merAddress,jdbcType=VARCHAR},
+      LINK_MAN = #{linkMan,jdbcType=VARCHAR},
+      LINK_MAN_PHONE = #{linkManPhone,jdbcType=VARCHAR},
+      LINK_MAN_EMAIL = #{linkManEmail,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CHECK_DATE = #{checkDate,jdbcType=TIMESTAMP},
+      CHECKOR = #{checkor,jdbcType=VARCHAR},
+      WEIXIN_PAY_CODE = #{weixinPayCode,jdbcType=VARCHAR},
+      NOTICE_URL = #{noticeUrl,jdbcType=VARCHAR},
+      ALIPAY_PAY_CODE = #{alipayPayCode,jdbcType=VARCHAR},
+      MER_STATUS = #{merStatus,jdbcType=INTEGER},
+      DEL_STATUS = #{delStatus,jdbcType=INTEGER},
+      BEST_PAY_CODE = #{bestPayCode,jdbcType=VARCHAR},
+      BANK_PAY_CODE = #{bankPayCode,jdbcType=VARCHAR}
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateDelStatus" parameterType="java.lang.String">
+    update MERCHANTS
+    set 
+      DEL_STATUS = 1
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateMerStatus" parameterType="com.fuhuitong.applychain.model.Merchants">
+    update MERCHANTS
+    set 
+      MER_STATUS = #{merStatus,jdbcType=INTEGER}
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

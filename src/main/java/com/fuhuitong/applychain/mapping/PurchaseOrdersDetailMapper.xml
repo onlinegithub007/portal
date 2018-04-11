@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.PurchaseOrdersDetailMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.PurchaseOrdersDetail">
+    <id column="PURCHASE_DETAIL_ID" jdbcType="INTEGER" property="purchaseDetailId" />
+    <result column="GOODS_TYPE_ID" jdbcType="VARCHAR" property="goodsTypeId" />
+    <result column="PURCHASE_ORDER_ID" jdbcType="VARCHAR" property="purchaseOrderId" />
+    <result column="STOCK_ORDER_ID" jdbcType="VARCHAR" property="stockOrderId" />
+    <result column="STOCK_ORDER_DETAIL_ID" jdbcType="INTEGER" property="stockOrderDetailId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="GOODS_COST" jdbcType="INTEGER" property="goodsCost" />
+    <result column="GOODS_AMOUNT" jdbcType="INTEGER" property="goodsAmount" />
+    
+    <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="HAS_QUALITY_PERIOD" jdbcType="INTEGER" property="hasQualityPeriod" />
+    
+    <result column="GOODS_ACK_AMOUNT" jdbcType="INTEGER" property="goodsAckAmount" />
+    <result column="PROVIDER_ACK_AMOUNT" jdbcType="INTEGER" property="providerAckAmount" />
+    <result column="PROVIDER_ACK_STATUS" jdbcType="INTEGER" property="providerAckStatus" />
+    <result column="PRODUCT_DATE" jdbcType="TIMESTAMP" property="productDate" />
+    <result column="EXPIRED_DATE" jdbcType="TIMESTAMP" property="expiredDate" />
+    <result column="ACK_STATUS" jdbcType="INTEGER" property="ackStatus" />
+    
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="STOCK_AMOUNT" jdbcType="INTEGER" property="stockAmount" />
+    
+    <result column="PROVIDER_UNIT" jdbcType="VARCHAR" property="providerUnit" />
+    <result column="PROVIDER_UNIT_MULTIPLE" jdbcType="INTEGER" property="providerUnitMultiple" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    PURCHASE_DETAIL_ID, GOODS_TYPE_ID, PURCHASE_ORDER_ID, STOCK_ORDER_ID, STOCK_ORDER_DETAIL_ID, GOODS_ID, GOODS_COST, 
+    GOODS_AMOUNT, GOODS_ACK_AMOUNT, PROVIDER_ACK_AMOUNT, PRODUCT_DATE, EXPIRED_DATE, ACK_STATUS, PROVIDER_UNIT, 
+    PROVIDER_ACK_STATUS
+  </sql>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PURCHASE_ORDER_DETAIL
+    where PURCHASE_DETAIL_ID = #{purchaseDetailId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByUnAckedCount" parameterType="java.lang.String" resultMap="allRecordCount">
+    select 
+    count(PURCHASE_DETAIL_ID) as DATA_COUNT
+    from PURCHASE_ORDER_DETAIL
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR} and ACK_STATUS = 0
+  </select>
+  
+  <select id="statProviderAckTotalValue" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    SUM(PROVIDER_ACK_AMOUNT) as PROVIDER_ACK_AMOUNT,
+    SUM(PROVIDER_ACK_AMOUNT * GOODS_COST) as GOODS_COST
+    from PURCHASE_ORDER_DETAIL
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="statAckedTotalValue" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    SUM(GOODS_ACK_AMOUNT) as GOODS_ACK_AMOUNT,
+    SUM(GOODS_ACK_AMOUNT * GOODS_COST) as GOODS_COST
+    from PURCHASE_ORDER_DETAIL
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPurchaseOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		PURCHASE_ORDER_DETAIL.PURCHASE_DETAIL_ID,
+		PURCHASE_ORDER_DETAIL.GOODS_TYPE_ID,
+		PURCHASE_ORDER_DETAIL.PURCHASE_ORDER_ID,
+		PURCHASE_ORDER_DETAIL.STOCK_ORDER_ID,
+		PURCHASE_ORDER_DETAIL.STOCK_ORDER_DETAIL_ID,
+		PURCHASE_ORDER_DETAIL.GOODS_COST,
+		PURCHASE_ORDER_DETAIL.GOODS_AMOUNT,
+		PURCHASE_ORDER_DETAIL.PROVIDER_ACK_AMOUNT,
+		PURCHASE_ORDER_DETAIL.GOODS_ACK_AMOUNT,
+		PURCHASE_ORDER_DETAIL.ACK_STATUS,
+		PURCHASE_ORDER_DETAIL.PRODUCT_DATE,
+		PURCHASE_ORDER_DETAIL.EXPIRED_DATE,
+		PURCHASE_ORDER_DETAIL.PROVIDER_UNIT,
+		PURCHASE_ORDER_DETAIL.PROVIDER_ACK_STATUS,
+		GOODS_INFO.GOODS_CODE,
+		GOODS_INFO.GOODS_ID,
+		GOODS_INFO.GOODS_NAME,
+		GOODS_INFO.HAS_QUALITY_PERIOD,
+		GOODS_INFO.PROVIDER_UNIT_MULTIPLE
+	FROM
+		GOODS_INFO
+		JOIN PURCHASE_ORDER_DETAIL ON GOODS_INFO.GOODS_ID = PURCHASE_ORDER_DETAIL.GOODS_ID
+    WHERE PURCHASE_ORDER_DETAIL.PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPurchOrderIdWithStock" parameterType="com.fuhuitong.applychain.model.PurchaseOrdersDetail" resultMap="BaseResultMap">
+    SELECT
+		PURCHASE_ORDER_DETAIL.PURCHASE_DETAIL_ID,
+		PURCHASE_ORDER_DETAIL.GOODS_TYPE_ID,
+		PURCHASE_ORDER_DETAIL.PURCHASE_ORDER_ID,
+		PURCHASE_ORDER_DETAIL.STOCK_ORDER_ID,
+		PURCHASE_ORDER_DETAIL.STOCK_ORDER_DETAIL_ID,
+		PURCHASE_ORDER_DETAIL.GOODS_COST,
+		PURCHASE_ORDER_DETAIL.GOODS_AMOUNT,
+		PURCHASE_ORDER_DETAIL.GOODS_ACK_AMOUNT,
+		PURCHASE_ORDER_DETAIL.PROVIDER_ACK_AMOUNT,
+		PURCHASE_ORDER_DETAIL.ACK_STATUS,
+		PURCHASE_ORDER_DETAIL.PRODUCT_DATE,
+		PURCHASE_ORDER_DETAIL.EXPIRED_DATE,
+		PURCHASE_ORDER_DETAIL.PROVIDER_UNIT,
+		PURCHASE_ORDER_DETAIL.PROVIDER_ACK_STATUS,
+		GOODS_INFO.GOODS_CODE,
+		GOODS_INFO.GOODS_ID,
+		GOODS_INFO.GOODS_NAME,
+		GOODS_INFO.HAS_QUALITY_PERIOD,
+		GOODS_STOCK.OWNER_ID,
+		GOODS_STOCK.STOCK_AMOUNT
+	FROM
+		GOODS_INFO
+		JOIN PURCHASE_ORDER_DETAIL ON GOODS_INFO.GOODS_ID = PURCHASE_ORDER_DETAIL.GOODS_ID
+		JOIN GOODS_STOCK ON GOODS_STOCK.GOODS_ID = GOODS_INFO.GOODS_ID
+    WHERE PURCHASE_ORDER_DETAIL.PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+    	AND GOODS_STOCK.OWNER_ID = #{ownerId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from PURCHASE_ORDER_DETAIL
+    where PURCHASE_DETAIL_ID = #{purchaseDetailId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByStockOrderId" parameterType="java.lang.String">
+    delete from PURCHASE_ORDER_DETAIL
+    where PURCHASE_ORDER_ID in (select PURCHASE_ORDER_ID from PURCHASE_ORDERS where STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR})
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.PurchaseOrdersDetail">
+    insert into PURCHASE_ORDER_DETAIL (PURCHASE_DETAIL_ID, STOCK_ORDER_ID, GOODS_TYPE_ID, PURCHASE_ORDER_ID, 
+      GOODS_ID, GOODS_COST, GOODS_AMOUNT
+      )
+    values (#{purchaseDetailId,jdbcType=INTEGER}, #{stockOrderId,jdbcType=VARCHAR}, #{goodsTypeId,jdbcType=VARCHAR}, #{purchaseOrderId,jdbcType=VARCHAR}, 
+      #{goodsId,jdbcType=VARCHAR}, #{goodsCost,jdbcType=INTEGER}, #{goodsAmount,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.PurchaseOrdersDetail">
+    insert into PURCHASE_ORDER_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="purchaseDetailId != null">
+        PURCHASE_DETAIL_ID,
+      </if>
+      <if test="goodsTypeId != null">
+        GOODS_TYPE_ID,
+      </if>
+      <if test="purchaseOrderId != null">
+        PURCHASE_ORDER_ID,
+      </if>
+      <if test="stockOrderId != null">
+        STOCK_ORDER_ID,
+      </if>
+      <if test="stockOrderDetailId != null">
+        STOCK_ORDER_DETAIL_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST,
+      </if>
+      <if test="goodsAmount != null">
+        GOODS_AMOUNT,
+      </if>
+      <if test="goodsAckAmount != null">
+        GOODS_ACK_AMOUNT,
+      </if>
+      <if test="providerAckAmount != null">
+        PROVIDER_ACK_AMOUNT,
+      </if>
+      <if test="productDate != null">
+        PRODUCT_DATE,
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE,
+      </if>
+      <if test="ackStatus != null">
+        ACK_STATUS,
+      </if>
+      <if test="providerUnit != null">
+        PROVIDER_UNIT,
+      </if>
+      <if test="providerAckStatus != null">
+        PROVIDER_ACK_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="purchaseDetailId != null">
+        #{purchaseDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTypeId != null">
+        #{goodsTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseOrderId != null">
+        #{purchaseOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderId != null">
+        #{stockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderDetailId != null">
+        #{stockOrderDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        #{goodsCost,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAmount != null">
+        #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAckAmount != null">
+        #{goodsAckAmount,jdbcType=INTEGER},
+      </if>
+      <if test="providerAckAmount != null">
+        #{providerAckAmount,jdbcType=INTEGER},
+      </if>
+      <if test="productDate != null">
+        #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ackStatus != null">
+        #{ackStatus,jdbcType=INTEGER},
+      </if>
+      <if test="providerUnit != null">
+        #{providerUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="providerAckStatus != null">
+        #{providerAckStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.PurchaseOrdersDetail">
+    update PURCHASE_ORDER_DETAIL
+    <set>
+      <if test="goodsTypeId != null">
+        GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseOrderId != null">
+        PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderId != null">
+        STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderDetailId != null">
+        STOCK_ORDER_DETAIL_ID = #{stockOrderDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST = #{goodsCost,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAmount != null">
+        GOODS_AMOUNT = #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAckAmount != null">
+        GOODS_ACK_AMOUNT = #{goodsAckAmount,jdbcType=INTEGER},
+      </if>
+      <if test="providerAckAmount != null">
+        PROVIDER_ACK_AMOUNT = #{providerAckAmount,jdbcType=INTEGER},
+      </if>
+      <if test="productDate != null">
+        PRODUCT_DATE = #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ackStatus != null">
+        ACK_STATUS = #{ackStatus,jdbcType=INTEGER},
+      </if>
+      <if test="providerUnit != null">
+        PROVIDER_UNIT = #{providerUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="providerAckStatus != null">
+        PROVIDER_ACK_STATUS = #{providerAckStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PURCHASE_DETAIL_ID = #{purchaseDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.PurchaseOrdersDetail">
+    update PURCHASE_ORDER_DETAIL
+    set GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR},
+      PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR},
+      STOCK_ORDER_DETAIL_ID = #{stockOrderDetailId,jdbcType=INTEGER},
+      GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      GOODS_COST = #{goodsCost,jdbcType=INTEGER},
+      GOODS_AMOUNT = #{goodsAmount,jdbcType=INTEGER},
+      GOODS_ACK_AMOUNT = #{goodsAckAmount,jdbcType=INTEGER},
+      PROVIDER_ACK_AMOUNT = #{providerAckAmount,jdbcType=INTEGER},
+      PRODUCT_DATE = #{productDate,jdbcType=TIMESTAMP},
+      EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      ACK_STATUS = #{ackStatus,jdbcType=INTEGER},
+      PROVIDER_ACK_STATUS = #{providerAckStatus,jdbcType=INTEGER}
+    where PURCHASE_DETAIL_ID = #{purchaseDetailId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateProviderAck" parameterType="com.fuhuitong.applychain.model.PurchaseOrdersDetail">
+  	update PURCHASE_ORDER_DETAIL
+    set 
+      PROVIDER_ACK_AMOUNT = #{providerAckAmount,jdbcType=INTEGER},
+      PROVIDER_ACK_STATUS = #{providerAckStatus,jdbcType=INTEGER}
+    where PURCHASE_DETAIL_ID = #{purchaseDetailId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateAckStatus1" parameterType="java.lang.String">
+  	update PURCHASE_ORDER_DETAIL
+    set 
+      PROVIDER_ACK_STATUS = 1
+    where PROVIDER_ACK_AMOUNT = GOODS_AMOUNT
+    and PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateAckStatus2" parameterType="java.lang.String">
+  	update PURCHASE_ORDER_DETAIL
+    set 
+      PROVIDER_ACK_STATUS = 2
+    where GOODS_AMOUNT > PROVIDER_ACK_AMOUNT
+    and PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

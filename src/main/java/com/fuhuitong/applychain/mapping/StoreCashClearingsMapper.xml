@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.StoreCashClearingsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.StoreCashClearings">
+    <id column="CASH_CLEARING_ID" jdbcType="INTEGER" property="cashClearingId" />
+    <result column="DAILY_CLEAR_ID" jdbcType="INTEGER" property="dailyClearId" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="CASH_AMONUT" jdbcType="INTEGER" property="cashAmonut" />
+    <result column="CLEARING_DATE" jdbcType="TIMESTAMP" property="clearingDate" />
+    <result column="CLEARING_METHOD" jdbcType="INTEGER" property="clearingMethod" />
+    <result column="PAY_NO" jdbcType="VARCHAR" property="payNo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CASH_CLEARING_ID, DAILY_CLEAR_ID, MER_GROUP_ID, CASH_AMONUT, CLEARING_DATE, CLEARING_METHOD, 
+    PAY_NO
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STORE_CASH_CLEARINGS
+    where CASH_CLEARING_ID = #{cashClearingId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from STORE_CASH_CLEARINGS
+    where CASH_CLEARING_ID = #{cashClearingId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.StoreCashClearings">
+    insert into STORE_CASH_CLEARINGS (CASH_CLEARING_ID, DAILY_CLEAR_ID, MER_GROUP_ID, 
+      CASH_AMONUT, CLEARING_DATE, CLEARING_METHOD, 
+      PAY_NO)
+    values (#{cashClearingId,jdbcType=INTEGER}, #{dailyClearId,jdbcType=INTEGER}, #{merGroupId,jdbcType=VARCHAR}, 
+      #{cashAmonut,jdbcType=INTEGER}, #{clearingDate,jdbcType=TIMESTAMP}, #{clearingMethod,jdbcType=INTEGER}, 
+      #{payNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.StoreCashClearings">
+    insert into STORE_CASH_CLEARINGS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cashClearingId != null">
+        CASH_CLEARING_ID,
+      </if>
+      <if test="dailyClearId != null">
+        DAILY_CLEAR_ID,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="cashAmonut != null">
+        CASH_AMONUT,
+      </if>
+      <if test="clearingDate != null">
+        CLEARING_DATE,
+      </if>
+      <if test="clearingMethod != null">
+        CLEARING_METHOD,
+      </if>
+      <if test="payNo != null">
+        PAY_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cashClearingId != null">
+        #{cashClearingId,jdbcType=INTEGER},
+      </if>
+      <if test="dailyClearId != null">
+        #{dailyClearId,jdbcType=INTEGER},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="cashAmonut != null">
+        #{cashAmonut,jdbcType=INTEGER},
+      </if>
+      <if test="clearingDate != null">
+        #{clearingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clearingMethod != null">
+        #{clearingMethod,jdbcType=INTEGER},
+      </if>
+      <if test="payNo != null">
+        #{payNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.StoreCashClearings">
+    update STORE_CASH_CLEARINGS
+    <set>
+      <if test="dailyClearId != null">
+        DAILY_CLEAR_ID = #{dailyClearId,jdbcType=INTEGER},
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="cashAmonut != null">
+        CASH_AMONUT = #{cashAmonut,jdbcType=INTEGER},
+      </if>
+      <if test="clearingDate != null">
+        CLEARING_DATE = #{clearingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clearingMethod != null">
+        CLEARING_METHOD = #{clearingMethod,jdbcType=INTEGER},
+      </if>
+      <if test="payNo != null">
+        PAY_NO = #{payNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CASH_CLEARING_ID = #{cashClearingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.StoreCashClearings">
+    update STORE_CASH_CLEARINGS
+    set DAILY_CLEAR_ID = #{dailyClearId,jdbcType=INTEGER},
+      MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      CASH_AMONUT = #{cashAmonut,jdbcType=INTEGER},
+      CLEARING_DATE = #{clearingDate,jdbcType=TIMESTAMP},
+      CLEARING_METHOD = #{clearingMethod,jdbcType=INTEGER},
+      PAY_NO = #{payNo,jdbcType=VARCHAR}
+    where CASH_CLEARING_ID = #{cashClearingId,jdbcType=INTEGER}
+  </update>
+</mapper>

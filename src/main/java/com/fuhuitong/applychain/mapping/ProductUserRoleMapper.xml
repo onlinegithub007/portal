@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.ProductUserRoleMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.ProductUserRole">
+    <id column="PRODUCT_USER_ROLE_ID" jdbcType="INTEGER" property="productUserRoleId" />
+    <result column="PRODUCT_ROLE_ID" jdbcType="INTEGER" property="productRoleId" />
+    <result column="USER_ROLE_NAME" jdbcType="VARCHAR" property="userRoleName" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PRODUCT_USER_ROLE_ID, PRODUCT_ROLE_ID, USER_ROLE_NAME
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRODUCT_USER_ROLE
+    where PRODUCT_USER_ROLE_ID = #{productUserRoleId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByProduct" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRODUCT_USER_ROLE
+    where PRODUCT_ROLE_ID = #{productRoleId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByMerId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		PRODUCT_USER_ROLE.USER_ROLE_NAME,
+		MERCHANT_ROLE.MER_ID,
+		PRODUCT_USER_ROLE.PRODUCT_ROLE_ID,
+		PRODUCT_USER_ROLE.PRODUCT_USER_ROLE_ID
+	FROM
+		MERCHANT_ROLE
+	JOIN PRODUCT_USER_ROLE
+		ON MERCHANT_ROLE.PRODUCT_ROLE_ID = PRODUCT_USER_ROLE.PRODUCT_ROLE_ID
+	WHERE MERCHANT_ROLE.MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from PRODUCT_USER_ROLE
+    where PRODUCT_USER_ROLE_ID = #{productUserRoleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.ProductUserRole">
+    insert into PRODUCT_USER_ROLE (PRODUCT_USER_ROLE_ID, PRODUCT_ROLE_ID, 
+      USER_ROLE_NAME)
+    values (#{productUserRoleId,jdbcType=INTEGER}, #{productRoleId,jdbcType=INTEGER}, 
+      #{userRoleName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.ProductUserRole">
+    insert into PRODUCT_USER_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productUserRoleId != null">
+        PRODUCT_USER_ROLE_ID,
+      </if>
+      <if test="productRoleId != null">
+        PRODUCT_ROLE_ID,
+      </if>
+      <if test="userRoleName != null">
+        USER_ROLE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productUserRoleId != null">
+        #{productUserRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="productRoleId != null">
+        #{productRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="userRoleName != null">
+        #{userRoleName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.ProductUserRole">
+    update PRODUCT_USER_ROLE
+    <set>
+      <if test="productRoleId != null">
+        PRODUCT_ROLE_ID = #{productRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="userRoleName != null">
+        USER_ROLE_NAME = #{userRoleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PRODUCT_USER_ROLE_ID = #{productUserRoleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.ProductUserRole">
+    update PRODUCT_USER_ROLE
+    set PRODUCT_ROLE_ID = #{productRoleId,jdbcType=INTEGER},
+      USER_ROLE_NAME = #{userRoleName,jdbcType=VARCHAR}
+    where PRODUCT_USER_ROLE_ID = #{productUserRoleId,jdbcType=INTEGER}
+  </update>
+</mapper>

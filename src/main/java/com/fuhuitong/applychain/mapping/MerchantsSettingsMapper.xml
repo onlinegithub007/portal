@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.MerchantsSettingsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.MerchantsSettings">
+    <id column="MER_SETTING_ID" jdbcType="INTEGER" property="merSettingId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="STOCK_LESS_ZERO" jdbcType="BIT" property="stockLessZero" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MER_SETTING_ID, MER_ID, STOCK_LESS_ZERO
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANTS_SETTINGS
+    where MER_SETTING_ID = #{merSettingId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByMerId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANTS_SETTINGS
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from MERCHANTS_SETTINGS
+    where MER_SETTING_ID = #{merSettingId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.MerchantsSettings">
+    insert into MERCHANTS_SETTINGS (MER_SETTING_ID, MER_ID, STOCK_LESS_ZERO
+      )
+    values (#{merSettingId,jdbcType=INTEGER}, #{merId,jdbcType=VARCHAR}, #{stockLessZero,jdbcType=BIT}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.MerchantsSettings">
+    insert into MERCHANTS_SETTINGS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merSettingId != null">
+        MER_SETTING_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="stockLessZero != null">
+        STOCK_LESS_ZERO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merSettingId != null">
+        #{merSettingId,jdbcType=INTEGER},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockLessZero != null">
+        #{stockLessZero,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.MerchantsSettings">
+    update MERCHANTS_SETTINGS
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockLessZero != null">
+        STOCK_LESS_ZERO = #{stockLessZero,jdbcType=BIT},
+      </if>
+    </set>
+    where MER_SETTING_ID = #{merSettingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.MerchantsSettings">
+    update MERCHANTS_SETTINGS
+    set MER_ID = #{merId,jdbcType=VARCHAR},
+      STOCK_LESS_ZERO = #{stockLessZero,jdbcType=BIT}
+    where MER_SETTING_ID = #{merSettingId,jdbcType=INTEGER}
+  </update>
+</mapper>

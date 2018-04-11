@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.OrderDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.OrderDetails">
+    <id column="ORDER_DETAIL_ID" jdbcType="BIGINT" property="orderDetailId" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="GOODS_TYPE_NAME" jdbcType="VARCHAR" property="goodsTypeName" />
+    <result column="GOODS_COST" jdbcType="REAL" property="goodsCost" />
+    <result column="GOODS_PRICE" jdbcType="INTEGER" property="goodsPrice" />
+    <result column="GOODS_SALE_PRICE" jdbcType="INTEGER" property="goodsSalePrice" />
+    <result column="GOODS_AMOUNT" jdbcType="INTEGER" property="goodsAmount" />
+    <result column="GOODS_TOTAL_PRICE" jdbcType="INTEGER" property="goodsTotalPrice" />
+    <result column="ORDER_STOCK_DETAIL_ID" jdbcType="INTEGER" property="orderStockDetailId" />
+    <result column="GOODS_BINDING" jdbcType="INTEGER" property="goodsBinding" />
+    <result column="BINDING_ID" jdbcType="VARCHAR" property="bindingId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+     ORDER_DETAIL_ID, ORDER_ID, MER_GROUP_ID, MER_ID, GOODS_ID, GOODS_CODE, GOODS_NAME, 
+    GOODS_COST, GOODS_PRICE, GOODS_SALE_PRICE, GOODS_AMOUNT, GOODS_TOTAL_PRICE, ORDER_STOCK_DETAIL_ID, 
+    GOODS_BINDING, BINDING_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDER_DETAILS
+    where ORDER_DETAIL_ID = #{orderDetailId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDER_DETAILS
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    order by ORDER_DETAIL_ID asc
+  </select>
+  
+  <select id="statSalesByDate" parameterType="com.fuhuitong.applychain.model.OrderDetails" resultMap="BaseResultMap">
+    SELECT
+		ORDER_DETAILS.GOODS_ID,
+		SUM(ORDER_DETAILS.GOODS_AMOUNT) as GOODS_AMOUNT
+	FROM
+		ORDERS 
+		JOIN ORDER_DETAILS
+		ON ORDERS.ORDER_ID = ORDER_DETAILS.ORDER_ID
+	WHERE DATE_FORMAT(ORDERS.CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR} 
+	AND ORDERS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+	GROUP BY ORDER_DETAILS.GOODS_ID
+  </select>
+  
+  <select id="selectStoreGoodsSales" parameterType="com.fuhuitong.applychain.model.OrderDetails" resultMap="BaseResultMap">
+    SELECT
+		SUM(ORDER_DETAILS.GOODS_AMOUNT) as GOODS_AMOUNT,
+		SUM(ORDER_DETAILS.GOODS_TOTAL_PRICE) as GOODS_TOTAL_PRICE
+	FROM
+		ORDERS 
+		JOIN ORDER_DETAILS
+		ON ORDERS.ORDER_ID = ORDER_DETAILS.ORDER_ID
+	WHERE DATE_FORMAT(ORDERS.CREATE_DATE,'%Y-%m-%d') = #{payDateText,jdbcType=VARCHAR} 
+		AND ORDERS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR} AND ORDER_DETAILS.GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="statGoodsSalesByDate" parameterType="com.fuhuitong.applychain.model.OrderDetails" resultMap="BaseResultMap">
+    SELECT
+		GOODS_INFO.GOODS_NAME,
+		GOODS_TYPE.GOODS_TYPE_NAME,
+		ORDER_DETAILS.GOODS_ID,
+		SUM(ORDER_DETAILS.GOODS_AMOUNT) as GOODS_AMOUNT
+	FROM
+		GOODS_INFO
+		JOIN ORDER_DETAILS
+		ON GOODS_INFO.GOODS_ID = ORDER_DETAILS.GOODS_ID 
+		JOIN ORDERS
+		ON ORDER_DETAILS.ORDER_ID = ORDERS.ORDER_ID
+		JOIN GOODS_TYPE
+		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+	WHERE ORDERS.MER_ID = #{merId,jdbcType=VARCHAR}
+		AND DATEDIFF(ORDERS.CREATE_DATE, #{createDateText,jdbcType=VARCHAR}) >= 0
+		AND DATEDIFF(#{endDateText,jdbcType=VARCHAR}, ORDERS.CREATE_DATE) >= 0
+		<if test="merGroupId != null">
+			AND ORDERS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+		</if>
+	GROUP BY GOODS_INFO.GOODS_NAME, ORDER_DETAILS.GOODS_ID,GOODS_TYPE.GOODS_TYPE_NAME
+	ORDER BY SUM(ORDER_DETAILS.GOODS_AMOUNT) DESC
+  </select>
+  
+  <select id="statGoodsSalesByProvider" parameterType="com.fuhuitong.applychain.model.OrderDetails" resultMap="BaseResultMap">
+    SELECT
+		SUM(ORDER_DETAILS.GOODS_AMOUNT) AS GOODS_AMOUNT,
+		ORDER_DETAILS.GOODS_CODE,
+		ORDER_DETAILS.GOODS_NAME
+	FROM
+		ORDER_DETAILS
+		JOIN ORDERS
+		ON ORDER_DETAILS.ORDER_ID = ORDERS.ORDER_ID 
+		JOIN GOODS_STOCK_DETAIL
+		ON GOODS_STOCK_DETAIL.GOODS_STOCK_DETAIL_ID = ORDER_DETAILS.ORDER_STOCK_DETAIL_ID 
+		JOIN GOODS_STOCK_BILLS
+		ON GOODS_STOCK_DETAIL.STOCK_BILL_ID = GOODS_STOCK_BILLS.STOCK_BILL_ID 
+		JOIN PURCHASE_ORDERS
+		ON GOODS_STOCK_BILLS.PURCHASE_ORDER_ID = PURCHASE_ORDERS.PURCHASE_ORDER_ID
+	WHERE ORDERS.MER_ID = #{merId,jdbcType=VARCHAR}
+		AND DATEDIFF(ORDERS.CREATE_DATE, #{createDateText,jdbcType=VARCHAR}) >= 0
+		AND DATEDIFF(#{endDateText,jdbcType=VARCHAR}, ORDERS.CREATE_DATE) >= 0
+		AND PURCHASE_ORDERS.PROVIDER_ID = #{providerId,jdbcType=VARCHAR}
+	GROUP BY ORDER_DETAILS.GOODS_CODE, ORDER_DETAILS.GOODS_NAME
+	ORDER BY SUM(ORDER_DETAILS.GOODS_AMOUNT) DESC
+  </select>
+  
+  <select id="statTimeSalesBy" parameterType="com.fuhuitong.applychain.model.OrderDetails" resultMap="BaseResultMap">
+    SELECT
+		ORDERS.ORDER_ID,
+		SUM(ORDER_DETAILS.GOODS_AMOUNT) AS GOODS_AMOUNT,
+		SUM(ORDER_DETAILS.GOODS_TOTAL_PRICE) AS GOODS_TOTAL_PRICE
+	FROM
+	ORDER_DETAILS
+	JOIN ORDERS
+	ON ORDER_DETAILS.ORDER_ID = ORDERS.ORDER_ID
+	WHERE 
+		ORDERS.MER_ID = #{merId,jdbcType=VARCHAR}
+		AND DATE_FORMAT(ORDERS.CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR} 
+		<if test="merGroupId != null">
+			AND ORDERS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+		</if>
+	GROUP BY ORDERS.ORDER_ID
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ORDER_DETAILS
+    where ORDER_DETAIL_ID = #{orderDetailId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.OrderDetails">
+    insert into ORDER_DETAILS (ORDER_DETAIL_ID, ORDER_ID, MER_GROUP_ID, 
+      MER_ID, GOODS_ID, GOODS_CODE, 
+      GOODS_NAME, GOODS_PRICE, GOODS_COST, GOODS_SALE_PRICE, 
+      GOODS_AMOUNT, GOODS_TOTAL_PRICE, ORDER_STOCK_DETAIL_ID
+      )
+    values (#{orderDetailId,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{merGroupId,jdbcType=VARCHAR}, 
+      #{merId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=INTEGER}, #{goodsCost,jdbcType=REAL}, #{goodsSalePrice,jdbcType=INTEGER}, 
+      #{goodsAmount,jdbcType=INTEGER}, #{goodsTotalPrice,jdbcType=INTEGER}, #{orderStockDetailId,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into ORDER_DETAILS (ORDER_ID, MER_GROUP_ID, MER_ID, GOODS_ID, GOODS_CODE, 
+      GOODS_NAME, GOODS_PRICE, GOODS_SALE_PRICE, GOODS_AMOUNT, 
+      GOODS_TOTAL_PRICE, GOODS_BINDING, BINDING_ID)
+    values 
+    <foreach collection="list" item="item" index="index" separator="," > 
+    (#{item.orderId,jdbcType=VARCHAR}, #{item.merGroupId,jdbcType=VARCHAR}, #{item.merId,jdbcType=VARCHAR}, #{item.goodsId,jdbcType=BIGINT}, 
+      #{item.goodsCode,jdbcType=VARCHAR}, #{item.goodsName,jdbcType=VARCHAR}, #{item.goodsPrice,jdbcType=INTEGER}, 
+      #{item.goodsSalePrice,jdbcType=INTEGER}, #{item.goodsAmount,jdbcType=INTEGER}, #{item.goodsTotalPrice,jdbcType=INTEGER},
+      #{item.goodsBinding,jdbcType=INTEGER}, #{item.bindingId,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.OrderDetails">
+    insert into ORDER_DETAILS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderDetailId != null">
+        ORDER_DETAIL_ID,
+      </if>
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE,
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME,
+      </if>
+      <if test="goodsPrice != null">
+        GOODS_PRICE,
+      </if>
+      <if test="goodsSalePrice != null">
+        GOODS_SALE_PRICE,
+      </if>
+      <if test="goodsAmount != null">
+        GOODS_AMOUNT,
+      </if>
+      <if test="goodsTotalPrice != null">
+        GOODS_TOTAL_PRICE,
+      </if>
+      <if test="orderStockDetailId != null">
+        ORDER_STOCK_DETAIL_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderDetailId != null">
+        #{orderDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSalePrice != null">
+        #{goodsSalePrice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAmount != null">
+        #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTotalPrice != null">
+        #{goodsTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orderStockDetailId != null">
+        #{orderStockDetailId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.OrderDetails">
+    update ORDER_DETAILS
+    <set>
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSalePrice != null">
+        GOODS_SALE_PRICE = #{goodsSalePrice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST = #{goodsCost,jdbcType=REAL},
+      </if>
+      <if test="goodsAmount != null">
+        GOODS_AMOUNT = #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTotalPrice != null">
+        GOODS_TOTAL_PRICE = #{goodsTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orderStockDetailId != null">
+        ORDER_STOCK_DETAIL_ID = #{orderStockDetailId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ORDER_DETAIL_ID = #{orderDetailId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.OrderDetails">
+    update ORDER_DETAILS
+    set ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+      GOODS_SALE_PRICE = #{goodsSalePrice,jdbcType=INTEGER},
+      GOODS_COST = #{goodsCost,jdbcType=REAL},
+      GOODS_AMOUNT = #{goodsAmount,jdbcType=INTEGER},
+      GOODS_TOTAL_PRICE = #{goodsTotalPrice,jdbcType=INTEGER},
+      ORDER_STOCK_DETAIL_ID = #{orderStockDetailId,jdbcType=INTEGER}
+    where ORDER_DETAIL_ID = #{orderDetailId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateStockDetailId" parameterType="com.fuhuitong.applychain.model.OrderDetails">
+    update ORDER_DETAILS
+    set 
+      ORDER_STOCK_DETAIL_ID = #{orderStockDetailId,jdbcType=INTEGER},
+      GOODS_COST = #{goodsCost,jdbcType=REAL}
+    where ORDER_DETAIL_ID = #{orderDetailId,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

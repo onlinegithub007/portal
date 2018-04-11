@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.DiscountsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.Discounts">
+    <id column="DISCOUNT_ID" jdbcType="VARCHAR" property="discountId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="ALL_STORE" jdbcType="BIT" property="allStore" />
+    <result column="DISCOUNT_ITEM_STATUS" jdbcType="INTEGER" property="discountItemStatus" />
+    <result column="DISCOUNT_USER_TYPE" jdbcType="INTEGER" property="discountUserType" />
+    <result column="MEMBER_LEVEL_ID" jdbcType="VARCHAR" property="memberLevelId" />
+    <result column="LEVEL_NAME" jdbcType="VARCHAR" property="levelName" />
+    <result column="DISCOUNT_TYPE" jdbcType="INTEGER" property="discountType" />
+    <result column="DISCOUNT_TYPE_NAME" jdbcType="VARCHAR" property="discountTypeName" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    DISCOUNT_ID, MER_ID, ALL_STORE, DISCOUNT_ITEM_STATUS, DISCOUNT_USER_TYPE, MEMBER_LEVEL_ID, 
+    DISCOUNT_TYPE, DISCOUNT_TYPE_NAME, CREATE_DATE, END_DATE
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DISCOUNTS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllByDiscountType" parameterType="com.fuhuitong.applychain.model.Discounts" resultMap="BaseResultMap">
+    SELECT
+		CLIENT_LEVEL.LEVEL_NAME,
+		DISCOUNTS.DISCOUNT_ID,
+		DISCOUNTS.MER_ID,
+		DISCOUNTS.ALL_STORE,
+		DISCOUNTS.DISCOUNT_ITEM_STATUS,
+		DISCOUNTS.DISCOUNT_USER_TYPE,
+		DISCOUNTS.MEMBER_LEVEL_ID,
+		DISCOUNTS.DISCOUNT_TYPE,
+		DISCOUNTS.DISCOUNT_TYPE_NAME,
+		DISCOUNTS.CREATE_DATE,
+		DISCOUNTS.END_DATE
+	FROM
+		CLIENT_LEVEL
+		<if test="memberLevelId == null">
+			RIGHT JOIN DISCOUNTS
+		</if>
+		<if test="memberLevelId != null">
+			JOIN DISCOUNTS
+		</if>
+		ON CLIENT_LEVEL.CLIENT_LEVEL_ID = DISCOUNTS.MEMBER_LEVEL_ID
+    where DISCOUNTS.MER_ID = #{merId,jdbcType=VARCHAR} 
+    	AND DISCOUNTS.DISCOUNT_TYPE = #{discountType,jdbcType=INTEGER}
+    <if test="discountItemStatus != null">
+    	AND DISCOUNTS.DISCOUNT_ITEM_STATUS = #{discountItemStatus,jdbcType=INTEGER}
+    </if>
+    <if test="createDateText != null">
+    	AND DATE_FORMAT(DISCOUNTS.CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR}
+    </if>
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectAllCountByDiscountType" parameterType="com.fuhuitong.applychain.model.Discounts" resultMap="allRecordCount">
+    select 
+    COUNT(*) as DATA_COUNT
+    from DISCOUNTS
+    where MER_ID = #{merId,jdbcType=VARCHAR} 
+    	AND DISCOUNT_TYPE = #{discountType,jdbcType=INTEGER}
+    <if test="discountItemStatus != null">
+    	AND DISCOUNT_ITEM_STATUS = #{discountItemStatus,jdbcType=INTEGER}
+    </if>
+    <if test="createDateText != null">
+    	AND DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from DISCOUNTS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.Discounts">
+    insert into DISCOUNTS (DISCOUNT_ID, MER_ID, ALL_STORE, 
+      DISCOUNT_ITEM_STATUS, DISCOUNT_USER_TYPE, MEMBER_LEVEL_ID, 
+      DISCOUNT_TYPE, DISCOUNT_TYPE_NAME, CREATE_DATE, 
+      END_DATE)
+    values (#{discountId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, #{allStore,jdbcType=BIT}, 
+      #{discountItemStatus,jdbcType=INTEGER}, #{discountUserType,jdbcType=INTEGER}, #{memberLevelId,jdbcType=VARCHAR}, 
+      #{discountType,jdbcType=INTEGER}, #{discountTypeName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.Discounts">
+    insert into DISCOUNTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="discountId != null">
+        DISCOUNT_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="allStore != null">
+        ALL_STORE,
+      </if>
+      <if test="discountItemStatus != null">
+        DISCOUNT_ITEM_STATUS,
+      </if>
+      <if test="discountUserType != null">
+        DISCOUNT_USER_TYPE,
+      </if>
+      <if test="memberLevelId != null">
+        MEMBER_LEVEL_ID,
+      </if>
+      <if test="discountType != null">
+        DISCOUNT_TYPE,
+      </if>
+      <if test="discountTypeName != null">
+        DISCOUNT_TYPE_NAME,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="endDate != null">
+        END_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="discountId != null">
+        #{discountId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="allStore != null">
+        #{allStore,jdbcType=BIT},
+      </if>
+      <if test="discountItemStatus != null">
+        #{discountItemStatus,jdbcType=INTEGER},
+      </if>
+      <if test="discountUserType != null">
+        #{discountUserType,jdbcType=INTEGER},
+      </if>
+      <if test="memberLevelId != null">
+        #{memberLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="discountType != null">
+        #{discountType,jdbcType=INTEGER},
+      </if>
+      <if test="discountTypeName != null">
+        #{discountTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.Discounts">
+    update DISCOUNTS
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="allStore != null">
+        ALL_STORE = #{allStore,jdbcType=BIT},
+      </if>
+      <if test="discountItemStatus != null">
+        DISCOUNT_ITEM_STATUS = #{discountItemStatus,jdbcType=INTEGER},
+      </if>
+      <if test="discountUserType != null">
+        DISCOUNT_USER_TYPE = #{discountUserType,jdbcType=INTEGER},
+      </if>
+      <if test="memberLevelId != null">
+        MEMBER_LEVEL_ID = #{memberLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="discountType != null">
+        DISCOUNT_TYPE = #{discountType,jdbcType=INTEGER},
+      </if>
+      <if test="discountTypeName != null">
+        DISCOUNT_TYPE_NAME = #{discountTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.Discounts">
+    update DISCOUNTS
+    set MER_ID = #{merId,jdbcType=VARCHAR},
+      ALL_STORE = #{allStore,jdbcType=BIT},
+      DISCOUNT_ITEM_STATUS = #{discountItemStatus,jdbcType=INTEGER},
+      DISCOUNT_USER_TYPE = #{discountUserType,jdbcType=INTEGER},
+      MEMBER_LEVEL_ID = #{memberLevelId,jdbcType=VARCHAR},
+      DISCOUNT_TYPE = #{discountType,jdbcType=INTEGER},
+      DISCOUNT_TYPE_NAME = #{discountTypeName,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      END_DATE = #{endDate,jdbcType=TIMESTAMP}
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="changeDiscountActive" parameterType="com.fuhuitong.applychain.model.Discounts">
+    update DISCOUNTS
+    set 
+      DISCOUNT_ITEM_STATUS = #{discountItemStatus,jdbcType=INTEGER}
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

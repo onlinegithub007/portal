@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                           http://www.springframework.org/schema/mvc 
+                           http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<!-- 设置使用注解的类所在的jar包 -->
+    <context:component-scan base-package="com.fuhuitong.applychain.controller" >
+    	<context:include-filter type="annotation" 
+            expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" 
+            expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+	
+	<!-- don't handle the static resource -->
+   <mvc:default-servlet-handler /> 
+    
+    <!-- if you use annotation you must configure following setting -->
+    <mvc:annotation-driven >  
+   	 	<!-- 消息转换器 -->  
+    	<mvc:message-converters register-defaults="true">  
+	      <bean class="org.springframework.http.converter.StringHttpMessageConverter">  
+	        <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>  
+	      </bean>  
+    	</mvc:message-converters>  
+  	</mvc:annotation-driven>
+    
+    <!-- configure the InternalResourceViewResolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+            id="internalResourceViewResolver">
+        <!-- 前缀 -->
+        <property name="prefix" value="/WEB-INF/pages/" />
+        <!-- 后缀 -->
+        <property name="suffix" value=".jsp" />
+    </bean>
+    
+    <!-- 支持上传文件 -->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<property name="maxUploadSize" value="52428800"></property>
+    	<property name="defaultEncoding" value="UTF-8"></property>
+    </bean>
+    
+    <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">  
+        <property name="config">  
+            <bean class="com.google.code.kaptcha.util.Config">  
+                <constructor-arg>  
+                    <props>  
+                        <prop key="kaptcha.textproducer.font.color">blue</prop>  
+                        <prop key="kaptcha.image.width">120</prop>  
+                        <prop key="kaptcha.image.height">35</prop> 
+                        <prop key="kaptcha.textproducer.char.space">3</prop>   
+                        <prop key="kaptcha.border">no</prop>
+                        <prop key="kaptcha.obscurificator.impl">com.google.code.kaptcha.impl.ShadowGimpy</prop>
+                        <prop key="kaptcha.textproducer.font.size">25</prop>  
+                        <prop key="kaptcha.textproducer.char.string">1234567890</prop>
+                        <prop key="kaptcha.session.key">code</prop> 
+                        <prop key="kaptcha.textproducer.char.length">5</prop>  
+                        <prop key="kaptcha.textproducer.font.names">Courier,彩云,宋体,楷体,微软雅黑</prop>  
+                    </props>  
+                </constructor-arg>  
+            </bean>  
+        </property>  
+    </bean>
+
+</beans>

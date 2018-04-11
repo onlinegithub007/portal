@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.MembersMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.Members">
+    <id column="MEMBER_ID" jdbcType="BIGINT" property="memberId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="CLIENT_LEVEL_ID" jdbcType="VARCHAR" property="clientLevelId" />
+    <result column="LEVEL_VALUE" jdbcType="INTEGER" property="levelValue" />
+    <result column="LEVEL_NAME" jdbcType="VARCHAR" property="levelName" />
+    <result column="MEMBER_CODE" jdbcType="VARCHAR" property="memberCode" />
+    <result column="MEMBER_NAME" jdbcType="VARCHAR" property="memberName" />
+    <result column="NICK_NAME" jdbcType="VARCHAR" property="nickName" />
+    <result column="GENDER" jdbcType="INTEGER" property="gender" />
+    <result column="BIRTHDAY" jdbcType="DATE" property="birthday" />
+    <result column="PERSONAL_ID" jdbcType="VARCHAR" property="personalId" />
+    <result column="MOBILE_SP" jdbcType="INTEGER" property="mobileSp" />
+    <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="MEMBER_MK" jdbcType="VARCHAR" property="memberMk" />
+    <result column="MEMBER_SCORE" jdbcType="INTEGER" property="memberScore" />
+    <result column="MEMBER_BALANCE" jdbcType="INTEGER" property="memberBalance" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="STORE_ID" jdbcType="VARCHAR" property="storeId" />
+    <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+    <result column="ATTENTION_DATE" jdbcType="TIMESTAMP" property="attentionDate" />
+    <result column="LOCKED" jdbcType="BIT" property="locked" />
+    <result column="LOCKED_TOKEN" jdbcType="VARCHAR" property="lockedToken" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MEMBER_ID, MER_ID, CLIENT_LEVEL_ID, MEMBER_CODE, MEMBER_NAME, NICK_NAME, GENDER, 
+    BIRTHDAY, PERSONAL_ID, MOBILE_SP, CARD_NO, MEMBER_MK, MEMBER_SCORE, MEMBER_BALANCE, 
+    CREATE_DATE, STORE_ID, ATTENTION_DATE, LOCKED, LOCKED_TOKEN
+  </sql>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MEMBERS
+    where MEMBER_ID = #{memberId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByLevel" parameterType="com.fuhuitong.applychain.model.Members" resultMap="BaseResultMap">
+    SELECT
+		MEMBERS.MEMBER_ID,
+		MEMBERS.MER_ID,
+		MEMBERS.CLIENT_LEVEL_ID,
+		MEMBERS.MEMBER_CODE,
+		MEMBERS.MEMBER_NAME,
+		MEMBERS.NICK_NAME,
+		MEMBERS.GENDER,
+		MEMBERS.BIRTHDAY,
+		MEMBERS.PERSONAL_ID,
+		MEMBERS.MOBILE_SP,
+		MEMBERS.CARD_NO,
+		MEMBERS.MEMBER_MK,
+		MEMBERS.MEMBER_SCORE,
+		MEMBERS.MEMBER_BALANCE,
+		MEMBERS.CREATE_DATE,
+		MEMBERS.STORE_ID,
+		MEMBERS.ATTENTION_DATE,
+		MEMBERS.LOCKED,
+		MEMBERS.LOCKED_TOKEN,
+		MERCHANT_GROUPS.GROUP_NAME
+	FROM
+		MEMBERS
+		LEFT JOIN MERCHANT_GROUPS
+		ON MEMBERS.STORE_ID = MERCHANT_GROUPS.MER_GROUP_ID
+    where MEMBERS.MER_ID = #{merId,jdbcType=VARCHAR} 
+    <if test="clientLevelId != null">
+    	 AND MEMBERS.CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR}
+    </if>
+    <if test="memberCode != null">
+    	AND MEMBERS.MEMBER_CODE = #{memberCode,jdbcType=VARCHAR}
+    </if>
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectCountByLevel" parameterType="com.fuhuitong.applychain.model.Members" resultMap="allRecordCount">
+    select 
+    COUNT(*) as DATA_COUNT
+    from MEMBERS
+    where MER_ID = #{merId,jdbcType=VARCHAR} 
+    <if test="clientLevelId != null">
+    	AND CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR}
+    </if>
+    <if test="memberCode != null">
+    	AND MEMBERS.MEMBER_CODE = #{memberCode,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectByCode" parameterType="com.fuhuitong.applychain.model.Members" resultMap="BaseResultMap">
+    
+    SELECT
+		MEMBERS.MEMBER_ID,
+		MEMBERS.MER_ID,
+		MEMBERS.CLIENT_LEVEL_ID,
+		MEMBERS.MEMBER_CODE,
+		MEMBERS.MEMBER_NAME,
+		MEMBERS.NICK_NAME,
+		MEMBERS.GENDER,
+		MEMBERS.BIRTHDAY,
+		MEMBERS.PERSONAL_ID,
+		MEMBERS.MOBILE_SP,
+		MEMBERS.CARD_NO,
+		MEMBERS.MEMBER_MK,
+		MEMBERS.MEMBER_SCORE,
+		MEMBERS.MEMBER_BALANCE,
+		MEMBERS.CREATE_DATE,
+		MEMBERS.STORE_ID,
+		MEMBERS.ATTENTION_DATE,
+		MEMBERS.LOCKED,
+		MEMBERS.LOCKED_TOKEN,
+		CLIENT_LEVEL.LEVEL_VALUE,
+		CLIENT_LEVEL.LEVEL_NAME
+	FROM
+		CLIENT_LEVEL
+		JOIN MEMBERS
+		ON CLIENT_LEVEL.CLIENT_LEVEL_ID = MEMBERS.CLIENT_LEVEL_ID
+    where MEMBERS.MEMBER_CODE = #{memberCode,jdbcType=VARCHAR}
+    and MEMBERS.MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from MEMBERS
+    where MEMBER_ID = #{memberId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.Members">
+    insert into MEMBERS (MEMBER_ID, MER_ID, CLIENT_LEVEL_ID, 
+      MEMBER_CODE, MEMBER_NAME, NICK_NAME, 
+      GENDER, BIRTHDAY, PERSONAL_ID, 
+      MOBILE_SP, CARD_NO, MEMBER_MK, 
+      MEMBER_SCORE, MEMBER_BALANCE, CREATE_DATE, 
+      STORE_ID, ATTENTION_DATE, LOCKED, 
+      LOCKED_TOKEN)
+    values (#{memberId,jdbcType=BIGINT}, #{merId,jdbcType=VARCHAR}, #{clientLevelId,jdbcType=VARCHAR}, 
+      #{memberCode,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=INTEGER}, #{birthday,jdbcType=DATE}, #{personalId,jdbcType=VARCHAR}, 
+      #{mobileSp,jdbcType=INTEGER}, #{cardNo,jdbcType=VARCHAR}, #{memberMk,jdbcType=VARCHAR}, 
+      #{memberScore,jdbcType=INTEGER}, #{memberBalance,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{storeId,jdbcType=VARCHAR}, #{attentionDate,jdbcType=TIMESTAMP}, #{locked,jdbcType=BIT}, 
+      #{lockedToken,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.Members">
+    insert into MEMBERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        MEMBER_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="clientLevelId != null">
+        CLIENT_LEVEL_ID,
+      </if>
+      <if test="memberCode != null">
+        MEMBER_CODE,
+      </if>
+      <if test="memberName != null">
+        MEMBER_NAME,
+      </if>
+      <if test="nickName != null">
+        NICK_NAME,
+      </if>
+      <if test="gender != null">
+        GENDER,
+      </if>
+      <if test="birthday != null">
+        BIRTHDAY,
+      </if>
+      <if test="personalId != null">
+        PERSONAL_ID,
+      </if>
+      <if test="mobileSp != null">
+        MOBILE_SP,
+      </if>
+      <if test="cardNo != null">
+        CARD_NO,
+      </if>
+      <if test="memberMk != null">
+        MEMBER_MK,
+      </if>
+      <if test="memberScore != null">
+        MEMBER_SCORE,
+      </if>
+      <if test="memberBalance != null">
+        MEMBER_BALANCE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="storeId != null">
+        STORE_ID,
+      </if>
+      <if test="attentionDate != null">
+        ATTENTION_DATE,
+      </if>
+      <if test="locked != null">
+        LOCKED,
+      </if>
+      <if test="lockedToken != null">
+        LOCKED_TOKEN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientLevelId != null">
+        #{clientLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCode != null">
+        #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null">
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="personalId != null">
+        #{personalId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileSp != null">
+        #{mobileSp,jdbcType=INTEGER},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberMk != null">
+        #{memberMk,jdbcType=VARCHAR},
+      </if>
+      <if test="memberScore != null">
+        #{memberScore,jdbcType=INTEGER},
+      </if>
+      <if test="memberBalance != null">
+        #{memberBalance,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionDate != null">
+        #{attentionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="locked != null">
+        #{locked,jdbcType=BIT},
+      </if>
+      <if test="lockedToken != null">
+        #{lockedToken,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.Members">
+    update MEMBERS
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientLevelId != null">
+        CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCode != null">
+        MEMBER_CODE = #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null">
+        MEMBER_NAME = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        GENDER = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        BIRTHDAY = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="personalId != null">
+        PERSONAL_ID = #{personalId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileSp != null">
+        MOBILE_SP = #{mobileSp,jdbcType=INTEGER},
+      </if>
+      <if test="cardNo != null">
+        CARD_NO = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberMk != null">
+        MEMBER_MK = #{memberMk,jdbcType=VARCHAR},
+      </if>
+      <if test="memberScore != null">
+        MEMBER_SCORE = #{memberScore,jdbcType=INTEGER},
+      </if>
+      <if test="memberBalance != null">
+        MEMBER_BALANCE = #{memberBalance,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeId != null">
+        STORE_ID = #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionDate != null">
+        ATTENTION_DATE = #{attentionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="locked != null">
+        LOCKED = #{locked,jdbcType=BIT},
+      </if>
+      <if test="lockedToken != null">
+        LOCKED_TOKEN = #{lockedToken,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MEMBER_ID = #{memberId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.Members">
+    update MEMBERS
+    set MER_ID = #{merId,jdbcType=VARCHAR},
+      CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR},
+      MEMBER_CODE = #{memberCode,jdbcType=VARCHAR},
+      MEMBER_NAME = #{memberName,jdbcType=VARCHAR},
+      NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=INTEGER},
+      BIRTHDAY = #{birthday,jdbcType=DATE},
+      PERSONAL_ID = #{personalId,jdbcType=VARCHAR},
+      MOBILE_SP = #{mobileSp,jdbcType=INTEGER},
+      CARD_NO = #{cardNo,jdbcType=VARCHAR},
+      MEMBER_MK = #{memberMk,jdbcType=VARCHAR},
+      MEMBER_SCORE = #{memberScore,jdbcType=INTEGER},
+      MEMBER_BALANCE = #{memberBalance,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      STORE_ID = #{storeId,jdbcType=VARCHAR},
+      ATTENTION_DATE = #{attentionDate,jdbcType=TIMESTAMP},
+      LOCKED = #{locked,jdbcType=BIT},
+      LOCKED_TOKEN = #{lockedToken,jdbcType=VARCHAR}
+    where MEMBER_ID = #{memberId,jdbcType=BIGINT}
+  </update>
+</mapper>

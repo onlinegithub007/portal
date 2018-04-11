@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.SysUsersMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.SysUsers">
+    <id column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+    <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="LEVEL" jdbcType="INTEGER" property="level" />
+    <result column="LAST_LOG_DATE" jdbcType="TIMESTAMP" property="lastLogDate" />
+    <result column="LAST_LOG_IP" jdbcType="VARCHAR" property="lastLogIp" />
+    <result column="NEED_MOD_PASSWD" jdbcType="BIT" property="needModPasswd" />
+    <result column="MOBILE_PHONE" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    USER_ID, ACCOUNT, GROUP_ID, PASSWORD, USER_NAME, LEVEL, LAST_LOG_DATE, LAST_LOG_IP, NEED_MOD_PASSWD, 
+    MOBILE_PHONE, EMAIL, MEMO
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_USERS
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_USERS
+    where ACCOUNT = #{account,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllUsers" parameterType="com.fuhuitong.applychain.model.SysUsers" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_USERS
+    where ACCOUNT != 'admin' 
+    <if test="groupId != null">
+        and GROUP_ID = #{groupId,jdbcType=VARCHAR}
+      </if>
+    order by USER_NAME limit #{offset},#{limit}
+  </select>
+  
+  <select id="getAllDataRecordCount" parameterType="com.fuhuitong.applychain.model.SysUsers" resultMap="allRecordCount">
+    select count(*) as DATA_COUNT from SYS_USERS where ACCOUNT != 'admin' 
+    <if test="groupId != null">
+        and GROUP_ID = #{groupId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYS_USERS
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.SysUsers">
+    insert into SYS_USERS (USER_ID, ACCOUNT, GROUP_ID, PASSWORD, 
+      USER_NAME, LEVEL, LAST_LOG_DATE, 
+      LAST_LOG_IP, NEED_MOD_PASSWD, MOBILE_PHONE, 
+      EMAIL, MEMO)
+    values (#{userId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{lastLogDate,jdbcType=TIMESTAMP}, 
+      #{lastLogIp,jdbcType=VARCHAR}, #{needModPasswd,jdbcType=BIT}, #{mobilePhone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.SysUsers">
+    insert into SYS_USERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="account != null">
+        ACCOUNT,
+      </if>
+      <if test="groupId != null">
+        GROUP_ID,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="level != null">
+        LEVEL,
+      </if>
+      <if test="lastLogDate != null">
+        LAST_LOG_DATE,
+      </if>
+      <if test="lastLogIp != null">
+        LAST_LOG_IP,
+      </if>
+      <if test="needModPasswd != null">
+        NEED_MOD_PASSWD,
+      </if>
+      <if test="mobilePhone != null">
+        MOBILE_PHONE,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="memo != null">
+        MEMO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="lastLogDate != null">
+        #{lastLogDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogIp != null">
+        #{lastLogIp,jdbcType=VARCHAR},
+      </if>
+      <if test="needModPasswd != null">
+        #{needModPasswd,jdbcType=BIT},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.SysUsers">
+    update SYS_USERS
+    <set>
+      <if test="groupId != null">
+        GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        LEVEL = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="lastLogDate != null">
+        LAST_LOG_DATE = #{lastLogDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogIp != null">
+        LAST_LOG_IP = #{lastLogIp,jdbcType=VARCHAR},
+      </if>
+      <if test="needModPasswd != null">
+        NEED_MOD_PASSWD = #{needModPasswd,jdbcType=BIT},
+      </if>
+      <if test="mobilePhone != null">
+        MOBILE_PHONE = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.SysUsers">
+    update SYS_USERS
+    set GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      LEVEL = #{level,jdbcType=INTEGER},
+      LAST_LOG_DATE = #{lastLogDate,jdbcType=TIMESTAMP},
+      LAST_LOG_IP = #{lastLogIp,jdbcType=VARCHAR},
+      NEED_MOD_PASSWD = #{needModPasswd,jdbcType=BIT},
+      MOBILE_PHONE = #{mobilePhone,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

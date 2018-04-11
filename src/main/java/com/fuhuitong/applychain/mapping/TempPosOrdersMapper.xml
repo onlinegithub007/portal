@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.TempPosOrdersMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.TempPosOrders">
+    <id column="TMP_ORDER_ID" jdbcType="VARCHAR" property="tmpOrderId" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="MER_USER_ID" jdbcType="VARCHAR" property="merUserId" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="TOTAL_PRICE" jdbcType="INTEGER" property="totalPrice" />
+    <result column="MEMBER_CODE" jdbcType="VARCHAR" property="memberCode" />
+    <result column="MEMBER_NAME" jdbcType="VARCHAR" property="memberName" />
+    <result column="MEMBER_LEVEL" jdbcType="INTEGER" property="memberLevel" />
+    <result column="MEMBER_SCORE" jdbcType="INTEGER" property="memberScore" />
+    <result column="DISCOUNT_COUPON" jdbcType="VARCHAR" property="discountCoupon" />
+    <result column="CARD_COUPON" jdbcType="VARCHAR" property="cardCoupon" />
+    <result column="BALANCE_PAY" jdbcType="INTEGER" property="balancePay" />
+    <result column="BALANCE" jdbcType="INTEGER" property="balance" />
+    <result column="VIP_GOODS" jdbcType="VARCHAR" property="vipGoods" />
+    <result column="FINAL_PRICE" jdbcType="INTEGER" property="finalPrice" />
+    <result column="DISCOUNT_PRICE" jdbcType="INTEGER" property="discountPrice" />
+    <result column="CARD_PAY_PRICE" jdbcType="INTEGER" property="cardPayPrice" />
+    <result column="ORDER_TYPE" jdbcType="INTEGER" property="orderType" />
+    <result column="OPERATOR_ID" jdbcType="VARCHAR" property="operatorId" />
+    <result column="OPERATOR_NAME" jdbcType="VARCHAR" property="operatorName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TMP_ORDER_ID, MER_GROUP_ID, MER_ID, MER_USER_ID, CREATE_DATE, TOTAL_PRICE, MEMBER_CODE, 
+    MEMBER_NAME, MEMBER_LEVEL, MEMBER_SCORE, DISCOUNT_COUPON, CARD_COUPON, BALANCE_PAY, 
+    BALANCE, VIP_GOODS, FINAL_PRICE, DISCOUNT_PRICE, CARD_PAY_PRICE, OPERATOR_ID, OPERATOR_NAME,
+    ORDER_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TEMP_POS_ORDERS
+    where TMP_ORDER_ID = #{tmpOrderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from TEMP_POS_ORDERS
+    where TMP_ORDER_ID = #{tmpOrderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.TempPosOrders">
+    insert into TEMP_POS_ORDERS (TMP_ORDER_ID, MER_GROUP_ID, MER_ID, 
+      MER_USER_ID, CREATE_DATE, TOTAL_PRICE, 
+      MEMBER_CODE, MEMBER_NAME, MEMBER_LEVEL, 
+      MEMBER_SCORE, DISCOUNT_COUPON, CARD_COUPON, 
+      BALANCE_PAY, BALANCE, VIP_GOODS, 
+      FINAL_PRICE, DISCOUNT_PRICE, CARD_PAY_PRICE, OPERATOR_ID, OPERATOR_NAME, ORDER_TYPE)
+    values (#{tmpOrderId,jdbcType=VARCHAR}, #{merGroupId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, 
+      #{merUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{totalPrice,jdbcType=INTEGER}, 
+      #{memberCode,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}, #{memberLevel,jdbcType=INTEGER}, 
+      #{memberScore,jdbcType=INTEGER}, #{discountCoupon,jdbcType=VARCHAR}, #{cardCoupon,jdbcType=VARCHAR}, 
+      #{balancePay,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER}, #{vipGoods,jdbcType=VARCHAR}, 
+      #{finalPrice,jdbcType=INTEGER}, #{discountPrice,jdbcType=INTEGER}, #{cardPayPrice,jdbcType=INTEGER},
+      #{operatorId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.TempPosOrders">
+    insert into TEMP_POS_ORDERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tmpOrderId != null">
+        TMP_ORDER_ID,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="merUserId != null">
+        MER_USER_ID,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="totalPrice != null">
+        TOTAL_PRICE,
+      </if>
+      <if test="memberCode != null">
+        MEMBER_CODE,
+      </if>
+      <if test="memberName != null">
+        MEMBER_NAME,
+      </if>
+      <if test="memberLevel != null">
+        MEMBER_LEVEL,
+      </if>
+      <if test="memberScore != null">
+        MEMBER_SCORE,
+      </if>
+      <if test="discountCoupon != null">
+        DISCOUNT_COUPON,
+      </if>
+      <if test="cardCoupon != null">
+        CARD_COUPON,
+      </if>
+      <if test="balancePay != null">
+        BALANCE_PAY,
+      </if>
+      <if test="balance != null">
+        BALANCE,
+      </if>
+      <if test="vipGoods != null">
+        VIP_GOODS,
+      </if>
+      <if test="finalPrice != null">
+        FINAL_PRICE,
+      </if>
+      <if test="discountPrice != null">
+        DISCOUNT_PRICE,
+      </if>
+      <if test="cardPayPrice != null">
+        CARD_PAY_PRICE,
+      </if>
+      <if test="operatorId != null">
+        OPERATOR_ID,
+      </if>
+      <if test="operatorName != null">
+        OPERATOR_NAME,
+      </if>
+      <if test="orderType != null">
+        ORDER_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tmpOrderId != null">
+        #{tmpOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="merUserId != null">
+        #{merUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="memberCode != null">
+        #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null">
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberLevel != null">
+        #{memberLevel,jdbcType=INTEGER},
+      </if>
+      <if test="memberScore != null">
+        #{memberScore,jdbcType=INTEGER},
+      </if>
+      <if test="discountCoupon != null">
+        #{discountCoupon,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCoupon != null">
+        #{cardCoupon,jdbcType=VARCHAR},
+      </if>
+      <if test="balancePay != null">
+        #{balancePay,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null">
+        #{balance,jdbcType=INTEGER},
+      </if>
+      <if test="vipGoods != null">
+        #{vipGoods,jdbcType=VARCHAR},
+      </if>
+      <if test="finalPrice != null">
+        #{finalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="discountPrice != null">
+        #{discountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="cardPayPrice != null">
+        #{cardPayPrice,jdbcType=INTEGER},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="operatorName != null">
+         #{operatorName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.TempPosOrders">
+    update TEMP_POS_ORDERS
+    <set>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="merUserId != null">
+        MER_USER_ID = #{merUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalPrice != null">
+        TOTAL_PRICE = #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="memberCode != null">
+        MEMBER_CODE = #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null">
+        MEMBER_NAME = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberLevel != null">
+        MEMBER_LEVEL = #{memberLevel,jdbcType=INTEGER},
+      </if>
+      <if test="memberScore != null">
+        MEMBER_SCORE = #{memberScore,jdbcType=INTEGER},
+      </if>
+      <if test="discountCoupon != null">
+        DISCOUNT_COUPON = #{discountCoupon,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCoupon != null">
+        CARD_COUPON = #{cardCoupon,jdbcType=VARCHAR},
+      </if>
+      <if test="balancePay != null">
+        BALANCE_PAY = #{balancePay,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null">
+        BALANCE = #{balance,jdbcType=INTEGER},
+      </if>
+      <if test="vipGoods != null">
+        VIP_GOODS = #{vipGoods,jdbcType=VARCHAR},
+      </if>
+      <if test="finalPrice != null">
+        FINAL_PRICE = #{finalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="discountPrice != null">
+        DISCOUNT_PRICE = #{discountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="cardPayPrice != null">
+        CARD_PAY_PRICE = #{cardPayPrice,jdbcType=INTEGER},
+      </if>
+      <if test="operatorId != null">
+       OPERATOR_ID =  #{operatorId,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="operatorName != null">
+        OPERATOR_NAME = #{operatorName,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where TMP_ORDER_ID = #{tmpOrderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.TempPosOrders">
+    update TEMP_POS_ORDERS
+    set MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      MER_USER_ID = #{merUserId,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      TOTAL_PRICE = #{totalPrice,jdbcType=INTEGER},
+      MEMBER_CODE = #{memberCode,jdbcType=VARCHAR},
+      MEMBER_NAME = #{memberName,jdbcType=VARCHAR},
+      MEMBER_LEVEL = #{memberLevel,jdbcType=INTEGER},
+      MEMBER_SCORE = #{memberScore,jdbcType=INTEGER},
+      DISCOUNT_COUPON = #{discountCoupon,jdbcType=VARCHAR},
+      CARD_COUPON = #{cardCoupon,jdbcType=VARCHAR},
+      BALANCE_PAY = #{balancePay,jdbcType=INTEGER},
+      BALANCE = #{balance,jdbcType=INTEGER},
+      VIP_GOODS = #{vipGoods,jdbcType=VARCHAR},
+      FINAL_PRICE = #{finalPrice,jdbcType=INTEGER}
+    where TMP_ORDER_ID = #{tmpOrderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

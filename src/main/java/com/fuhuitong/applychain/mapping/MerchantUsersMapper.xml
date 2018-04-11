@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.MerchantUsersMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.MerchantUsers">
+    <id column="MER_USER_ID" jdbcType="VARCHAR" property="merUserId" />
+    <result column="MER_GROUP_ID" jdbcType="VARCHAR" property="merGroupId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="USER_ACCOUNT" jdbcType="VARCHAR" property="userAccount" />
+    <result column="MER_CODE" jdbcType="VARCHAR" property="merCode" />
+    <result column="USER_PASSWORD" jdbcType="VARCHAR" property="userPassword" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+    <result column="MER_NAME" jdbcType="VARCHAR" property="merName" />
+    <result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+    <result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
+    <result column="USER_ROLE" jdbcType="INTEGER" property="userRole" />
+    <result column="USER_ROLE_NAME" jdbcType="VARCHAR" property="userRoleName" />
+    <result column="SUPER_ADMIN" jdbcType="BIT" property="superAdmin" />
+    <result column="USER_MEMO" jdbcType="VARCHAR" property="userMemo" />
+    <result column="LAST_LOGIN_DATE" jdbcType="TIMESTAMP" property="lastLoginDate" />
+    <result column="LAST_LOGIN_IP" jdbcType="VARCHAR" property="lastLoginIp" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MER_USER_ID, MER_GROUP_ID, MER_ID, USER_ACCOUNT, MER_CODE, USER_PASSWORD, USER_NAME, GROUP_NAME, 
+    MER_NAME, USER_PHONE, USER_EMAIL, USER_ROLE, SUPER_ADMIN, USER_MEMO, LAST_LOGIN_DATE, 
+    LAST_LOGIN_IP, STATUS
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANT_USERS
+    where MER_USER_ID = #{merUserId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectStoreMaster" parameterType="com.fuhuitong.applychain.model.MerchantUsers" resultMap="BaseResultMap">
+    select 
+		MERCHANT_USER_ROLE.SYS_DEF,
+		MERCHANT_USERS.MER_USER_ID,
+		MERCHANT_USERS.MER_GROUP_ID,
+		MERCHANT_USERS.MER_ID,
+		MERCHANT_USERS.USER_ACCOUNT,
+		MERCHANT_USERS.MER_CODE,
+		MERCHANT_USERS.USER_PASSWORD,
+		MERCHANT_USERS.USER_NAME,
+		MERCHANT_USERS.GROUP_NAME,
+		MERCHANT_USERS.MER_NAME,
+		MERCHANT_USERS.USER_PHONE,
+		MERCHANT_USERS.USER_EMAIL,
+		MERCHANT_USERS.USER_ROLE,
+		MERCHANT_USERS.SUPER_ADMIN,
+		MERCHANT_USERS.USER_MEMO,
+		MERCHANT_USERS.LAST_LOGIN_DATE,
+		MERCHANT_USERS.LAST_LOGIN_IP,
+		MERCHANT_USERS.`STATUS`
+	FROM
+	MERCHANT_USERS JOIN MERCHANT_USER_ROLE
+	ON MERCHANT_USERS.USER_ROLE = MERCHANT_USER_ROLE.MER_USER_ROLE_ID    
+    where MERCHANT_USERS.MER_ID = #{merId,jdbcType=VARCHAR} and MERCHANT_USER_ROLE.SYS_DEF = 3
+     and MERCHANT_USERS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByMerGroupId" parameterType="com.fuhuitong.applychain.model.MerchantUsers" resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_USERS.MER_USER_ID,
+		MERCHANT_USERS.MER_GROUP_ID,
+		MERCHANT_USERS.MER_ID,
+		MERCHANT_USERS.USER_ACCOUNT,
+		MERCHANT_USERS.MER_CODE,
+		MERCHANT_USERS.USER_PASSWORD,
+		MERCHANT_USERS.USER_NAME,
+		MERCHANT_USERS.MER_NAME,
+		MERCHANT_USERS.USER_PHONE,
+		MERCHANT_USERS.USER_EMAIL,
+		MERCHANT_USERS.USER_ROLE,
+		MERCHANT_USERS.SUPER_ADMIN,
+		MERCHANT_USERS.USER_MEMO,
+		MERCHANT_USERS.LAST_LOGIN_DATE,
+		MERCHANT_USERS.LAST_LOGIN_IP,
+		MERCHANT_USERS.STATUS,
+		MERCHANT_USER_ROLE.USER_ROLE_NAME,
+		MERCHANT_GROUPS.GROUP_NAME
+	FROM
+		MERCHANT_USERS
+	LEFT JOIN MERCHANT_USER_ROLE
+		ON MERCHANT_USERS.USER_ROLE = MERCHANT_USER_ROLE.MER_USER_ROLE_ID
+	 JOIN MERCHANT_GROUPS
+		ON MERCHANT_USERS.MER_GROUP_ID = MERCHANT_GROUPS.MER_GROUP_ID AND MERCHANT_GROUPS.GROUP_TYPE = 0
+    where MERCHANT_USERS.MER_ID = #{merId,jdbcType=VARCHAR}
+    <if test="merGroupId != null">
+    	and MERCHANT_USERS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR} 
+    </if>
+    order by MERCHANT_USERS.USER_ACCOUNT
+  </select>
+  
+  <select id="selectByMerStoreId" parameterType="com.fuhuitong.applychain.model.MerchantUsers" resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_USERS.MER_USER_ID,
+		MERCHANT_USERS.MER_GROUP_ID,
+		MERCHANT_USERS.MER_ID,
+		MERCHANT_USERS.USER_ACCOUNT,
+		MERCHANT_USERS.MER_CODE,
+		MERCHANT_USERS.USER_PASSWORD,
+		MERCHANT_USERS.USER_NAME,
+		MERCHANT_USERS.MER_NAME,
+		MERCHANT_USERS.USER_PHONE,
+		MERCHANT_USERS.USER_EMAIL,
+		MERCHANT_USERS.USER_ROLE,
+		MERCHANT_USERS.SUPER_ADMIN,
+		MERCHANT_USERS.USER_MEMO,
+		MERCHANT_USERS.LAST_LOGIN_DATE,
+		MERCHANT_USERS.LAST_LOGIN_IP,
+		MERCHANT_USERS.STATUS,
+		MERCHANT_USER_ROLE.USER_ROLE_NAME,
+		MERCHANT_GROUPS.GROUP_NAME
+	FROM
+		MERCHANT_USERS
+	LEFT JOIN MERCHANT_USER_ROLE
+		ON MERCHANT_USERS.USER_ROLE = MERCHANT_USER_ROLE.MER_USER_ROLE_ID
+	LEFT JOIN MERCHANT_GROUPS
+		ON MERCHANT_USERS.MER_GROUP_ID = MERCHANT_GROUPS.MER_GROUP_ID
+    where MERCHANT_USERS.MER_ID = #{merId,jdbcType=VARCHAR} 
+    <if test="merGroupId != null">
+    	and MERCHANT_USERS.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR}
+    </if>
+    order by MERCHANT_USERS.USER_ACCOUNT
+  </select>
+  
+  <select id="selectByMerCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANT_USERS
+    where MER_CODE = #{merCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectGoodsProviders" parameterType="com.fuhuitong.applychain.model.MerchantUsers" resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_CLIENTS.MER_ID,
+		MERCHANT_CLIENTS.MER_CLIENT_ID,
+		MERCHANT_USERS.USER_ACCOUNT,
+		MERCHANT_USERS.MER_USER_ID,
+		MERCHANT_USERS.USER_NAME,
+		MERCHANT_USERS.MER_CODE,
+		MERCHANT_USERS.USER_PASSWORD,
+		MERCHANT_USERS.GROUP_NAME,
+		MERCHANT_USERS.MER_NAME,
+		MERCHANT_USERS.USER_PHONE,
+		MERCHANT_USERS.USER_EMAIL,
+		MERCHANT_USERS.USER_ROLE,
+		MERCHANT_USERS.SUPER_ADMIN,
+		MERCHANT_USERS.USER_MEMO,
+		MERCHANT_USERS.LAST_LOGIN_DATE,
+		MERCHANT_USERS.LAST_LOGIN_IP,
+		MERCHANT_USERS.`STATUS`
+	FROM
+		MERCHANT_CLIENTS
+		JOIN MERCHANT_USERS
+		ON MERCHANT_CLIENTS.MER_USER_ID = MERCHANT_USERS.MER_USER_ID
+    where MERCHANT_CLIENTS.MER_ID = #{merId,jdbcType=VARCHAR}
+    <if test="status != null">
+    	AND MERCHANT_USERS.`STATUS` =  #{status,jdbcType=INTEGER}
+    </if>
+    order by MERCHANT_USERS.USER_NAME
+  </select>
+  
+  <select id="selectSuperAdmin" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANT_USERS
+    where MER_ID = #{merId,jdbcType=VARCHAR} and SUPER_ADMIN = 1
+  </select>
+  
+  <select id="login" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANT_USERS
+    where USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from MERCHANT_USERS
+    where MER_USER_ID = #{merUserId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.MerchantUsers">
+    insert into MERCHANT_USERS (MER_USER_ID, MER_GROUP_ID, MER_ID, 
+      USER_ACCOUNT, MER_CODE, USER_PASSWORD, USER_NAME, 
+      GROUP_NAME, MER_NAME, USER_PHONE, 
+      USER_EMAIL, USER_ROLE, SUPER_ADMIN, 
+      USER_MEMO, LAST_LOGIN_DATE, LAST_LOGIN_IP, STATUS)
+    values (#{merUserId,jdbcType=VARCHAR}, #{merGroupId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, 
+      #{userAccount,jdbcType=VARCHAR}, #{merCode,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{groupName,jdbcType=VARCHAR}, #{merName,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{userEmail,jdbcType=VARCHAR}, #{userRole,jdbcType=INTEGER}, #{superAdmin,jdbcType=BIT}, 
+      #{userMemo,jdbcType=VARCHAR}, #{lastLoginDate,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.MerchantUsers">
+    insert into MERCHANT_USERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merUserId != null">
+        MER_USER_ID,
+      </if>
+      <if test="merGroupId != null">
+        MER_GROUP_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="userAccount != null">
+        USER_ACCOUNT,
+      </if>
+      <if test="merCode != null">
+        MER_CODE,
+      </if>
+      <if test="userPassword != null">
+        USER_PASSWORD,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="groupName != null">
+        GROUP_NAME,
+      </if>
+      <if test="merName != null">
+        MER_NAME,
+      </if>
+      <if test="userPhone != null">
+        USER_PHONE,
+      </if>
+      <if test="userEmail != null">
+        USER_EMAIL,
+      </if>
+      <if test="userRole != null">
+        USER_ROLE,
+      </if>
+      <if test="superAdmin != null">
+        SUPER_ADMIN,
+      </if>
+      <if test="userMemo != null">
+        USER_MEMO,
+      </if>
+      <if test="lastLoginDate != null">
+        LAST_LOGIN_DATE,
+      </if>
+      <if test="lastLoginIp != null">
+        LAST_LOGIN_IP,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merUserId != null">
+        #{merUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="merGroupId != null">
+        #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="userAccount != null">
+        #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="merCode != null">
+        #{merCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="merName != null">
+        #{merName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userRole != null">
+        #{userRole,jdbcType=INTEGER},
+      </if>
+      <if test="superAdmin != null">
+        #{superAdmin,jdbcType=BIT},
+      </if>
+      <if test="userMemo != null">
+        #{userMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginDate != null">
+        #{lastLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null">
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+      	#{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.MerchantUsers">
+    update MERCHANT_USERS
+    <set>
+      <if test="merGroupId != null">
+        MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="userAccount != null">
+        USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="merCode != null">
+        MER_CODE = #{merCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="merName != null">
+        MER_NAME = #{merName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userMemo != null">
+        USER_MEMO = #{userMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginDate != null">
+        LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null">
+        LAST_LOGIN_IP = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MER_USER_ID = #{merUserId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.MerchantUsers">
+    update MERCHANT_USERS
+    set MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR},
+      MER_CODE = #{merCode,jdbcType=VARCHAR},
+      USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      MER_NAME = #{merName,jdbcType=VARCHAR},
+      USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+      USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      USER_ROLE = #{userRole,jdbcType=INTEGER},
+      SUPER_ADMIN = #{superAdmin,jdbcType=BIT},
+      USER_MEMO = #{userMemo,jdbcType=VARCHAR},
+      LAST_LOGIN_DATE = #{lastLoginDate,jdbcType=TIMESTAMP},
+      LAST_LOGIN_IP = #{lastLoginIp,jdbcType=VARCHAR}
+    where MER_USER_ID = #{merUserId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updatePassword" parameterType="com.fuhuitong.applychain.model.MerchantUsers">
+    update MERCHANT_USERS
+    set 
+      USER_PASSWORD = #{userPassword,jdbcType=VARCHAR}
+    where MER_USER_ID = #{merUserId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="changeUserStatus" parameterType="com.fuhuitong.applychain.model.MerchantUsers">
+    update MERCHANT_USERS
+    set 
+      STATUS = #{status,jdbcType=INTEGER}
+    where MER_USER_ID = #{merUserId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateGoodsProvider" parameterType="com.fuhuitong.applychain.model.MerchantUsers">
+    update MERCHANT_USERS
+    set 
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      MER_NAME = #{merName,jdbcType=VARCHAR},
+      USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+      USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      USER_MEMO = #{userMemo,jdbcType=VARCHAR}
+    where MER_USER_ID = #{merUserId,jdbcType=VARCHAR}
+  </update>
+</mapper>

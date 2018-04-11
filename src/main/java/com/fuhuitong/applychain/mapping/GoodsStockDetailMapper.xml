@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.GoodsStockDetailMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.GoodsStockDetail">
+    <id column="GOODS_STOCK_DETAIL_ID" jdbcType="INTEGER" property="goodsStockDetailId" />
+    <result column="STOCK_BILL_ID" jdbcType="VARCHAR" property="stockBillId" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="STOCK_COUNT" jdbcType="INTEGER" property="stockCount" />
+    <result column="STOCK_COUNT0" jdbcType="INTEGER" property="stockCount0" />
+    <result column="GOODS_COST" jdbcType="REAL" property="goodsCost" />
+    <result column="PRODUCT_DATE" jdbcType="TIMESTAMP" property="productDate" />
+    <result column="EXPIRED_DATE" jdbcType="TIMESTAMP" property="expiredDate" />
+    <result column="EXPIRED_DAY" jdbcType="INTEGER" property="expiredDay" />
+    <result column="EXPIRED_PERCENT" jdbcType="DOUBLE" property="expiredPercent" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="STOCK_BILL_TYPE" jdbcType="INTEGER" property="stockBillType" />
+    <result column="STOCK_DETAIL_STATUS" jdbcType="INTEGER" property="stockDetailStatus" />
+    <result column="REFER_STOCK_DETAIL_ID" jdbcType="INTEGER" property="referStockDetailId" />
+    <result column="LOCKED" jdbcType="BIT" property="locked" />
+    
+    <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+	<result column="GOODS_TYPE_NAME" jdbcType="VARCHAR" property="goodsTypeName" /> 
+	
+	<result column="PROVIDER_ID" jdbcType="VARCHAR" property="providerId" />
+    <result column="PROVIDER_LINKMAN" jdbcType="VARCHAR" property="providerLinkman" />
+    <result column="PROVIDER_LINKMAN_PHONE" jdbcType="VARCHAR" property="providerLinkmanPhone" />
+    <result column="PROVIDER_LINKMAN_EMAIL" jdbcType="VARCHAR" property="providerLinkmanEmail" />
+    <result column="PROVIDER_NAME" jdbcType="VARCHAR" property="providerName" />
+    
+    <result column="PURCHASE_ORDER_ID" jdbcType="VARCHAR" property="purchaseOrderId" />
+    <result column="STOCK_ORDER_ID" jdbcType="VARCHAR" property="stockOrderId" />   
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    GOODS_STOCK_DETAIL_ID, STOCK_BILL_ID, OWNER_ID, GOODS_ID, STOCK_COUNT, STOCK_COUNT0, GOODS_COST, PRODUCT_DATE, 
+    EXPIRED_DATE, CREATE_DATE, STOCK_BILL_TYPE, STOCK_DETAIL_STATUS, REFER_STOCK_DETAIL_ID, LOCKED
+  </sql>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_STOCK_DETAIL
+    where GOODS_STOCK_DETAIL_ID = #{goodsStockDetailId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByStoreGoods" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_STOCK_DETAIL
+    where OWNER_ID = #{ownerId,jdbcType=VARCHAR} AND GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+    order by GOODS_STOCK_DETAIL_ID desc
+  </select>
+  
+  <select id="selectByGoodsId" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail" resultMap="BaseResultMap">
+    SELECT
+		GOODS_STOCK_DETAIL.GOODS_STOCK_DETAIL_ID,
+		GOODS_STOCK_DETAIL.STOCK_BILL_ID,
+		GOODS_STOCK_DETAIL.OWNER_ID,
+		GOODS_STOCK_DETAIL.GOODS_ID,
+		GOODS_STOCK_DETAIL.STOCK_COUNT0,
+		GOODS_STOCK_DETAIL.STOCK_COUNT,
+		GOODS_STOCK_DETAIL.GOODS_COST,
+		GOODS_STOCK_DETAIL.PRODUCT_DATE,
+		GOODS_STOCK_DETAIL.EXPIRED_DATE,
+		GOODS_STOCK_DETAIL.CREATE_DATE,
+		GOODS_STOCK_DETAIL.STOCK_BILL_TYPE,
+		GOODS_STOCK_DETAIL.STOCK_DETAIL_STATUS,
+		GOODS_STOCK_DETAIL.REFER_STOCK_DETAIL_ID,
+		PURCHASE_ORDERS.PROVIDER_ID,
+		PURCHASE_ORDERS.PROVIDER_NAME,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_PHONE,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_EMAIL,
+		PURCHASE_ORDERS.STOCK_ORDER_ID,
+		PURCHASE_ORDERS.PURCHASE_ORDER_ID
+	FROM
+		GOODS_STOCK_DETAIL
+		JOIN GOODS_STOCK_BILLS
+		ON GOODS_STOCK_DETAIL.STOCK_BILL_ID = GOODS_STOCK_BILLS.STOCK_BILL_ID 
+		JOIN PURCHASE_ORDERS
+		ON GOODS_STOCK_BILLS.PURCHASE_ORDER_ID = PURCHASE_ORDERS.PURCHASE_ORDER_ID
+    WHERE GOODS_STOCK_DETAIL.GOODS_ID = #{goodsId,jdbcType=VARCHAR} and GOODS_STOCK_DETAIL.OWNER_ID = #{ownerId,jdbcType=VARCHAR} 
+    	and GOODS_STOCK_DETAIL.STOCK_DETAIL_STATUS = 0 and GOODS_STOCK_DETAIL.STOCK_BILL_TYPE = 0 and GOODS_STOCK_DETAIL.STOCK_COUNT != 0
+    	and (GOODS_STOCK_DETAIL.LOCKED = 0 or GOODS_STOCK_DETAIL.LOCKED is null)
+    order by GOODS_STOCK_DETAIL.GOODS_STOCK_DETAIL_ID DESC
+  </select>
+  
+  <select id="selectStockCountByGoodsId" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail" resultMap="allRecordCount">
+    select 
+    SUM(STOCK_COUNT) as DATA_COUNT
+    from GOODS_STOCK_DETAIL
+    where GOODS_ID = #{goodsId,jdbcType=VARCHAR} and OWNER_ID = #{ownerId,jdbcType=VARCHAR} 
+    	and STOCK_DETAIL_STATUS = 0 and STOCK_COUNT>0 
+    <if test="hasQualityPeriod == 1">
+    	and DATEDIFF(EXPIRED_DATE, NOW())  > 0
+    </if>
+  </select>
+  
+  <select id="selectValidByGoodsId" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_STOCK_DETAIL
+    where GOODS_ID = #{goodsId,jdbcType=VARCHAR} and OWNER_ID = #{ownerId,jdbcType=VARCHAR} and STOCK_DETAIL_STATUS = 0 
+    order by GOODS_STOCK_DETAIL_ID asc
+  </select>
+  
+  <select id="selectTempByBillId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_STOCK_DETAIL
+    where STOCK_BILL_ID = #{stockBillId,jdbcType=VARCHAR} and STOCK_DETAIL_STATUS = -1
+    order by GOODS_STOCK_DETAIL_ID desc
+  </select>
+  
+  <select id="statTotalStockOfStore" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		GOODS_STOCK_DETAIL.OWNER_ID,
+		SUM(GOODS_STOCK_DETAIL.STOCK_COUNT) as STOCK_COUNT,
+		SUM(GOODS_STOCK_DETAIL.STOCK_COUNT*GOODS_STOCK_DETAIL.GOODS_COST) as GOODS_COST
+	FROM
+		GOODS_STOCK_DETAIL
+		JOIN  MERCHANT_GROUPS
+		ON (GOODS_STOCK_DETAIL.OWNER_ID = MERCHANT_GROUPS.MER_GROUP_ID and MERCHANT_GROUPS.MER_ID = #{merId,jdbcType=VARCHAR} and MERCHANT_GROUPS.GROUP_TYPE=3)
+    GROUP BY OWNER_ID
+  </select>
+  
+  <select id="statTotalStockOfStore2" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail" resultMap="BaseResultMap">
+    SELECT
+		GOODS_STOCK_DETAIL.OWNER_ID,
+		SUM(GOODS_STOCK_DETAIL.STOCK_COUNT) as STOCK_COUNT,
+		SUM(GOODS_STOCK_DETAIL.STOCK_COUNT*GOODS_STOCK_DETAIL.GOODS_COST) as GOODS_COST
+	FROM
+		MERCHANT_GROUPS
+		JOIN GOODS_STOCK_DETAIL
+		ON (GOODS_STOCK_DETAIL.OWNER_ID = MERCHANT_GROUPS.MER_GROUP_ID and MERCHANT_GROUPS.GROUP_TYPE=3)
+		JOIN GOODS_INFO
+		ON GOODS_INFO.GOODS_ID = GOODS_STOCK_DETAIL.GOODS_ID 
+		JOIN GOODS_TYPE
+		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+	WHERE MERCHANT_GROUPS.MER_ID = #{merId,jdbcType=VARCHAR}
+	<if test="goodsTypeId == null">
+    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
+    </if>
+    <if test="goodsTypeId != null">
+    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
+    </if>
+    GROUP BY OWNER_ID
+  </select>
+  
+  <select id="statTotalStockOfStore3" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		OWNER_ID,
+		SUM(STOCK_COUNT) as STOCK_COUNT,
+		SUM(STOCK_COUNT*GOODS_COST) as GOODS_COST
+	FROM
+		GOODS_STOCK_DETAIL
+	WHERE GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+    GROUP BY OWNER_ID
+  </select>
+  
+  <select id="selectExpiredStock" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail" resultMap="BaseResultMap">
+    SELECT
+	    GOODS_INFO.GOODS_CODE,
+		GOODS_INFO.GOODS_NAME,
+		GOODS_TYPE.GOODS_TYPE_NAME,
+		GOODS_STOCK_DETAIL.GOODS_STOCK_DETAIL_ID,
+		GOODS_STOCK_DETAIL.STOCK_BILL_ID,
+		GOODS_STOCK_DETAIL.OWNER_ID,
+		GOODS_STOCK_DETAIL.STOCK_COUNT0,
+		GOODS_STOCK_DETAIL.STOCK_COUNT,
+		GOODS_STOCK_DETAIL.GOODS_COST,
+		GOODS_STOCK_DETAIL.PRODUCT_DATE,
+		GOODS_STOCK_DETAIL.EXPIRED_DATE,
+		GOODS_STOCK_DETAIL.CREATE_DATE,
+		GOODS_STOCK_DETAIL.STOCK_BILL_TYPE,
+		GOODS_STOCK_DETAIL.STOCK_DETAIL_STATUS,
+		DATEDIFF(GOODS_STOCK_DETAIL.EXPIRED_DATE, NOW()) as EXPIRED_DAY,
+		(DATEDIFF(GOODS_STOCK_DETAIL.EXPIRED_DATE, NOW()) / DATEDIFF(GOODS_STOCK_DETAIL.EXPIRED_DATE, GOODS_STOCK_DETAIL.PRODUCT_DATE)) as EXPIRED_PERCENT
+	FROM
+	GOODS_STOCK_DETAIL
+		JOIN GOODS_INFO ON GOODS_STOCK_DETAIL.GOODS_ID = GOODS_INFO.GOODS_ID 
+		JOIN GOODS_TYPE ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID 
+	where GOODS_INFO.HAS_QUALITY_PERIOD = 1 AND
+    GOODS_STOCK_DETAIL.OWNER_ID = #{ownerId,jdbcType=VARCHAR} and GOODS_STOCK_DETAIL.STOCK_DETAIL_STATUS = 0 
+		and GOODS_STOCK_DETAIL.STOCK_COUNT > 0
+		<if test="expiredType == 0">
+			AND (DATEDIFF(GOODS_STOCK_DETAIL.EXPIRED_DATE, NOW()) / DATEDIFF(GOODS_STOCK_DETAIL.EXPIRED_DATE, GOODS_STOCK_DETAIL.PRODUCT_DATE)) &lt;= 0.35 
+		</if>
+		<if test="expiredType == 1">
+			AND DATEDIFF(GOODS_STOCK_DETAIL.EXPIRED_DATE, NOW())  &lt;=30
+		</if>
+		<if test="expiredType == 2">
+			AND DATEDIFF(GOODS_STOCK_DETAIL.EXPIRED_DATE, NOW())  &lt;=10
+		</if>
+		<if test="expiredType == 3">
+			AND DATEDIFF(GOODS_STOCK_DETAIL.EXPIRED_DATE, NOW()) &lt;= 0
+		</if>
+	order by DATEDIFF(GOODS_STOCK_DETAIL.EXPIRED_DATE, NOW()) ASC
+  </select>
+  
+  <select id="selectBuyAmount" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail" resultMap="BaseResultMap">
+  	SELECT
+		SUM(GOODS_STOCK_DETAIL.STOCK_COUNT0) as STOCK_COUNT0,
+		SUM(GOODS_STOCK_DETAIL.STOCK_COUNT0 * GOODS_STOCK_DETAIL.GOODS_COST) as GOODS_COST
+	FROM
+		GOODS_STOCK_DETAIL
+		JOIN GOODS_STOCK_BILLS
+		ON GOODS_STOCK_DETAIL.STOCK_BILL_ID = GOODS_STOCK_BILLS.STOCK_BILL_ID 
+		JOIN STOCK_ORDERS
+		ON STOCK_ORDERS.STOCK_ORDER_ID = GOODS_STOCK_BILLS.STOCK_ORDER_ID
+		WHERE DATE_FORMAT(STOCK_ORDERS.CREATE_DATE, '%Y-%m-%d') = #{dateText,jdbcType=VARCHAR}
+		AND STOCK_ORDERS.APPLY_ID = #{ownerId,jdbcType=VARCHAR}
+		AND GOODS_STOCK_DETAIL.GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from GOODS_STOCK_DETAIL
+    where GOODS_STOCK_DETAIL_ID = #{goodsStockDetailId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail">
+    insert into GOODS_STOCK_DETAIL (GOODS_STOCK_DETAIL_ID, STOCK_BILL_ID, 
+      GOODS_ID, OWNER_ID, STOCK_COUNT, STOCK_COUNT0, GOODS_COST, 
+      PRODUCT_DATE, EXPIRED_DATE, CREATE_DATE, STOCK_BILL_TYPE, STOCK_DETAIL_STATUS, REFER_STOCK_DETAIL_ID)
+    values (#{goodsStockDetailId,jdbcType=INTEGER}, #{stockBillId,jdbcType=VARCHAR}, 
+      #{goodsId,jdbcType=VARCHAR}, #{ownerId,jdbcType=VARCHAR}, #{stockCount,jdbcType=INTEGER}, #{stockCount0,jdbcType=INTEGER}, #{goodsCost,jdbcType=REAL}, 
+      #{productDate,jdbcType=TIMESTAMP}, #{expiredDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{stockBillType,jdbcType=INTEGER},
+       #{stockDetailStatus,jdbcType=INTEGER},  #{referStockDetailId,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail">
+    insert into GOODS_STOCK_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsStockDetailId != null">
+        GOODS_STOCK_DETAIL_ID,
+      </if>
+      <if test="stockBillId != null">
+        STOCK_BILL_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="ownerId != null">
+        OWNER_ID,
+      </if>
+      <if test="stockCount != null">
+        STOCK_COUNT,
+      </if>
+      <if test="stockCount0 != null">
+        STOCK_COUNT0,
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST,
+      </if>
+      <if test="productDate != null">
+        PRODUCT_DATE,
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="stockBillType != null">
+        STOCK_BILL_TYPE,
+      </if>
+      <if test="stockDetailStatus != null">
+        STOCK_DETAIL_STATUS,
+      </if>
+      <if test="referStockDetailId != null">
+        REFER_STOCK_DETAIL_ID,
+      </if>
+      <if test="locked != null">
+        LOCKED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsStockDetailId != null">
+        #{goodsStockDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="stockBillId != null">
+        #{stockBillId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCount != null">
+        #{stockCount,jdbcType=INTEGER},
+      </if>
+      <if test="stockCount0 != null">
+        #{stockCount0,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCost != null">
+        #{goodsCost,jdbcType=REAL},
+      </if>
+      <if test="productDate != null">
+        #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+      	#{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockBillType != null">
+        #{stockBillType,jdbcType=INTEGER},
+      </if>
+       <if test="stockDetailStatus != null">
+        #{stockDetailStatus,jdbcType=INTEGER},
+      </if>
+      <if test="referStockDetailId != null">
+        #{referStockDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="locked != null">
+        #{locked,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail">
+    update GOODS_STOCK_DETAIL
+    <set>
+      <if test="stockBillId != null">
+        STOCK_BILL_ID = #{stockBillId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCount != null">
+        STOCK_COUNT = #{stockCount,jdbcType=INTEGER},
+      </if>
+      <if test="stockCount0 != null">
+        STOCK_COUNT0 = #{stockCount0,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST = #{goodsCost,jdbcType=REAL},
+      </if>
+      <if test="productDate != null">
+        PRODUCT_DATE = #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredDate != null">
+        EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+      	CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockBillType != null">
+        STOCK_BILL_TYPE = #{stockBillType,jdbcType=INTEGER},
+      </if>
+      <if test="stockDetailStatus != null">
+        STOCK_DETAIL_STATUS = #{stockDetailStatus,jdbcType=INTEGER},
+      </if>
+      <if test="referStockDetailId != null">
+        REFER_STOCK_DETAIL_ID = #{referStockDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="locked != null">
+        LOCKED = #{locked,jdbcType=BIT},
+      </if>
+    </set>
+    where GOODS_STOCK_DETAIL_ID = #{goodsStockDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail">
+    update GOODS_STOCK_DETAIL
+    set STOCK_BILL_ID = #{stockBillId,jdbcType=VARCHAR},
+      GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+      STOCK_COUNT = #{stockCount,jdbcType=INTEGER},
+      STOCK_COUNT0 = #{stockCount0,jdbcType=INTEGER},
+      GOODS_COST = #{goodsCost,jdbcType=REAL},
+      PRODUCT_DATE = #{productDate,jdbcType=TIMESTAMP},
+      EXPIRED_DATE = #{expiredDate,jdbcType=TIMESTAMP},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      STOCK_BILL_TYPE = #{stockBillType,jdbcType=INTEGER},
+      STOCK_DETAIL_STATUS = #{stockDetailStatus,jdbcType=INTEGER},
+      REFER_STOCK_DETAIL_ID = #{referStockDetailId,jdbcType=INTEGER},
+      LOCKED = #{locked,jdbcType=BIT}
+    where GOODS_STOCK_DETAIL_ID = #{goodsStockDetailId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateTempStatus" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail">
+    update GOODS_STOCK_DETAIL
+    set 
+      STOCK_DETAIL_STATUS = #{stockDetailStatus,jdbcType=INTEGER}
+    where GOODS_STOCK_DETAIL_ID = #{goodsStockDetailId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="deCreaseStock" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail">
+    update GOODS_STOCK_DETAIL
+    set 
+      STOCK_COUNT = STOCK_COUNT - #{stockCount,jdbcType=INTEGER}
+    where GOODS_STOCK_DETAIL_ID = #{goodsStockDetailId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="lock" parameterType="com.fuhuitong.applychain.model.GoodsStockDetail">
+    update GOODS_STOCK_DETAIL
+    set 
+      LOCKED = #{locked,jdbcType=BIT}
+    where GOODS_STOCK_DETAIL_ID = #{goodsStockDetailId,jdbcType=INTEGER}
+  </update>
+</mapper>

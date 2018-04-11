@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.BatchStockGoodsDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.BatchStockGoodsDetails">
+    <id column="BATCH_STOCK_GOODS_ID" jdbcType="INTEGER" property="batchStockGoodsId" />
+    <result column="BATCH_STOCK_ORDER_ID" jdbcType="VARCHAR" property="batchStockOrderId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="GOODS_COUNT" jdbcType="INTEGER" property="goodsCount" />
+    <result column="PROVIDER_ID" jdbcType="VARCHAR" property="providerId" />
+    <result column="PROVIDER_NAME" jdbcType="VARCHAR" property="providerName" />
+    <result column="PROVIDER_COUNT" jdbcType="INTEGER" property="providerCount" />
+    <result column="PROVIDER_COST" jdbcType="INTEGER" property="providerCost" />
+    <result column="PROVIDER_UNIT" jdbcType="VARCHAR" property="providerUnit" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    BATCH_STOCK_GOODS_ID, BATCH_STOCK_ORDER_ID, GOODS_ID, GOODS_NAME, GOODS_CODE, GOODS_COUNT,
+    PROVIDER_ID, PROVIDER_NAME, PROVIDER_COUNT, PROVIDER_COST, PROVIDER_UNIT
+  </sql>
+  
+  <select id="selectByStockId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BATCH_STOCK_GOODS_DETAILS
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BATCH_STOCK_GOODS_DETAILS
+    where BATCH_STOCK_GOODS_ID = #{batchStockGoodsId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from BATCH_STOCK_GOODS_DETAILS
+    where BATCH_STOCK_GOODS_ID = #{batchStockGoodsId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByStockId" parameterType="java.lang.String">
+    delete from BATCH_STOCK_GOODS_DETAILS
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteBy" parameterType="com.fuhuitong.applychain.model.BatchStockGoodsDetails">
+    delete from BATCH_STOCK_GOODS_DETAILS
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+    AND GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.BatchStockGoodsDetails">
+    insert into BATCH_STOCK_GOODS_DETAILS (BATCH_STOCK_GOODS_ID, BATCH_STOCK_ORDER_ID, 
+      GOODS_ID, GOODS_NAME, GOODS_CODE, 
+      GOODS_COUNT, PROVIDER_ID, PROVIDER_NAME, 
+      PROVIDER_COUNT)
+    values (#{batchStockGoodsId,jdbcType=INTEGER}, #{batchStockOrderId,jdbcType=VARCHAR}, 
+      #{goodsId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{goodsCount,jdbcType=INTEGER}, #{providerId,jdbcType=VARCHAR}, #{providerName,jdbcType=VARCHAR}, 
+      #{providerCount,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertGoods" parameterType="com.fuhuitong.applychain.model.BatchStockGoodsDetails">
+    insert into BATCH_STOCK_GOODS_DETAILS (BATCH_STOCK_ORDER_ID, 
+      GOODS_ID, GOODS_NAME, GOODS_CODE, GOODS_COUNT, PROVIDER_ID, PROVIDER_NAME, 
+      PROVIDER_COUNT, PROVIDER_COST, PROVIDER_UNIT
+      )
+    select 
+    	#{batchStockOrderId,jdbcType=VARCHAR},GOODS_ID, GOODS_NAME, GOODS_CODE, 1, 
+    	#{providerId,jdbcType=VARCHAR}, #{providerName,jdbcType=VARCHAR}, #{providerCount,jdbcType=INTEGER},
+    	#{providerCost,jdbcType=INTEGER}, #{providerUnit,jdbcType=VARCHAR}  from GOODS_INFO
+    where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.BatchStockGoodsDetails">
+    insert into BATCH_STOCK_GOODS_DETAILS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="batchStockGoodsId != null">
+        BATCH_STOCK_GOODS_ID,
+      </if>
+      <if test="batchStockOrderId != null">
+        BATCH_STOCK_ORDER_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME,
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE,
+      </if>
+      <if test="goodsCount != null">
+        GOODS_COUNT,
+      </if>
+      <if test="providerId != null">
+        PROVIDER_ID,
+      </if>
+      <if test="providerName != null">
+        PROVIDER_NAME,
+      </if>
+      <if test="providerCount != null">
+        PROVIDER_COUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="batchStockGoodsId != null">
+        #{batchStockGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="batchStockOrderId != null">
+        #{batchStockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCount != null">
+        #{goodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="providerId != null">
+        #{providerId,jdbcType=VARCHAR},
+      </if>
+      <if test="providerName != null">
+        #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="providerCount != null">
+        #{providerCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.BatchStockGoodsDetails">
+    update BATCH_STOCK_GOODS_DETAILS
+    <set>
+      <if test="batchStockOrderId != null">
+        BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCount != null">
+        GOODS_COUNT = #{goodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="providerId != null">
+        PROVIDER_ID = #{providerId,jdbcType=VARCHAR},
+      </if>
+      <if test="providerName != null">
+        PROVIDER_NAME = #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="providerCount != null">
+        PROVIDER_COUNT = #{providerCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where BATCH_STOCK_GOODS_ID = #{batchStockGoodsId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.BatchStockGoodsDetails">
+    update BATCH_STOCK_GOODS_DETAILS
+    set BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR},
+      GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+      GOODS_COUNT = #{goodsCount,jdbcType=INTEGER},
+      PROVIDER_ID = #{providerId,jdbcType=VARCHAR},
+      PROVIDER_NAME = #{providerName,jdbcType=VARCHAR},
+      PROVIDER_COUNT = #{providerCount,jdbcType=INTEGER}
+    where BATCH_STOCK_GOODS_ID = #{batchStockGoodsId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateCount" parameterType="com.fuhuitong.applychain.model.BatchStockGoodsDetails">
+    update BATCH_STOCK_GOODS_DETAILS
+    set 
+      GOODS_COUNT = #{goodsCount,jdbcType=INTEGER}
+    where BATCH_STOCK_GOODS_ID = #{batchStockGoodsId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateProvider" parameterType="com.fuhuitong.applychain.model.BatchStockGoodsDetails">
+    update BATCH_STOCK_GOODS_DETAILS
+    set 
+      PROVIDER_ID = #{providerId,jdbcType=VARCHAR},
+      PROVIDER_NAME = #{providerName,jdbcType=VARCHAR},
+      PROVIDER_COST = #{providerCost,jdbcType=INTEGER}
+    where BATCH_STOCK_GOODS_ID = #{batchStockGoodsId,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

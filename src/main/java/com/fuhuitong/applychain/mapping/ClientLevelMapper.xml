@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.ClientLevelMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.ClientLevel">
+    <id column="CLIENT_LEVEL_ID" jdbcType="VARCHAR" property="clientLevelId" />
+    <result column="LEVEL_TYPE" jdbcType="INTEGER" property="levelType" />
+    <result column="LEVEL_NAME" jdbcType="VARCHAR" property="levelName" />
+    <result column="LEVEL_VALUE" jdbcType="INTEGER" property="levelValue" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CLIENT_LEVEL_ID, LEVEL_TYPE, LEVEL_NAME, LEVEL_VALUE, MER_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CLIENT_LEVEL
+    where CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectLowestLevel" parameterType="com.fuhuitong.applychain.model.ClientLevel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CLIENT_LEVEL
+    where MER_ID = #{merId,jdbcType=VARCHAR} and LEVEL_TYPE = 3 
+    order by LEVEL_VALUE asc
+    limit 1
+  </select>
+  
+  <select id="selectAll" parameterType="com.fuhuitong.applychain.model.ClientLevel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CLIENT_LEVEL
+    where MER_ID = #{merId,jdbcType=VARCHAR} and LEVEL_TYPE = #{levelType,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CLIENT_LEVEL
+    where CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.ClientLevel">
+    insert into CLIENT_LEVEL (CLIENT_LEVEL_ID, LEVEL_TYPE, LEVEL_NAME, 
+      LEVEL_VALUE, MER_ID)
+    values (#{clientLevelId,jdbcType=VARCHAR}, #{levelType,jdbcType=INTEGER}, #{levelName,jdbcType=VARCHAR}, 
+      #{levelValue,jdbcType=INTEGER}, #{merId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.ClientLevel">
+    insert into CLIENT_LEVEL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clientLevelId != null">
+        CLIENT_LEVEL_ID,
+      </if>
+      <if test="levelType != null">
+        LEVEL_TYPE,
+      </if>
+      <if test="levelName != null">
+        LEVEL_NAME,
+      </if>
+      <if test="levelValue != null">
+        LEVEL_VALUE,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clientLevelId != null">
+        #{clientLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="levelType != null">
+        #{levelType,jdbcType=INTEGER},
+      </if>
+      <if test="levelName != null">
+        #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="levelValue != null">
+        #{levelValue,jdbcType=INTEGER},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.ClientLevel">
+    update CLIENT_LEVEL
+    <set>
+      <if test="levelType != null">
+        LEVEL_TYPE = #{levelType,jdbcType=INTEGER},
+      </if>
+      <if test="levelName != null">
+        LEVEL_NAME = #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="levelValue != null">
+        LEVEL_VALUE = #{levelValue,jdbcType=INTEGER},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.ClientLevel">
+    update CLIENT_LEVEL
+    set LEVEL_TYPE = #{levelType,jdbcType=INTEGER},
+      LEVEL_NAME = #{levelName,jdbcType=VARCHAR},
+      LEVEL_VALUE = #{levelValue,jdbcType=INTEGER},
+      MER_ID = #{merId,jdbcType=VARCHAR}
+    where CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR}
+  </update>
+</mapper>

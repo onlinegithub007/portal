@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.SysMenusMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.SysMenus">
+    <id column="MENU_ID" jdbcType="VARCHAR" property="menuId" />
+    <result column="PARENT_MENU_ID" jdbcType="VARCHAR" property="parentMenuId" />
+    <result column="MENU_TEXT" jdbcType="VARCHAR" property="menuText" />
+    <result column="MENU_URL" jdbcType="VARCHAR" property="menuUrl" />
+    <result column="MENU_ENABLED" jdbcType="BIT" property="menuEnabled" />
+    <result column="MENU_VISIBLE" jdbcType="BIT" property="menuVisible" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MENU_ID, PARENT_MENU_ID, MENU_TEXT, MENU_URL, MENU_ENABLED, MENU_VISIBLE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_MENUS
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYS_MENUS
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.SysMenus">
+    insert into SYS_MENUS (MENU_ID, PARENT_MENU_ID, MENU_TEXT, 
+      MENU_URL, MENU_ENABLED, MENU_VISIBLE
+      )
+    values (#{menuId,jdbcType=VARCHAR}, #{parentMenuId,jdbcType=VARCHAR}, #{menuText,jdbcType=VARCHAR}, 
+      #{menuUrl,jdbcType=VARCHAR}, #{menuEnabled,jdbcType=BIT}, #{menuVisible,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.SysMenus">
+    insert into SYS_MENUS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        MENU_ID,
+      </if>
+      <if test="parentMenuId != null">
+        PARENT_MENU_ID,
+      </if>
+      <if test="menuText != null">
+        MENU_TEXT,
+      </if>
+      <if test="menuUrl != null">
+        MENU_URL,
+      </if>
+      <if test="menuEnabled != null">
+        MENU_ENABLED,
+      </if>
+      <if test="menuVisible != null">
+        MENU_VISIBLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentMenuId != null">
+        #{parentMenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuText != null">
+        #{menuText,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null">
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuEnabled != null">
+        #{menuEnabled,jdbcType=BIT},
+      </if>
+      <if test="menuVisible != null">
+        #{menuVisible,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.SysMenus">
+    update SYS_MENUS
+    <set>
+      <if test="parentMenuId != null">
+        PARENT_MENU_ID = #{parentMenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuText != null">
+        MENU_TEXT = #{menuText,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null">
+        MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuEnabled != null">
+        MENU_ENABLED = #{menuEnabled,jdbcType=BIT},
+      </if>
+      <if test="menuVisible != null">
+        MENU_VISIBLE = #{menuVisible,jdbcType=BIT},
+      </if>
+    </set>
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.SysMenus">
+    update SYS_MENUS
+    set PARENT_MENU_ID = #{parentMenuId,jdbcType=VARCHAR},
+      MENU_TEXT = #{menuText,jdbcType=VARCHAR},
+      MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      MENU_ENABLED = #{menuEnabled,jdbcType=BIT},
+      MENU_VISIBLE = #{menuVisible,jdbcType=BIT}
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </update>
+</mapper>

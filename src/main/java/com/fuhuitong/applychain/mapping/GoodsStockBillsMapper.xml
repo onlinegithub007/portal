@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.GoodsStockBillsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.GoodsStockBills">
+    <id column="STOCK_BILL_ID" jdbcType="VARCHAR" property="stockBillId" />
+    <result column="PURCHASE_ORDER_ID" jdbcType="VARCHAR" property="purchaseOrderId" />
+    <result column="STOCK_ORDER_ID" jdbcType="VARCHAR" property="stockOrderId" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="OWNER_TYPE" jdbcType="INTEGER" property="ownerType" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="STOCK_BILL_SOURCE" jdbcType="INTEGER" property="stockBillSource" />
+    <result column="STOCK_BILL_TYPE" jdbcType="INTEGER" property="stockBillType" />
+    <result column="GOODS_AMOUNT" jdbcType="INTEGER" property="goodsAmount" />
+    <result column="STOCK_BILL_STATUS" jdbcType="INTEGER" property="stockBillStatus" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    STOCK_BILL_ID, PURCHASE_ORDER_ID, STOCK_ORDER_ID, OWNER_ID, OWNER_TYPE, CREATE_DATE, 
+    STOCK_BILL_SOURCE, STOCK_BILL_TYPE, GOODS_AMOUNT, STOCK_BILL_STATUS
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_STOCK_BILLS
+    where STOCK_BILL_ID = #{stockBillId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectTempByPurchaseOrder" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_STOCK_BILLS
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR} and STOCK_BILL_STATUS = -1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from GOODS_STOCK_BILLS
+    where STOCK_BILL_ID = #{stockBillId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.GoodsStockBills">
+    insert into GOODS_STOCK_BILLS (STOCK_BILL_ID, PURCHASE_ORDER_ID, STOCK_ORDER_ID, 
+      OWNER_ID, OWNER_TYPE, CREATE_DATE, 
+      STOCK_BILL_SOURCE, STOCK_BILL_TYPE, GOODS_AMOUNT, STOCK_BILL_STATUS)
+    values (#{stockBillId,jdbcType=VARCHAR}, #{purchaseOrderId,jdbcType=VARCHAR}, #{stockOrderId,jdbcType=VARCHAR}, 
+      #{ownerId,jdbcType=VARCHAR}, #{ownerType,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{stockBillSource,jdbcType=INTEGER}, #{stockBillType,jdbcType=INTEGER}, #{goodsAmount,jdbcType=INTEGER}, #{stockBillStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.GoodsStockBills">
+    insert into GOODS_STOCK_BILLS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockBillId != null">
+        STOCK_BILL_ID,
+      </if>
+      <if test="purchaseOrderId != null">
+        PURCHASE_ORDER_ID,
+      </if>
+      <if test="stockOrderId != null">
+        STOCK_ORDER_ID,
+      </if>
+      <if test="ownerId != null">
+        OWNER_ID,
+      </if>
+      <if test="ownerType != null">
+        OWNER_TYPE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="stockBillSource != null">
+        STOCK_BILL_SOURCE,
+      </if>
+      <if test="stockBillType != null">
+        STOCK_BILL_TYPE,
+      </if>
+      <if test="goodsAmount != null">
+        GOODS_AMOUNT,
+      </if>
+      <if test="stockBillStatus != null">
+        STOCK_BILL_STATUS,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockBillId != null">
+        #{stockBillId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseOrderId != null">
+        #{purchaseOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderId != null">
+        #{stockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerType != null">
+        #{ownerType,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockBillSource != null">
+        #{stockBillSource,jdbcType=INTEGER},
+      </if>
+      <if test="stockBillType != null">
+        #{stockBillType,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAmount != null">
+        #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="stockBillStatus != null">
+        #{stockBillStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.GoodsStockBills">
+    update GOODS_STOCK_BILLS
+    <set>
+      <if test="purchaseOrderId != null">
+        PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderId != null">
+        STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerType != null">
+        OWNER_TYPE = #{ownerType,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockBillSource != null">
+        STOCK_BILL_SOURCE = #{stockBillSource,jdbcType=INTEGER},
+      </if>
+      <if test="stockBillType != null">
+        STOCK_BILL_TYPE = #{stockBillType,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAmount != null">
+        GOODS_AMOUNT = #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="stockBillStatus != null">
+        STOCK_BILL_STATUS = #{stockBillStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where STOCK_BILL_ID = #{stockBillId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.GoodsStockBills">
+    update GOODS_STOCK_BILLS
+    set PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR},
+      STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR},
+      OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+      OWNER_TYPE = #{ownerType,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      STOCK_BILL_SOURCE = #{stockBillSource,jdbcType=INTEGER},
+      STOCK_BILL_TYPE = #{stockBillType,jdbcType=INTEGER},
+      GOODS_AMOUNT = #{goodsAmount,jdbcType=INTEGER},
+      STOCK_BILL_STATUS = #{stockBillStatus,jdbcType=INTEGER}
+    where STOCK_BILL_ID = #{stockBillId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateBillStatus" parameterType="com.fuhuitong.applychain.model.GoodsStockBills">
+    update GOODS_STOCK_BILLS
+    set 
+      STOCK_BILL_STATUS = #{stockBillStatus,jdbcType=INTEGER}
+    where STOCK_BILL_ID = #{stockBillId,jdbcType=VARCHAR}
+  </update>
+</mapper>

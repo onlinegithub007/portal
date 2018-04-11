@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.GoodsStockCheckMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.GoodsStockCheck">
+    <id column="STOCK_CHECK_ID" jdbcType="INTEGER" property="stockCheckId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="GOODS_STOCK_ID" jdbcType="BIGINT" property="goodsStockId" />
+    <result column="STOCK_CHECKOR_ID" jdbcType="VARCHAR" property="stockCheckorId" />
+    <result column="STOCK_CHECKOR_NAME" jdbcType="VARCHAR" property="stockCheckorName" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CHECK_RESULT" jdbcType="INTEGER" property="checkResult" />
+    <result column="CHECK_DIFF_VALUE" jdbcType="INTEGER" property="checkDiffValue" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    
+    <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="GOODS_TYPE_NAME" jdbcType="VARCHAR" property="goodsTypeName" />
+    
+    <result column="GOODS_STOCK_ID" jdbcType="BIGINT" property="goodsStockId" />
+    <result column="OWNER_TYPE" jdbcType="INTEGER" property="ownerType" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="STOCK_AMOUNT" jdbcType="INTEGER" property="stockAmount" />
+    
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    STOCK_CHECK_ID, GOODS_ID, GOODS_STOCK_ID, STOCK_CHECKOR_ID, STOCK_CHECKOR_NAME, CREATE_DATE, 
+    CHECK_RESULT, CHECK_DIFF_VALUE, OWNER_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from GOODS_STOCK_CHECK
+    where STOCK_CHECK_ID = #{stockCheckId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from GOODS_STOCK_CHECK
+    where STOCK_CHECK_ID = #{stockCheckId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByDay" parameterType="com.fuhuitong.applychain.model.GoodsStockCheck">
+    delete from GOODS_STOCK_CHECK
+    where GOODS_STOCK_ID = #{goodsStockId,jdbcType=INTEGER} 
+    and DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.GoodsStockCheck">
+    insert into GOODS_STOCK_CHECK (STOCK_CHECK_ID, GOODS_ID, GOODS_STOCK_ID, 
+      STOCK_CHECKOR_ID, STOCK_CHECKOR_NAME, CREATE_DATE, 
+      CHECK_RESULT, CHECK_DIFF_VALUE, OWNER_ID
+      )
+    values (#{stockCheckId,jdbcType=INTEGER}, #{goodsId,jdbcType=VARCHAR}, #{goodsStockId,jdbcType=BIGINT}, 
+      #{stockCheckorId,jdbcType=VARCHAR}, #{stockCheckorName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{checkResult,jdbcType=INTEGER}, #{checkDiffValue,jdbcType=INTEGER}, #{ownerId,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.GoodsStockCheck">
+    insert into GOODS_STOCK_CHECK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockCheckId != null">
+        STOCK_CHECK_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="goodsStockId != null">
+        GOODS_STOCK_ID,
+      </if>
+      <if test="stockCheckorId != null">
+        STOCK_CHECKOR_ID,
+      </if>
+      <if test="stockCheckorName != null">
+        STOCK_CHECKOR_NAME,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="checkResult != null">
+        CHECK_RESULT,
+      </if>
+      <if test="checkDiffValue != null">
+        CHECK_DIFF_VALUE,
+      </if>
+      <if test="ownerId != null">
+        OWNER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockCheckId != null">
+        #{stockCheckId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsStockId != null">
+        #{goodsStockId,jdbcType=BIGINT},
+      </if>
+      <if test="stockCheckorId != null">
+        #{stockCheckorId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCheckorName != null">
+        #{stockCheckorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkResult != null">
+        #{checkResult,jdbcType=INTEGER},
+      </if>
+      <if test="checkDiffValue != null">
+        #{checkDiffValue,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.GoodsStockCheck">
+    update GOODS_STOCK_CHECK
+    <set>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsStockId != null">
+        GOODS_STOCK_ID = #{goodsStockId,jdbcType=BIGINT},
+      </if>
+      <if test="stockCheckorId != null">
+        STOCK_CHECKOR_ID = #{stockCheckorId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCheckorName != null">
+        STOCK_CHECKOR_NAME = #{stockCheckorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkResult != null">
+        CHECK_RESULT = #{checkResult,jdbcType=INTEGER},
+      </if>
+      <if test="checkDiffValue != null">
+        CHECK_DIFF_VALUE = #{checkDiffValue,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null">
+        OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where STOCK_CHECK_ID = #{stockCheckId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.GoodsStockCheck">
+    update GOODS_STOCK_CHECK
+    set GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      GOODS_STOCK_ID = #{goodsStockId,jdbcType=BIGINT},
+      STOCK_CHECKOR_ID = #{stockCheckorId,jdbcType=VARCHAR},
+      STOCK_CHECKOR_NAME = #{stockCheckorName,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CHECK_RESULT = #{checkResult,jdbcType=INTEGER},
+      CHECK_DIFF_VALUE = #{checkDiffValue,jdbcType=INTEGER},
+      OWNER_ID = #{ownerId,jdbcType=VARCHAR}
+    where STOCK_CHECK_ID = #{stockCheckId,jdbcType=INTEGER}
+  </update>
+</mapper>

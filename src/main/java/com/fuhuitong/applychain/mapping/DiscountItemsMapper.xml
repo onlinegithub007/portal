@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.DiscountItemsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.DiscountItems">
+    <id column="DISCOUNT_ITEM_ID" jdbcType="INTEGER" property="discountItemId" />
+    <result column="DISCOUNT_ID" jdbcType="VARCHAR" property="discountId" />
+    <result column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="GOODS_PRICE" jdbcType="INTEGER" property="goodsPrice" />
+    <result column="GOODS_DISCOUNT_TYPE" jdbcType="INTEGER" property="goodsDiscountType" />
+    <result column="GOODS_DISCOUNT_PRICE" jdbcType="INTEGER" property="goodsDiscountPrice" />
+    <result column="GOODS_DISCOUNT_VALUE" jdbcType="INTEGER" property="goodsDiscountValue" />
+    <result column="GOODS_DISCOUNT_PERCENT" jdbcType="INTEGER" property="goodsDiscountPercent" />
+    <result column="ORDER_DISCOUNT_TYPE" jdbcType="INTEGER" property="orderDiscountType" />
+    <result column="ORDER_REACH_VALUE" jdbcType="INTEGER" property="orderReachValue" />
+    <result column="ORDER_DISCOUNT_VALUE" jdbcType="INTEGER" property="orderDiscountValue" />
+    <result column="ORDER_DISCOUNT_PERCENT" jdbcType="INTEGER" property="orderDiscountPercent" />
+    <result column="AMOUNT_DISCOUNT_TYPE" jdbcType="INTEGER" property="amountDiscountType" />
+    <result column="AMOUNT_REACH_VALUE" jdbcType="INTEGER" property="amountReachValue" />
+    <result column="AMOUNT_DISCOUNT_PRICE" jdbcType="INTEGER" property="amountDiscountPrice" />
+    <result column="AMOUNT_DISCOUNT_VALUE" jdbcType="INTEGER" property="amountDiscountValue" />
+    <result column="AMOUNT_DISCOUNT_PERCENT" jdbcType="INTEGER" property="amountDiscountPercent" />
+    <result column="AMOUNT_TOTAL_DISCOUNT_PRICE" jdbcType="INTEGER" property="amountTotalDiscountPrice" />
+    <result column="AMOUNT_TOTAL_DISCOUNT_VALUE" jdbcType="INTEGER" property="amountTotalDiscountValue" />
+    <result column="PRESENT_DISCOUNT_TYPE" jdbcType="INTEGER" property="presentDiscountType" />
+    <result column="SALE_GOODS_ID" jdbcType="VARCHAR" property="saleGoodsId" />
+    <result column="PRESENT_GOODS_ID" jdbcType="VARCHAR" property="presentGoodsId" />
+    <result column="PRESENT_GOODS_PRICE" jdbcType="INTEGER" property="presentGoodsPrice" />
+    <result column="GROUP_DISCOUNT_TYPE" jdbcType="INTEGER" property="groupDiscountType" />
+    <result column="GROUP_GOODS_IDS" jdbcType="VARCHAR" property="groupGoodsIds" />
+    <result column="GROUP_PRESENT_GOODS_ID" jdbcType="VARCHAR" property="groupPresentGoodsId" />
+    <result column="GROUP_ORDER_DISCOUNT_PRICE" jdbcType="INTEGER" property="groupOrderDiscountPrice" />
+    <result column="GROUP_ORDER_DISCOUNT_VALUE" jdbcType="INTEGER" property="groupOrderDiscountValue" />
+    <result column="GROUP_ORDER_DISCOUNT_PERCENT" jdbcType="INTEGER" property="groupOrderDiscountPercent" />
+    <result column="ORDER_TOP_SALE_TYPE" jdbcType="INTEGER" property="orderTopSaleType" />
+    <result column="ORDER_TOP_VALUE" jdbcType="INTEGER" property="orderTopValue" />
+    <result column="ORDER_TOP_PRESENT_GOODS_ID" jdbcType="VARCHAR" property="orderTopPresentGoodsId" />
+    <result column="ORDER_ADDTIONAL_GOODS_ID" jdbcType="VARCHAR" property="orderAddtionalGoodsId" />
+    <result column="ORDER_ADDTIONAL_GOODS_PRICE" jdbcType="INTEGER" property="orderAddtionalGoodsPrice" />
+    <result column="ORDER_ADDTIONAL_GOODS_COUNT" jdbcType="INTEGER" property="orderAddtionalGoodsCount" />
+    <result column="ORDER_ADDTIONAL_GOODS_MIN_COUNT" jdbcType="INTEGER" property="orderAddtionalGoodsMinCount" />
+    <result column="ORDER_ADDTIONAL_GOODS_MAX_COUNT" jdbcType="INTEGER" property="orderAddtionalGoodsMaxCount" />
+    
+    <result column="DISCOUNT_ITEM_STATUS" jdbcType="INTEGER" property="discountItemStatus" />
+    <result column="DISCOUNT_USER_TYPE" jdbcType="INTEGER" property="discountUserType" />
+    <result column="MEMBER_LEVEL_ID" jdbcType="VARCHAR" property="memberLevelId" />
+    <result column="LEVEL_NAME" jdbcType="VARCHAR" property="levelName" />
+    <result column="DISCOUNT_TYPE" jdbcType="INTEGER" property="discountType" />
+    <result column="DISCOUNT_TYPE_NAME" jdbcType="VARCHAR" property="discountTypeName" />
+    <result column="STORE_ID" jdbcType="VARCHAR" property="storeId" />
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    DISCOUNT_ITEM_ID, DISCOUNT_ID, GOODS_ID, MER_ID, GOODS_NAME, CREATE_DATE, END_DATE, 
+    GOODS_PRICE, GOODS_DISCOUNT_TYPE, GOODS_DISCOUNT_PRICE, GOODS_DISCOUNT_VALUE, GOODS_DISCOUNT_PERCENT, 
+    ORDER_DISCOUNT_TYPE, ORDER_REACH_VALUE, ORDER_DISCOUNT_VALUE, ORDER_DISCOUNT_PERCENT, 
+    AMOUNT_DISCOUNT_TYPE, AMOUNT_REACH_VALUE, AMOUNT_DISCOUNT_PRICE, AMOUNT_DISCOUNT_VALUE, 
+    AMOUNT_DISCOUNT_PERCENT, AMOUNT_TOTAL_DISCOUNT_PRICE, AMOUNT_TOTAL_DISCOUNT_VALUE, 
+    PRESENT_DISCOUNT_TYPE, SALE_GOODS_ID, PRESENT_GOODS_ID, PRESENT_GOODS_PRICE, GROUP_DISCOUNT_TYPE, 
+    GROUP_GOODS_IDS, GROUP_PRESENT_GOODS_ID, GROUP_ORDER_DISCOUNT_PRICE, GROUP_ORDER_DISCOUNT_VALUE, 
+    GROUP_ORDER_DISCOUNT_PERCENT, ORDER_TOP_SALE_TYPE, ORDER_TOP_VALUE, ORDER_TOP_PRESENT_GOODS_ID, 
+    ORDER_ADDTIONAL_GOODS_ID, ORDER_ADDTIONAL_GOODS_PRICE, ORDER_ADDTIONAL_GOODS_COUNT, 
+    ORDER_ADDTIONAL_GOODS_MIN_COUNT, ORDER_ADDTIONAL_GOODS_MAX_COUNT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DISCOUNT_ITEMS
+    where DISCOUNT_ITEM_ID = #{discountItemId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByDiscountId" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DISCOUNT_ITEMS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR} AND GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllGoodsDiscount" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="BaseResultMap">
+    SELECT
+		DISCOUNT_ITEM_ID,
+		DISCOUNT_ID,
+		GOODS_ID, 
+		MER_ID,
+		GOODS_NAME,
+		CREATE_DATE,
+		END_DATE,
+		GOODS_PRICE,
+		GOODS_DISCOUNT_TYPE,
+		GOODS_DISCOUNT_PRICE,
+		GOODS_DISCOUNT_VALUE,
+		GOODS_DISCOUNT_PERCENT,
+		ORDER_DISCOUNT_TYPE
+	FROM
+		DISCOUNT_ITEMS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+    <if test="goodsDiscountType != null">
+    AND GOODS_DISCOUNT_TYPE = #{goodsDiscountType,jdbcType=INTEGER}
+    </if>
+    order by DISCOUNT_ITEM_ID asc
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectAllCountGoodsDiscount" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="allRecordCount">
+    select 
+    COUNT(*) as DATA_COUNT
+    from DISCOUNT_ITEMS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR} 
+    <if test="goodsDiscountType != null">
+    AND GOODS_DISCOUNT_TYPE = #{goodsDiscountType,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectAllOrderDiscount" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="BaseResultMap">
+    SELECT
+		DISCOUNT_ITEM_ID,
+		DISCOUNT_ID,
+		MER_ID,
+		CREATE_DATE,
+		END_DATE,
+		ORDER_DISCOUNT_TYPE,
+		ORDER_REACH_VALUE,
+		ORDER_DISCOUNT_VALUE,
+		ORDER_DISCOUNT_PERCENT
+	FROM
+		DISCOUNT_ITEMS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+    <if test="orderDiscountType != null">
+    AND ORDER_DISCOUNT_TYPE = #{orderDiscountType,jdbcType=INTEGER}
+    </if>
+    order by ORDER_REACH_VALUE desc
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectAllCountOrderDiscount" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="allRecordCount">
+    select 
+    COUNT(*) as DATA_COUNT
+    from DISCOUNT_ITEMS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR} 
+    <if test="orderDiscountType != null">
+    AND ORDER_DISCOUNT_TYPE = #{orderDiscountType,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectAllGroupDiscount" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="BaseResultMap">
+    SELECT
+		DISCOUNT_ITEMS.DISCOUNT_ITEM_ID,
+		DISCOUNT_ITEMS.DISCOUNT_ID,
+		DISCOUNT_ITEMS.MER_ID,
+		DISCOUNT_ITEMS.CREATE_DATE,
+		DISCOUNT_ITEMS.END_DATE,
+		DISCOUNT_ITEMS.GROUP_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.GROUP_GOODS_IDS,
+		DISCOUNT_ITEMS.GROUP_PRESENT_GOODS_ID,
+		DISCOUNT_ITEMS.GROUP_ORDER_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.GROUP_ORDER_DISCOUNT_PRICE,
+		DISCOUNT_ITEMS.GROUP_ORDER_DISCOUNT_PERCENT,
+		GOODS_INFO.GOODS_NAME
+	FROM
+		DISCOUNT_ITEMS
+		LEFT JOIN GOODS_INFO
+		ON DISCOUNT_ITEMS.GROUP_PRESENT_GOODS_ID = GOODS_INFO.GOODS_ID
+    where DISCOUNT_ITEMS.DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+    <if test="groupDiscountType != null">
+    AND DISCOUNT_ITEMS.GROUP_DISCOUNT_TYPE = #{groupDiscountType,jdbcType=INTEGER}
+    </if>
+    order by DISCOUNT_ITEMS.DISCOUNT_ITEM_ID asc
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectAllCountGroupDiscount" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="allRecordCount">
+    select 
+    COUNT(*) as DATA_COUNT
+    from DISCOUNT_ITEMS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR} 
+    <if test="groupDiscountType != null">
+    AND GROUP_DISCOUNT_TYPE = #{groupDiscountType,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectActiveDiscounts" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="BaseResultMap">
+  	SELECT
+		DISCOUNT_STORES.STORE_ID,
+		DISCOUNTS.MER_ID,
+		DISCOUNTS.DISCOUNT_ITEM_STATUS,
+		DISCOUNTS.DISCOUNT_USER_TYPE,
+		DISCOUNTS.MEMBER_LEVEL_ID,
+		DISCOUNTS.DISCOUNT_TYPE,
+		DISCOUNTS.DISCOUNT_TYPE_NAME,
+		DISCOUNTS.CREATE_DATE,
+		DISCOUNTS.END_DATE,
+		DISCOUNT_ITEMS.DISCOUNT_ITEM_ID,
+		DISCOUNT_ITEMS.GOODS_ID,
+		DISCOUNT_ITEMS.GOODS_NAME,
+		DISCOUNT_ITEMS.GOODS_PRICE,
+		DISCOUNT_ITEMS.GOODS_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.GOODS_DISCOUNT_PRICE,
+		DISCOUNT_ITEMS.GOODS_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.GOODS_DISCOUNT_PERCENT,
+		DISCOUNT_ITEMS.ORDER_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.ORDER_REACH_VALUE,
+		DISCOUNT_ITEMS.ORDER_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.ORDER_DISCOUNT_PERCENT,
+		DISCOUNT_ITEMS.AMOUNT_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.AMOUNT_REACH_VALUE,
+		DISCOUNT_ITEMS.AMOUNT_DISCOUNT_PRICE,
+		DISCOUNT_ITEMS.AMOUNT_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.AMOUNT_DISCOUNT_PERCENT,
+		DISCOUNT_ITEMS.AMOUNT_TOTAL_DISCOUNT_PRICE,
+		DISCOUNT_ITEMS.AMOUNT_TOTAL_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.PRESENT_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.SALE_GOODS_ID,
+		DISCOUNT_ITEMS.PRESENT_GOODS_ID,
+		DISCOUNT_ITEMS.PRESENT_GOODS_PRICE,
+		DISCOUNT_ITEMS.GROUP_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.GROUP_GOODS_IDS,
+		DISCOUNT_ITEMS.GROUP_PRESENT_GOODS_ID,
+		DISCOUNT_ITEMS.GROUP_ORDER_DISCOUNT_PRICE,
+		DISCOUNT_ITEMS.GROUP_ORDER_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.ORDER_TOP_SALE_TYPE,
+		DISCOUNT_ITEMS.GROUP_ORDER_DISCOUNT_PERCENT,
+		DISCOUNT_ITEMS.ORDER_TOP_VALUE,
+		DISCOUNT_ITEMS.ORDER_TOP_PRESENT_GOODS_ID,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_ID,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_PRICE,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_COUNT,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_MIN_COUNT,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_MAX_COUNT
+	FROM
+		DISCOUNT_STORES
+		JOIN DISCOUNTS
+		ON DISCOUNT_STORES.DISCOUNT_ID = DISCOUNTS.DISCOUNT_ID 
+		JOIN DISCOUNT_ITEMS
+		ON DISCOUNTS.DISCOUNT_ID = DISCOUNT_ITEMS.DISCOUNT_ID
+	where DISCOUNTS.MER_ID = #{merId,jdbcType=VARCHAR} and DISCOUNTS.DISCOUNT_ITEM_STATUS = 1
+		AND (NOW() - DISCOUNTS.CREATE_DATE >=0) AND (DISCOUNTS.END_DATE - NOW() >= 0)
+		AND DISCOUNT_STORES.STORE_ID = #{storeId,jdbcType=VARCHAR}
+	order by DISCOUNT_ITEMS.ORDER_REACH_VALUE desc
+  </select>
+  
+  <select id="selectAllByDiscountType" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="BaseResultMap">
+    SELECT
+		DISCOUNT_ITEMS.DISCOUNT_ITEM_ID,
+		DISCOUNT_ITEMS.DISCOUNT_ID,
+		DISCOUNT_ITEMS.MER_ID,
+		DISCOUNT_ITEMS.CREATE_DATE,
+		DISCOUNT_ITEMS.END_DATE,
+		DISCOUNT_ITEMS.GOODS_PRICE,
+		DISCOUNT_ITEMS.GOODS_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.GOODS_DISCOUNT_PRICE,
+		DISCOUNT_ITEMS.GOODS_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.GOODS_DISCOUNT_PERCENT,
+		DISCOUNT_ITEMS.ORDER_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.ORDER_REACH_VALUE,
+		DISCOUNT_ITEMS.ORDER_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.ORDER_DISCOUNT_PERCENT,
+		DISCOUNT_ITEMS.AMOUNT_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.AMOUNT_REACH_VALUE,
+		DISCOUNT_ITEMS.AMOUNT_DISCOUNT_PRICE,
+		DISCOUNT_ITEMS.AMOUNT_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.AMOUNT_DISCOUNT_PERCENT,
+		DISCOUNT_ITEMS.AMOUNT_TOTAL_DISCOUNT_PRICE,
+		DISCOUNT_ITEMS.AMOUNT_TOTAL_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.PRESENT_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.SALE_GOODS_ID,
+		DISCOUNT_ITEMS.PRESENT_GOODS_ID,
+		DISCOUNT_ITEMS.PRESENT_GOODS_PRICE,
+		DISCOUNT_ITEMS.GROUP_DISCOUNT_TYPE,
+		DISCOUNT_ITEMS.GROUP_GOODS_IDS,
+		DISCOUNT_ITEMS.GROUP_PRESENT_GOODS_ID,
+		DISCOUNT_ITEMS.GROUP_ORDER_DISCOUNT_VALUE,
+		DISCOUNT_ITEMS.GROUP_ORDER_DISCOUNT_PRICE,
+		DISCOUNT_ITEMS.GROUP_ORDER_DISCOUNT_PERCENT,
+		DISCOUNT_ITEMS.ORDER_TOP_SALE_TYPE,
+		DISCOUNT_ITEMS.ORDER_TOP_VALUE,
+		DISCOUNT_ITEMS.ORDER_TOP_PRESENT_GOODS_ID,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_ID,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_PRICE,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_COUNT,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_MIN_COUNT,
+		DISCOUNT_ITEMS.ORDER_ADDTIONAL_GOODS_MAX_COUNT,
+		GOODS_INFO.GOODS_NAME
+	FROM
+		DISCOUNT_ITEMS
+		LEFT JOIN GOODS_INFO
+		ON DISCOUNT_ITEMS.GROUP_PRESENT_GOODS_ID = GOODS_INFO.GOODS_ID
+    where DISCOUNT_ITEMS.DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+    <if test="goodsDiscountType != null">
+    AND DISCOUNT_ITEMS.GOODS_DISCOUNT_TYPE = #{goodsDiscountType,jdbcType=INTEGER}
+    </if>
+    <if test="orderDiscountType != null">
+    AND DISCOUNT_ITEMS.ORDER_DISCOUNT_TYPE = #{orderDiscountType,jdbcType=INTEGER}
+    </if>
+    <if test="groupDiscountType != null">
+    AND DISCOUNT_ITEMS.GROUP_DISCOUNT_TYPE = #{groupDiscountType,jdbcType=INTEGER}
+    </if>
+    order by DISCOUNT_ITEMS.DISCOUNT_ITEM_ID asc
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectAllCountByDiscountType" parameterType="com.fuhuitong.applychain.model.DiscountItems" resultMap="allRecordCount">
+    select 
+    COUNT(*) as DATA_COUNT
+    from DISCOUNT_ITEMS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR} 
+    <if test="goodsDiscountType != null">
+    AND GOODS_DISCOUNT_TYPE = #{goodsDiscountType,jdbcType=INTEGER}
+    </if>
+    <if test="orderDiscountType != null">
+    AND ORDER_DISCOUNT_TYPE = #{orderDiscountType,jdbcType=INTEGER}
+    </if>
+    <if test="groupDiscountType != null">
+    AND GROUP_DISCOUNT_TYPE = #{groupDiscountType,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from DISCOUNT_ITEMS
+    where DISCOUNT_ITEM_ID = #{discountItemId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByDiscountId" parameterType="java.lang.String">
+    delete from DISCOUNT_ITEMS
+    where DISCOUNT_ID = #{discountId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.DiscountItems">
+    insert into DISCOUNT_ITEMS (DISCOUNT_ITEM_ID, GOODS_ID, MER_ID, 
+      ALL_STORE, DISCOUNT_ITEM_SATUS, DISCOUNT_USER_TYPE, 
+      MEMBER_LEVEL_ID, DISCOUNT_TYPE, DISCOUNT_TYPE_NAME, 
+      GOODS_NAME, CREATE_DATE, END_DATE, 
+      GOODS_PRICE, GOODS_DISCOUNT_TYPE, GOODS_DISCOUNT_PRICE, 
+      GOODS_DISCOUNT_VALUE, GOODS_DISCOUNT_PERCENT, 
+      ORDER_DISCOUNT_TYPE, ORDER_REACH_VALUE, ORDER_DISCOUNT_VALUE, 
+      ORDER_DISCOUNT_PERCENT, AMOUNT_DISCOUNT_TYPE, 
+      AMOUNT_REACH_VALUE, AMOUNT_DISCOUNT_PRICE, 
+      AMOUNT_DISCOUNT_VALUE, AMOUNT_DISCOUNT_PERCENT, 
+      AMOUNT_TOTAL_DISCOUNT_PRICE, AMOUNT_TOTAL_DISCOUNT_VALUE, 
+      PRESENT_DISCOUNT_TYPE, SALE_GOODS_ID, PRESENT_GOODS_ID, 
+      PRESENT_GOODS_PRICE, GROUP_DISCOUNT_TYPE, GROUP_GOODS_IDS, 
+      GROUP_PRESENT_GOODS_ID, GROUP_ORDER_DISCOUNT_PRICE, 
+      GROUP_ORDER_DISCOUNT_VALUE, GROUP_ORDER_DISCOUNT_PERCENT, 
+      ORDER_TOP_SALE_TYPE, ORDER_TOP_VALUE, ORDER_TOP_PRESENT_GOODS_ID, 
+      ORDER_ADDTIONAL_GOODS_ID, ORDER_ADDTIONAL_GOODS_PRICE, 
+      ORDER_ADDTIONAL_GOODS_COUNT, ORDER_ADDTIONAL_GOODS_MIN_COUNT, 
+      ORDER_ADDTIONAL_GOODS_MAX_COUNT)
+    values (#{discountItemId,jdbcType=INTEGER}, #{goodsId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, 
+      #{allStore,jdbcType=BIT}, #{discountItemSatus,jdbcType=INTEGER}, #{discountUserType,jdbcType=INTEGER}, 
+      #{memberLevelId,jdbcType=VARCHAR}, #{discountType,jdbcType=INTEGER}, #{discountTypeName,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{goodsPrice,jdbcType=INTEGER}, #{goodsDiscountType,jdbcType=INTEGER}, #{goodsDiscountPrice,jdbcType=INTEGER}, 
+      #{goodsDiscountValue,jdbcType=INTEGER}, #{goodsDiscountPercent,jdbcType=INTEGER}, 
+      #{orderDiscountType,jdbcType=INTEGER}, #{orderReachValue,jdbcType=INTEGER}, #{orderDiscountValue,jdbcType=INTEGER}, 
+      #{orderDiscountPercent,jdbcType=INTEGER}, #{amountDiscountType,jdbcType=INTEGER}, 
+      #{amountReachValue,jdbcType=INTEGER}, #{amountDiscountPrice,jdbcType=INTEGER}, 
+      #{amountDiscountValue,jdbcType=INTEGER}, #{amountDiscountPercent,jdbcType=INTEGER}, 
+      #{amountTotalDiscountPrice,jdbcType=INTEGER}, #{amountTotalDiscountValue,jdbcType=INTEGER}, 
+      #{presentDiscountType,jdbcType=INTEGER}, #{saleGoodsId,jdbcType=VARCHAR}, #{presentGoodsId,jdbcType=VARCHAR}, 
+      #{presentGoodsPrice,jdbcType=INTEGER}, #{groupDiscountType,jdbcType=INTEGER}, #{groupGoodsIds,jdbcType=VARCHAR}, 
+      #{groupPresentGoodsId,jdbcType=VARCHAR}, #{groupOrderDiscountPrice,jdbcType=INTEGER}, 
+      #{groupOrderDiscountValue,jdbcType=INTEGER}, #{groupOrderDiscountPercent,jdbcType=INTEGER}, 
+      #{orderTopSaleType,jdbcType=INTEGER}, #{orderTopValue,jdbcType=INTEGER}, #{orderTopPresentGoodsId,jdbcType=VARCHAR}, 
+      #{orderAddtionalGoodsId,jdbcType=VARCHAR}, #{orderAddtionalGoodsPrice,jdbcType=INTEGER}, 
+      #{orderAddtionalGoodsCount,jdbcType=INTEGER}, #{orderAddtionalGoodsMinCount,jdbcType=INTEGER}, 
+      #{orderAddtionalGoodsMaxCount,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.DiscountItems">
+    insert into DISCOUNT_ITEMS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="discountItemId != null">
+        DISCOUNT_ITEM_ID,
+      </if>
+      <if test="discountId != null">
+        DISCOUNT_ID,
+      </if>
+      <if test="goodsId != null">
+        GOODS_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="endDate != null">
+        END_DATE,
+      </if>
+      <if test="goodsPrice != null">
+        GOODS_PRICE,
+      </if>
+      <if test="goodsDiscountType != null">
+        GOODS_DISCOUNT_TYPE,
+      </if>
+      <if test="goodsDiscountPrice != null">
+        GOODS_DISCOUNT_PRICE,
+      </if>
+      <if test="goodsDiscountValue != null">
+        GOODS_DISCOUNT_VALUE,
+      </if>
+      <if test="goodsDiscountPercent != null">
+        GOODS_DISCOUNT_PERCENT,
+      </if>
+      <if test="orderDiscountType != null">
+        ORDER_DISCOUNT_TYPE,
+      </if>
+      <if test="orderReachValue != null">
+        ORDER_REACH_VALUE,
+      </if>
+      <if test="orderDiscountValue != null">
+        ORDER_DISCOUNT_VALUE,
+      </if>
+      <if test="orderDiscountPercent != null">
+        ORDER_DISCOUNT_PERCENT,
+      </if>
+      <if test="amountDiscountType != null">
+        AMOUNT_DISCOUNT_TYPE,
+      </if>
+      <if test="amountReachValue != null">
+        AMOUNT_REACH_VALUE,
+      </if>
+      <if test="amountDiscountPrice != null">
+        AMOUNT_DISCOUNT_PRICE,
+      </if>
+      <if test="amountDiscountValue != null">
+        AMOUNT_DISCOUNT_VALUE,
+      </if>
+      <if test="amountDiscountPercent != null">
+        AMOUNT_DISCOUNT_PERCENT,
+      </if>
+      <if test="amountTotalDiscountPrice != null">
+        AMOUNT_TOTAL_DISCOUNT_PRICE,
+      </if>
+      <if test="amountTotalDiscountValue != null">
+        AMOUNT_TOTAL_DISCOUNT_VALUE,
+      </if>
+      <if test="presentDiscountType != null">
+        PRESENT_DISCOUNT_TYPE,
+      </if>
+      <if test="saleGoodsId != null">
+        SALE_GOODS_ID,
+      </if>
+      <if test="presentGoodsId != null">
+        PRESENT_GOODS_ID,
+      </if>
+      <if test="presentGoodsPrice != null">
+        PRESENT_GOODS_PRICE,
+      </if>
+      <if test="groupDiscountType != null">
+        GROUP_DISCOUNT_TYPE,
+      </if>
+      <if test="groupGoodsIds != null">
+        GROUP_GOODS_IDS,
+      </if>
+      <if test="groupPresentGoodsId != null">
+        GROUP_PRESENT_GOODS_ID,
+      </if>
+      <if test="groupOrderDiscountPrice != null">
+        GROUP_ORDER_DISCOUNT_PRICE,
+      </if>
+      <if test="groupOrderDiscountValue != null">
+        GROUP_ORDER_DISCOUNT_VALUE,
+      </if>
+      <if test="groupOrderDiscountPercent != null">
+        GROUP_ORDER_DISCOUNT_PERCENT,
+      </if>
+      <if test="orderTopSaleType != null">
+        ORDER_TOP_SALE_TYPE,
+      </if>
+      <if test="orderTopValue != null">
+        ORDER_TOP_VALUE,
+      </if>
+      <if test="orderTopPresentGoodsId != null">
+        ORDER_TOP_PRESENT_GOODS_ID,
+      </if>
+      <if test="orderAddtionalGoodsId != null">
+        ORDER_ADDTIONAL_GOODS_ID,
+      </if>
+      <if test="orderAddtionalGoodsPrice != null">
+        ORDER_ADDTIONAL_GOODS_PRICE,
+      </if>
+      <if test="orderAddtionalGoodsCount != null">
+        ORDER_ADDTIONAL_GOODS_COUNT,
+      </if>
+      <if test="orderAddtionalGoodsMinCount != null">
+        ORDER_ADDTIONAL_GOODS_MIN_COUNT,
+      </if>
+      <if test="orderAddtionalGoodsMaxCount != null">
+        ORDER_ADDTIONAL_GOODS_MAX_COUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="discountItemId != null">
+        #{discountItemId,jdbcType=INTEGER},
+      </if>
+      <if test="discountId != null">
+        #{discountId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDiscountType != null">
+        #{goodsDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDiscountPrice != null">
+        #{goodsDiscountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDiscountValue != null">
+        #{goodsDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDiscountPercent != null">
+        #{goodsDiscountPercent,jdbcType=INTEGER},
+      </if>
+      <if test="orderDiscountType != null">
+        #{orderDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="orderReachValue != null">
+        #{orderReachValue,jdbcType=INTEGER},
+      </if>
+      <if test="orderDiscountValue != null">
+        #{orderDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="orderDiscountPercent != null">
+        #{orderDiscountPercent,jdbcType=INTEGER},
+      </if>
+      <if test="amountDiscountType != null">
+        #{amountDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="amountReachValue != null">
+        #{amountReachValue,jdbcType=INTEGER},
+      </if>
+      <if test="amountDiscountPrice != null">
+        #{amountDiscountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="amountDiscountValue != null">
+        #{amountDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="amountDiscountPercent != null">
+        #{amountDiscountPercent,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotalDiscountPrice != null">
+        #{amountTotalDiscountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotalDiscountValue != null">
+        #{amountTotalDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="presentDiscountType != null">
+        #{presentDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="saleGoodsId != null">
+        #{saleGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="presentGoodsId != null">
+        #{presentGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="presentGoodsPrice != null">
+        #{presentGoodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="groupDiscountType != null">
+        #{groupDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="groupGoodsIds != null">
+        #{groupGoodsIds,jdbcType=VARCHAR},
+      </if>
+      <if test="groupPresentGoodsId != null">
+        #{groupPresentGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupOrderDiscountPrice != null">
+        #{groupOrderDiscountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrderDiscountValue != null">
+        #{groupOrderDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrderDiscountPercent != null">
+        #{groupOrderDiscountPercent,jdbcType=INTEGER},
+      </if>
+      <if test="orderTopSaleType != null">
+        #{orderTopSaleType,jdbcType=INTEGER},
+      </if>
+      <if test="orderTopValue != null">
+        #{orderTopValue,jdbcType=INTEGER},
+      </if>
+      <if test="orderTopPresentGoodsId != null">
+        #{orderTopPresentGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAddtionalGoodsId != null">
+        #{orderAddtionalGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAddtionalGoodsPrice != null">
+        #{orderAddtionalGoodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orderAddtionalGoodsCount != null">
+        #{orderAddtionalGoodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderAddtionalGoodsMinCount != null">
+        #{orderAddtionalGoodsMinCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderAddtionalGoodsMaxCount != null">
+        #{orderAddtionalGoodsMaxCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.DiscountItems">
+    update DISCOUNT_ITEMS
+    <set>
+      <if test="goodsId != null">
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="allStore != null">
+        ALL_STORE = #{allStore,jdbcType=BIT},
+      </if>
+      <if test="discountItemSatus != null">
+        DISCOUNT_ITEM_SATUS = #{discountItemSatus,jdbcType=INTEGER},
+      </if>
+      <if test="discountUserType != null">
+        DISCOUNT_USER_TYPE = #{discountUserType,jdbcType=INTEGER},
+      </if>
+      <if test="memberLevelId != null">
+        MEMBER_LEVEL_ID = #{memberLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="discountType != null">
+        DISCOUNT_TYPE = #{discountType,jdbcType=INTEGER},
+      </if>
+      <if test="discountTypeName != null">
+        DISCOUNT_TYPE_NAME = #{discountTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsPrice != null">
+        GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDiscountType != null">
+        GOODS_DISCOUNT_TYPE = #{goodsDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDiscountPrice != null">
+        GOODS_DISCOUNT_PRICE = #{goodsDiscountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDiscountValue != null">
+        GOODS_DISCOUNT_VALUE = #{goodsDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDiscountPercent != null">
+        GOODS_DISCOUNT_PERCENT = #{goodsDiscountPercent,jdbcType=INTEGER},
+      </if>
+      <if test="orderDiscountType != null">
+        ORDER_DISCOUNT_TYPE = #{orderDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="orderReachValue != null">
+        ORDER_REACH_VALUE = #{orderReachValue,jdbcType=INTEGER},
+      </if>
+      <if test="orderDiscountValue != null">
+        ORDER_DISCOUNT_VALUE = #{orderDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="orderDiscountPercent != null">
+        ORDER_DISCOUNT_PERCENT = #{orderDiscountPercent,jdbcType=INTEGER},
+      </if>
+      <if test="amountDiscountType != null">
+        AMOUNT_DISCOUNT_TYPE = #{amountDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="amountReachValue != null">
+        AMOUNT_REACH_VALUE = #{amountReachValue,jdbcType=INTEGER},
+      </if>
+      <if test="amountDiscountPrice != null">
+        AMOUNT_DISCOUNT_PRICE = #{amountDiscountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="amountDiscountValue != null">
+        AMOUNT_DISCOUNT_VALUE = #{amountDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="amountDiscountPercent != null">
+        AMOUNT_DISCOUNT_PERCENT = #{amountDiscountPercent,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotalDiscountPrice != null">
+        AMOUNT_TOTAL_DISCOUNT_PRICE = #{amountTotalDiscountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotalDiscountValue != null">
+        AMOUNT_TOTAL_DISCOUNT_VALUE = #{amountTotalDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="presentDiscountType != null">
+        PRESENT_DISCOUNT_TYPE = #{presentDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="saleGoodsId != null">
+        SALE_GOODS_ID = #{saleGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="presentGoodsId != null">
+        PRESENT_GOODS_ID = #{presentGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="presentGoodsPrice != null">
+        PRESENT_GOODS_PRICE = #{presentGoodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="groupDiscountType != null">
+        GROUP_DISCOUNT_TYPE = #{groupDiscountType,jdbcType=INTEGER},
+      </if>
+      <if test="groupGoodsIds != null">
+        GROUP_GOODS_IDS = #{groupGoodsIds,jdbcType=VARCHAR},
+      </if>
+      <if test="groupPresentGoodsId != null">
+        GROUP_PRESENT_GOODS_ID = #{groupPresentGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupOrderDiscountPrice != null">
+        GROUP_ORDER_DISCOUNT_PRICE = #{groupOrderDiscountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrderDiscountValue != null">
+        GROUP_ORDER_DISCOUNT_VALUE = #{groupOrderDiscountValue,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrderDiscountPercent != null">
+        GROUP_ORDER_DISCOUNT_PERCENT = #{groupOrderDiscountPercent,jdbcType=INTEGER},
+      </if>
+      <if test="orderTopSaleType != null">
+        ORDER_TOP_SALE_TYPE = #{orderTopSaleType,jdbcType=INTEGER},
+      </if>
+      <if test="orderTopValue != null">
+        ORDER_TOP_VALUE = #{orderTopValue,jdbcType=INTEGER},
+      </if>
+      <if test="orderTopPresentGoodsId != null">
+        ORDER_TOP_PRESENT_GOODS_ID = #{orderTopPresentGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAddtionalGoodsId != null">
+        ORDER_ADDTIONAL_GOODS_ID = #{orderAddtionalGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAddtionalGoodsPrice != null">
+        ORDER_ADDTIONAL_GOODS_PRICE = #{orderAddtionalGoodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orderAddtionalGoodsCount != null">
+        ORDER_ADDTIONAL_GOODS_COUNT = #{orderAddtionalGoodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderAddtionalGoodsMinCount != null">
+        ORDER_ADDTIONAL_GOODS_MIN_COUNT = #{orderAddtionalGoodsMinCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderAddtionalGoodsMaxCount != null">
+        ORDER_ADDTIONAL_GOODS_MAX_COUNT = #{orderAddtionalGoodsMaxCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where DISCOUNT_ITEM_ID = #{discountItemId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.DiscountItems">
+    update DISCOUNT_ITEMS
+    set GOODS_ID = #{goodsId,jdbcType=VARCHAR},
+      MER_ID = #{merId,jdbcType=VARCHAR},
+      ALL_STORE = #{allStore,jdbcType=BIT},
+      DISCOUNT_ITEM_SATUS = #{discountItemSatus,jdbcType=INTEGER},
+      DISCOUNT_USER_TYPE = #{discountUserType,jdbcType=INTEGER},
+      MEMBER_LEVEL_ID = #{memberLevelId,jdbcType=VARCHAR},
+      DISCOUNT_TYPE = #{discountType,jdbcType=INTEGER},
+      DISCOUNT_TYPE_NAME = #{discountTypeName,jdbcType=VARCHAR},
+      GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+      GOODS_DISCOUNT_TYPE = #{goodsDiscountType,jdbcType=INTEGER},
+      GOODS_DISCOUNT_PRICE = #{goodsDiscountPrice,jdbcType=INTEGER},
+      GOODS_DISCOUNT_VALUE = #{goodsDiscountValue,jdbcType=INTEGER},
+      GOODS_DISCOUNT_PERCENT = #{goodsDiscountPercent,jdbcType=INTEGER},
+      ORDER_DISCOUNT_TYPE = #{orderDiscountType,jdbcType=INTEGER},
+      ORDER_REACH_VALUE = #{orderReachValue,jdbcType=INTEGER},
+      ORDER_DISCOUNT_VALUE = #{orderDiscountValue,jdbcType=INTEGER},
+      ORDER_DISCOUNT_PERCENT = #{orderDiscountPercent,jdbcType=INTEGER},
+      AMOUNT_DISCOUNT_TYPE = #{amountDiscountType,jdbcType=INTEGER},
+      AMOUNT_REACH_VALUE = #{amountReachValue,jdbcType=INTEGER},
+      AMOUNT_DISCOUNT_PRICE = #{amountDiscountPrice,jdbcType=INTEGER},
+      AMOUNT_DISCOUNT_VALUE = #{amountDiscountValue,jdbcType=INTEGER},
+      AMOUNT_DISCOUNT_PERCENT = #{amountDiscountPercent,jdbcType=INTEGER},
+      AMOUNT_TOTAL_DISCOUNT_PRICE = #{amountTotalDiscountPrice,jdbcType=INTEGER},
+      AMOUNT_TOTAL_DISCOUNT_VALUE = #{amountTotalDiscountValue,jdbcType=INTEGER},
+      PRESENT_DISCOUNT_TYPE = #{presentDiscountType,jdbcType=INTEGER},
+      SALE_GOODS_ID = #{saleGoodsId,jdbcType=VARCHAR},
+      PRESENT_GOODS_ID = #{presentGoodsId,jdbcType=VARCHAR},
+      PRESENT_GOODS_PRICE = #{presentGoodsPrice,jdbcType=INTEGER},
+      GROUP_DISCOUNT_TYPE = #{groupDiscountType,jdbcType=INTEGER},
+      GROUP_GOODS_IDS = #{groupGoodsIds,jdbcType=VARCHAR},
+      GROUP_PRESENT_GOODS_ID = #{groupPresentGoodsId,jdbcType=VARCHAR},
+      GROUP_ORDER_DISCOUNT_PRICE = #{groupOrderDiscountPrice,jdbcType=INTEGER},
+      GROUP_ORDER_DISCOUNT_VALUE = #{groupOrderDiscountValue,jdbcType=INTEGER},
+      GROUP_ORDER_DISCOUNT_PERCENT = #{groupOrderDiscountPercent,jdbcType=INTEGER},
+      ORDER_TOP_SALE_TYPE = #{orderTopSaleType,jdbcType=INTEGER},
+      ORDER_TOP_VALUE = #{orderTopValue,jdbcType=INTEGER},
+      ORDER_TOP_PRESENT_GOODS_ID = #{orderTopPresentGoodsId,jdbcType=VARCHAR},
+      ORDER_ADDTIONAL_GOODS_ID = #{orderAddtionalGoodsId,jdbcType=VARCHAR},
+      ORDER_ADDTIONAL_GOODS_PRICE = #{orderAddtionalGoodsPrice,jdbcType=INTEGER},
+      ORDER_ADDTIONAL_GOODS_COUNT = #{orderAddtionalGoodsCount,jdbcType=INTEGER},
+      ORDER_ADDTIONAL_GOODS_MIN_COUNT = #{orderAddtionalGoodsMinCount,jdbcType=INTEGER},
+      ORDER_ADDTIONAL_GOODS_MAX_COUNT = #{orderAddtionalGoodsMaxCount,jdbcType=INTEGER}
+    where DISCOUNT_ITEM_ID = #{discountItemId,jdbcType=INTEGER}
+  </update>
+</mapper>

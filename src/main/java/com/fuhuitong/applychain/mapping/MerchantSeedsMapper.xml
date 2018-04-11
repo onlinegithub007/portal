@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.MerchantSeedsMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.MerchantSeeds">
+    <id column="MER_SEED_ID" jdbcType="INTEGER" property="merSeedId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MER_SEED_ID, MER_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANT_SEEDS
+    where MER_SEED_ID = #{merSeedId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByMerId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MERCHANT_SEEDS
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from MERCHANT_SEEDS
+    where MER_SEED_ID = #{merSeedId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByMerId" parameterType="java.lang.String">
+    delete from MERCHANT_SEEDS
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.MerchantSeeds">
+    insert into MERCHANT_SEEDS (MER_SEED_ID, MER_ID)
+    values (#{merSeedId,jdbcType=INTEGER}, #{merId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.MerchantSeeds">
+    insert into MERCHANT_SEEDS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merSeedId != null">
+        MER_SEED_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merSeedId != null">
+        #{merSeedId,jdbcType=INTEGER},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.MerchantSeeds">
+    update MERCHANT_SEEDS
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MER_SEED_ID = #{merSeedId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.MerchantSeeds">
+    update MERCHANT_SEEDS
+    set MER_ID = #{merId,jdbcType=VARCHAR}
+    where MER_SEED_ID = #{merSeedId,jdbcType=INTEGER}
+  </update>
+</mapper>

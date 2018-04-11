@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.BatchStockOrdersMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.BatchStockOrders">
+    <id column="BATCH_STOCK_ORDER_ID" jdbcType="VARCHAR" property="batchStockOrderId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="GOODS_COUNT" jdbcType="INTEGER" property="goodsCount" />
+    <result column="STORES_COUNT" jdbcType="INTEGER" property="storesCount" />
+    <result column="GOODS_TOTAL_PRICE" jdbcType="INTEGER" property="goodsTotalPrice" />
+    <result column="BATCH_ORDER_STATUS" jdbcType="INTEGER" property="batchOrderStatus" />
+  </resultMap>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    BATCH_STOCK_ORDER_ID, MER_ID, CREATE_DATE, CREATOR, GOODS_COUNT, STORES_COUNT, GOODS_TOTAL_PRICE, 
+    BATCH_ORDER_STATUS
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BATCH_STOCK_ORDERS
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllByMerId" parameterType="com.fuhuitong.applychain.model.BatchStockOrders" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BATCH_STOCK_ORDERS
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+    order by BATCH_ORDER_STATUS asc, CREATE_DATE desc
+    limit #{offset},#{limit}
+  </select>
+  
+  <select id="selectCountByMerId" parameterType="java.lang.String" resultMap="allRecordCount">
+    select 
+    COUNT(*) as DATA_COUNT
+    from BATCH_STOCK_ORDERS
+    where MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from BATCH_STOCK_ORDERS
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.BatchStockOrders">
+    insert into BATCH_STOCK_ORDERS (BATCH_STOCK_ORDER_ID, MER_ID, CREATE_DATE, 
+      CREATOR, GOODS_COUNT, GOODS_TOTAL_PRICE, 
+      BATCH_ORDER_STATUS, STORES_COUNT)
+    values (#{batchStockOrderId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{goodsCount,jdbcType=INTEGER}, #{goodsTotalPrice,jdbcType=INTEGER}, 
+      #{batchOrderStatus,jdbcType=INTEGER}, #{storesCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.BatchStockOrders">
+    insert into BATCH_STOCK_ORDERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="batchStockOrderId != null">
+        BATCH_STOCK_ORDER_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="goodsCount != null">
+        GOODS_COUNT,
+      </if>
+      <if test="goodsTotalPrice != null">
+        GOODS_TOTAL_PRICE,
+      </if>
+      <if test="batchOrderStatus != null">
+        BATCH_ORDER_STATUS,
+      </if>
+      <if test="storesCount != null">
+        STORES_COUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="batchStockOrderId != null">
+        #{batchStockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCount != null">
+        #{goodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTotalPrice != null">
+        #{goodsTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="batchOrderStatus != null">
+        #{batchOrderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="storesCount != null">
+        #{storesCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.BatchStockOrders">
+    update BATCH_STOCK_ORDERS
+    <set>
+      <if test="merId != null">
+        MER_ID = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCount != null">
+        GOODS_COUNT = #{goodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTotalPrice != null">
+        GOODS_TOTAL_PRICE = #{goodsTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="batchOrderStatus != null">
+        BATCH_ORDER_STATUS = #{batchOrderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="storesCount != null">
+        STORES_COUNT = #{storesCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.BatchStockOrders">
+    update BATCH_STOCK_ORDERS
+    set MER_ID = #{merId,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      GOODS_COUNT = #{goodsCount,jdbcType=INTEGER},
+      GOODS_TOTAL_PRICE = #{goodsTotalPrice,jdbcType=INTEGER},
+      BATCH_ORDER_STATUS = #{batchOrderStatus,jdbcType=INTEGER},
+      STORES_COUNT = #{storesCount,jdbcType=INTEGER}
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateGoodsCount" parameterType="java.lang.String">
+    update BATCH_STOCK_ORDERS
+    set 
+      GOODS_COUNT =  (select sum(GOODS_COUNT) from BATCH_STOCK_GOODS_DETAILS where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}),
+      GOODS_TOTAL_PRICE = (select sum(GOODS_COUNT * PROVIDER_COST) from BATCH_STOCK_GOODS_DETAILS where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR})
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateStoresCount" parameterType="java.lang.String">
+    update BATCH_STOCK_ORDERS
+    set 
+      STORES_COUNT =  (select count(*) from BATCH_STOCK_STORE_DETAILS where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR})
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="changeBatchOrderStatus" parameterType="com.fuhuitong.applychain.model.BatchStockOrders">
+    update BATCH_STOCK_ORDERS
+    set 
+      BATCH_ORDER_STATUS = #{batchOrderStatus,jdbcType=INTEGER}
+    where BATCH_STOCK_ORDER_ID = #{batchStockOrderId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

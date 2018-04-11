@@ -1,0 +1,983 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuhuitong.applychain.dao.PurchaseOrdersMapper">
+  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.PurchaseOrders">
+    <id column="PURCHASE_ORDER_ID" jdbcType="VARCHAR" property="purchaseOrderId" />
+    <result column="ORDER_SN" jdbcType="INTEGER" property="orderSn" />
+    <result column="STOCK_ORDER_ID" jdbcType="VARCHAR" property="stockOrderId" />
+    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
+    <result column="DEAL_TYPE" jdbcType="INTEGER" property="dealType" />
+    <result column="STORE_ACK" jdbcType="INTEGER" property="storeAck" />
+    <result column="STORE_ACK_DATE" jdbcType="TIMESTAMP" property="storeAckDate" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="FROM_STORE_ID" jdbcType="VARCHAR" property="fromStoreId" />
+    <result column="FROM_STORE_NAME" jdbcType="VARCHAR" property="fromStoreName" />
+    <result column="PROVIDER_ID" jdbcType="VARCHAR" property="providerId" />
+    <result column="PROVIDER_LINKMAN" jdbcType="VARCHAR" property="providerLinkman" />
+    <result column="PROVIDER_LINKMAN_PHONE" jdbcType="VARCHAR" property="providerLinkmanPhone" />
+    <result column="PROVIDER_LINKMAN_EMAIL" jdbcType="VARCHAR" property="providerLinkmanEmail" />
+    <result column="PROVIDER_NAME" jdbcType="VARCHAR" property="providerName" />
+    <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+    <result column="APPLY_ID" jdbcType="VARCHAR" property="applyId" />
+    <result column="LINK_MAN" jdbcType="VARCHAR" property="linkMan" />
+    <result column="LINK_MAN_PHONE" jdbcType="VARCHAR" property="linkManPhone" />
+    <result column="APPLY_ADDRESS" jdbcType="VARCHAR" property="applyAddress" />
+    <result column="GOODS_AMOUNT" jdbcType="INTEGER" property="goodsAmount" />
+    <result column="GOODS_TOTAL_PRICE" jdbcType="INTEGER" property="goodsTotalPrice" />
+    <result column="AUDIT_AMOUNT" jdbcType="INTEGER" property="auditAmount" />
+    <result column="AUDIT_TOTAL_PRICE" jdbcType="INTEGER" property="auditTotalPrice" />
+    <result column="PAY_PLANE_DATE" jdbcType="TIMESTAMP" property="payPlaneDate" />
+    <result column="PAIED_DATE" jdbcType="TIMESTAMP" property="paiedDate" />
+    <result column="APPLY_CHECK_STATUS" jdbcType="INTEGER" property="applyCheckStatus" />
+    <result column="APPLY_CHECKOR" jdbcType="VARCHAR" property="applyCheckor" />
+    <result column="AUDIT_STATUS" jdbcType="INTEGER" property="auditStatus" />
+    <result column="PAY_STATUS" jdbcType="INTEGER" property="payStatus" />
+    <result column="OP_AUDIT1_ID" jdbcType="VARCHAR" property="opAudit1Id" />
+    <result column="OP_AUDIT1_DATE" jdbcType="TIMESTAMP" property="opAudit1Date" />
+    <result column="OP_AUDIT2_ID" jdbcType="VARCHAR" property="opAudit2Id" />
+    <result column="OP_AUDIT2_DATE" jdbcType="TIMESTAMP" property="opAudit2Date" />
+    <result column="FINAL_AUDIT_ID" jdbcType="VARCHAR" property="finalAuditId" />
+    <result column="FINAL_AUDIT_DATE" jdbcType="TIMESTAMP" property="finalAuditDate" />
+    <result column="FINAL_ACK_DATE" jdbcType="TIMESTAMP" property="finalAckDate" />
+    <result column="FINAL_ACK_ID" jdbcType="VARCHAR" property="finalAckId" />
+    <result column="FINAL_ACK_DEMO" jdbcType="VARCHAR" property="finalAckDemo" />
+    <result column="ORDER_STATUS" jdbcType="INTEGER" property="orderStatus" />
+    <result column="PROVIDER_ACK_STATUS" jdbcType="INTEGER" property="providerAckStatus" />
+    <result column="PROVIDER_ACK_DATE" jdbcType="TIMESTAMP" property="providerAckDate" />
+    <result column="PROVIDER_ACK_AUDIT" jdbcType="INTEGER" property="providerAckAudit" />
+    <result column="PROVIDER_ACK_AUDIT_DATE" jdbcType="TIMESTAMP" property="providerAckAuditDate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    PURCHASE_ORDER_ID, ORDER_SN, MER_ID, STOCK_ORDER_ID, DEAL_TYPE, STORE_ACK, STORE_ACK_DATE, CREATE_DATE, CREATOR, PROVIDER_ID, 
+    PROVIDER_LINKMAN, PROVIDER_LINKMAN_PHONE, PROVIDER_LINKMAN_EMAIL, PROVIDER_NAME, APPLY_ID, LINK_MAN, LINK_MAN_PHONE, 
+    APPLY_ADDRESS, GOODS_AMOUNT, GOODS_TOTAL_PRICE, AUDIT_AMOUNT, AUDIT_TOTAL_PRICE, 
+    PAY_PLANE_DATE, PAIED_DATE, APPLY_CHECK_STATUS, APPLY_CHECKOR, AUDIT_STATUS, PAY_STATUS, 
+    OP_AUDIT1_ID, OP_AUDIT1_DATE, OP_AUDIT2_ID, OP_AUDIT2_DATE, FINAL_AUDIT_ID, FINAL_AUDIT_DATE, 
+    FINAL_ACK_DATE, FINAL_ACK_ID, FINAL_ACK_DEMO, ORDER_STATUS, FROM_STORE_ID, FROM_STORE_NAME,
+    PROVIDER_ACK_STATUS, PROVIDER_ACK_DATE, PROVIDER_ACK_AUDIT, PROVIDER_ACK_AUDIT_DATE
+  </sql>
+  
+  <resultMap id="allRecordCount" type="java.lang.Integer">
+  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PURCHASE_ORDERS
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByStockOrder" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PURCHASE_ORDERS
+    where STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR} 
+    <if test="dealType != null">
+    and DEAL_TYPE = #{dealType,jdbcType=INTEGER} 
+    </if>
+    <if test="orderStatus != null">
+    and ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+    </if>
+    <if test="storeAck != null">
+    and STORE_ACK = #{storeAck,jdbcType=INTEGER}
+    </if>
+    <if test="providerAckStatus != null">
+    and PROVIDER_ACK_STATUS = #{providerAckStatus,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectByStockOrderOnAck" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PURCHASE_ORDERS
+    where STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR} 
+    <if test="dealType != null">
+    and DEAL_TYPE = #{dealType,jdbcType=INTEGER} 
+    </if>
+    <if test="orderStatus != null">
+    and ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+    </if>
+    and (PROVIDER_ACK_STATUS = 1 or (PROVIDER_ACK_STATUS = 2 and PROVIDER_ACK_AUDIT = 1))
+  </select>
+  
+  <select id="selectByProvider" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_GROUPS.GROUP_NAME,
+		PURCHASE_ORDERS.ORDER_SN,
+		PURCHASE_ORDERS.PURCHASE_ORDER_ID,
+		PURCHASE_ORDERS.STOCK_ORDER_ID,
+		PURCHASE_ORDERS.DEAL_TYPE,
+		PURCHASE_ORDERS.STORE_ACK,
+		PURCHASE_ORDERS.STORE_ACK_DATE,
+		PURCHASE_ORDERS.CREATE_DATE,
+		PURCHASE_ORDERS.CREATOR,
+		PURCHASE_ORDERS.PROVIDER_ID,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_PHONE,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_EMAIL,
+		PURCHASE_ORDERS.PROVIDER_NAME,
+		PURCHASE_ORDERS.APPLY_ID,
+		PURCHASE_ORDERS.LINK_MAN,
+		PURCHASE_ORDERS.LINK_MAN_PHONE,
+		PURCHASE_ORDERS.APPLY_ADDRESS,
+		PURCHASE_ORDERS.GOODS_AMOUNT,
+		PURCHASE_ORDERS.GOODS_TOTAL_PRICE,
+		PURCHASE_ORDERS.AUDIT_AMOUNT,
+		PURCHASE_ORDERS.AUDIT_TOTAL_PRICE,
+		PURCHASE_ORDERS.PAY_PLANE_DATE,
+		PURCHASE_ORDERS.PAIED_DATE,
+		PURCHASE_ORDERS.APPLY_CHECK_STATUS,
+		PURCHASE_ORDERS.APPLY_CHECKOR,
+		PURCHASE_ORDERS.AUDIT_STATUS,
+		PURCHASE_ORDERS.PAY_STATUS,
+		PURCHASE_ORDERS.ORDER_STATUS,
+		PURCHASE_ORDERS.FROM_STORE_ID, 
+		PURCHASE_ORDERS.FROM_STORE_NAME,
+		PURCHASE_ORDERS.PROVIDER_ACK_STATUS, 
+		PURCHASE_ORDERS.PROVIDER_ACK_DATE, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT_DATE
+	FROM
+		PURCHASE_ORDERS
+		JOIN MERCHANT_GROUPS
+		ON PURCHASE_ORDERS.APPLY_ID = MERCHANT_GROUPS.MER_GROUP_ID
+    where PURCHASE_ORDERS.PROVIDER_ID = #{providerId,jdbcType=VARCHAR}
+    <if test="providerAckStatus != null">
+      and PURCHASE_ORDERS.PROVIDER_ACK_STATUS = #{providerAckStatus,jdbcType=INTEGER}
+    </if>
+    <if test="providerAckAudit != null">
+      and PURCHASE_ORDERS.PROVIDER_ACK_AUDIT = #{providerAckAudit,jdbcType=INTEGER}
+    </if>
+    <if test="dealType != null">
+      and PURCHASE_ORDERS.DEAL_TYPE = #{dealType,jdbcType=INTEGER}
+    </if>
+    order by PURCHASE_ORDERS.DEAL_TYPE,PURCHASE_ORDERS.ORDER_SN DESC
+  </select>
+  
+  <select id="selectByProviderCount" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="allRecordCount">
+    select COUNT(*) as DATA_COUNT
+    from PURCHASE_ORDERS
+    where PROVIDER_ID = #{providerId,jdbcType=VARCHAR}
+    <if test="providerAckStatus != null">
+      and PROVIDER_ACK_STATUS = #{providerAckStatus,jdbcType=INTEGER}
+    </if>
+    <if test="providerAckAudit != null">
+      and PROVIDER_ACK_AUDIT = #{providerAckAudit,jdbcType=INTEGER}
+    </if>
+    <if test="dealType != null">
+      and DEAL_TYPE = #{dealType,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectStoreDispatch" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_GROUPS.GROUP_NAME,
+		PURCHASE_ORDERS.ORDER_SN,
+		PURCHASE_ORDERS.PURCHASE_ORDER_ID,
+		PURCHASE_ORDERS.STOCK_ORDER_ID,
+		PURCHASE_ORDERS.DEAL_TYPE,
+		PURCHASE_ORDERS.STORE_ACK,
+		PURCHASE_ORDERS.STORE_ACK_DATE,
+		PURCHASE_ORDERS.CREATE_DATE,
+		PURCHASE_ORDERS.CREATOR,
+		PURCHASE_ORDERS.PROVIDER_ID,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_PHONE,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_EMAIL,
+		PURCHASE_ORDERS.PROVIDER_NAME,
+		PURCHASE_ORDERS.APPLY_ID,
+		PURCHASE_ORDERS.LINK_MAN,
+		PURCHASE_ORDERS.LINK_MAN_PHONE,
+		PURCHASE_ORDERS.APPLY_ADDRESS,
+		PURCHASE_ORDERS.GOODS_AMOUNT,
+		PURCHASE_ORDERS.GOODS_TOTAL_PRICE,
+		PURCHASE_ORDERS.AUDIT_AMOUNT,
+		PURCHASE_ORDERS.AUDIT_TOTAL_PRICE,
+		PURCHASE_ORDERS.PAY_PLANE_DATE,
+		PURCHASE_ORDERS.PAIED_DATE,
+		PURCHASE_ORDERS.APPLY_CHECK_STATUS,
+		PURCHASE_ORDERS.APPLY_CHECKOR,
+		PURCHASE_ORDERS.AUDIT_STATUS,
+		PURCHASE_ORDERS.PAY_STATUS,
+		PURCHASE_ORDERS.ORDER_STATUS,
+		PURCHASE_ORDERS.FROM_STORE_ID, 
+		PURCHASE_ORDERS.FROM_STORE_NAME,
+		PURCHASE_ORDERS.PROVIDER_ACK_STATUS, 
+		PURCHASE_ORDERS.PROVIDER_ACK_DATE, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT_DATE
+	FROM
+		PURCHASE_ORDERS
+		JOIN MERCHANT_GROUPS
+		ON PURCHASE_ORDERS.APPLY_ID = MERCHANT_GROUPS.MER_GROUP_ID
+    where PURCHASE_ORDERS.DEAL_TYPE = 1 
+	    <if test="orderStatus != null">
+	    	AND PURCHASE_ORDERS.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER} 
+	    </if>
+	    <if test="fromStoreId != null">
+	      AND FROM_STORE_ID = #{fromStoreId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="applyId != null">
+	      AND APPLY_ID = #{applyId,jdbcType=VARCHAR}
+	    </if>
+	    AND PURCHASE_ORDERS.MER_ID = #{merId,jdbcType=VARCHAR}
+    order by ORDER_SN DESC
+  </select>
+  
+  <select id="selectStoreDispatchCount" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="allRecordCount">
+    select COUNT(*) as DATA_COUNT
+    from PURCHASE_ORDERS
+    where DEAL_TYPE = 1 
+    <if test="orderStatus != null">
+    AND ORDER_STATUS = #{orderStatus,jdbcType=INTEGER} 
+    </if>
+    <if test="fromStoreId != null">
+      AND FROM_STORE_ID = #{fromStoreId,jdbcType=VARCHAR}
+    </if>
+    <if test="applyId != null">
+	      AND APPLY_ID = #{applyId,jdbcType=VARCHAR}
+	    </if>
+    AND MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAckedPurchaseOrders" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_GROUPS.GROUP_NAME,
+		PURCHASE_ORDERS.ORDER_SN,
+		PURCHASE_ORDERS.PURCHASE_ORDER_ID,
+		PURCHASE_ORDERS.STOCK_ORDER_ID,
+		PURCHASE_ORDERS.DEAL_TYPE,
+		PURCHASE_ORDERS.STORE_ACK,
+		PURCHASE_ORDERS.STORE_ACK_DATE,
+		PURCHASE_ORDERS.CREATE_DATE,
+		PURCHASE_ORDERS.CREATOR,
+		PURCHASE_ORDERS.PROVIDER_ID,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_PHONE,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_EMAIL,
+		PURCHASE_ORDERS.PROVIDER_NAME,
+		PURCHASE_ORDERS.APPLY_ID,
+		PURCHASE_ORDERS.LINK_MAN,
+		PURCHASE_ORDERS.LINK_MAN_PHONE,
+		PURCHASE_ORDERS.APPLY_ADDRESS,
+		PURCHASE_ORDERS.GOODS_AMOUNT,
+		PURCHASE_ORDERS.GOODS_TOTAL_PRICE,
+		PURCHASE_ORDERS.AUDIT_AMOUNT,
+		PURCHASE_ORDERS.AUDIT_TOTAL_PRICE,
+		PURCHASE_ORDERS.PAY_PLANE_DATE,
+		PURCHASE_ORDERS.PAIED_DATE,
+		PURCHASE_ORDERS.APPLY_CHECK_STATUS,
+		PURCHASE_ORDERS.APPLY_CHECKOR,
+		PURCHASE_ORDERS.AUDIT_STATUS,
+		PURCHASE_ORDERS.PAY_STATUS,
+		PURCHASE_ORDERS.ORDER_STATUS,
+		PURCHASE_ORDERS.FROM_STORE_ID, 
+		PURCHASE_ORDERS.FROM_STORE_NAME,
+		PURCHASE_ORDERS.PROVIDER_ACK_STATUS, 
+		PURCHASE_ORDERS.PROVIDER_ACK_DATE, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT_DATE
+	FROM
+		PURCHASE_ORDERS
+		JOIN MERCHANT_GROUPS
+		ON PURCHASE_ORDERS.APPLY_ID = MERCHANT_GROUPS.MER_GROUP_ID
+		JOIN STOCK_ORDERS
+		ON PURCHASE_ORDERS.STOCK_ORDER_ID = STOCK_ORDERS.STOCK_ORDER_ID
+    where PURCHASE_ORDERS.DEAL_TYPE = 0 
+	    AND PURCHASE_ORDERS.ORDER_STATUS = 2
+	    AND STOCK_ORDERS.MER_ID = #{merId,jdbcType=VARCHAR}
+	    <if test="startDateTextParam != null">
+	    	and DATEDIFF(PURCHASE_ORDERS.CREATE_DATE, #{startDateTextParam,jdbcType=VARCHAR}) >= 0
+	    </if>
+	    <if test="endDateTextParam != null">
+	    	and DATEDIFF(#{endDateTextParam,jdbcType=VARCHAR}, PURCHASE_ORDERS.CREATE_DATE) >= 0
+	    </if>
+    order by ORDER_SN DESC
+  </select>
+  
+  <select id="selectAckedPurchaseOrdersCount" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="allRecordCount">
+    
+    select 
+    	COUNT(PURCHASE_ORDERS.PURCHASE_ORDER_ID) as DATA_COUNT
+    from PURCHASE_ORDERS
+	    JOIN STOCK_ORDERS
+		ON PURCHASE_ORDERS.STOCK_ORDER_ID = STOCK_ORDERS.STOCK_ORDER_ID
+    where PURCHASE_ORDERS.DEAL_TYPE = 0 
+    AND PURCHASE_ORDERS.ORDER_STATUS = 2 
+    AND STOCK_ORDERS.MER_ID = #{merId,jdbcType=VARCHAR}
+    <if test="startDateTextParam != null">
+    	and DATEDIFF(PURCHASE_ORDERS.CREATE_DATE, #{startDateTextParam,jdbcType=VARCHAR}) >= 0
+    </if>
+    <if test="endDateTextParam != null">
+    	and DATEDIFF(#{endDateTextParam,jdbcType=VARCHAR}, PURCHASE_ORDERS.CREATE_DATE) >= 0
+    </if>
+  </select>
+  
+  <select id="selectByProviderToAudit" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_GROUPS.GROUP_NAME,
+		PURCHASE_ORDERS.ORDER_SN,
+		PURCHASE_ORDERS.PURCHASE_ORDER_ID,
+		PURCHASE_ORDERS.STOCK_ORDER_ID,
+		PURCHASE_ORDERS.DEAL_TYPE,
+		PURCHASE_ORDERS.STORE_ACK,
+		PURCHASE_ORDERS.STORE_ACK_DATE,
+		PURCHASE_ORDERS.CREATE_DATE,
+		PURCHASE_ORDERS.CREATOR,
+		PURCHASE_ORDERS.PROVIDER_ID,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_PHONE,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_EMAIL,
+		PURCHASE_ORDERS.PROVIDER_NAME,
+		PURCHASE_ORDERS.APPLY_ID,
+		PURCHASE_ORDERS.LINK_MAN,
+		PURCHASE_ORDERS.LINK_MAN_PHONE,
+		PURCHASE_ORDERS.APPLY_ADDRESS,
+		PURCHASE_ORDERS.GOODS_AMOUNT,
+		PURCHASE_ORDERS.GOODS_TOTAL_PRICE,
+		PURCHASE_ORDERS.AUDIT_AMOUNT,
+		PURCHASE_ORDERS.AUDIT_TOTAL_PRICE,
+		PURCHASE_ORDERS.PAY_PLANE_DATE,
+		PURCHASE_ORDERS.PAIED_DATE,
+		PURCHASE_ORDERS.APPLY_CHECK_STATUS,
+		PURCHASE_ORDERS.APPLY_CHECKOR,
+		PURCHASE_ORDERS.AUDIT_STATUS,
+		PURCHASE_ORDERS.PAY_STATUS,
+		PURCHASE_ORDERS.ORDER_STATUS,
+		PURCHASE_ORDERS.FROM_STORE_ID, 
+		PURCHASE_ORDERS.FROM_STORE_NAME,
+		PURCHASE_ORDERS.PROVIDER_ACK_STATUS, 
+		PURCHASE_ORDERS.PROVIDER_ACK_DATE, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT_DATE
+	FROM
+		PURCHASE_ORDERS
+		JOIN MERCHANT_GROUPS
+		ON PURCHASE_ORDERS.APPLY_ID = MERCHANT_GROUPS.MER_GROUP_ID
+		JOIN STOCK_ORDERS
+		ON PURCHASE_ORDERS.STOCK_ORDER_ID = STOCK_ORDERS.STOCK_ORDER_ID
+    WHERE 
+    STOCK_ORDERS.MER_ID = #{merId,jdbcType=VARCHAR} AND PURCHASE_ORDERS.PROVIDER_ACK_STATUS = 2
+    <if test="providerAckAudit != null">
+      and PURCHASE_ORDERS.PROVIDER_ACK_AUDIT = #{providerAckAudit,jdbcType=INTEGER}
+    </if>
+    <if test="dealType != null">
+      and PURCHASE_ORDERS.DEAL_TYPE = #{dealType,jdbcType=INTEGER}
+    </if>
+    order by PURCHASE_ORDERS.DEAL_TYPE
+  </select>
+  
+  <select id="selectByProviderToAuditCount" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="allRecordCount">
+    select COUNT(*) as DATA_COUNT
+    from PURCHASE_ORDERS
+    JOIN STOCK_ORDERS
+		ON PURCHASE_ORDERS.STOCK_ORDER_ID = STOCK_ORDERS.STOCK_ORDER_ID
+    where STOCK_ORDERS.MER_ID = #{merId,jdbcType=VARCHAR}  AND PURCHASE_ORDERS.PROVIDER_ACK_STATUS = 2
+    <if test="providerAckAudit != null">
+      and PURCHASE_ORDERS.PROVIDER_ACK_AUDIT = #{providerAckAudit,jdbcType=INTEGER}
+    </if>
+    <if test="dealType != null">
+      and PURCHASE_ORDERS.DEAL_TYPE = #{dealType,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectStoreOutStockOrders" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="BaseResultMap">
+    SELECT
+		MERCHANT_GROUPS.GROUP_NAME,
+		PURCHASE_ORDERS.ORDER_SN,
+		PURCHASE_ORDERS.PURCHASE_ORDER_ID,
+		PURCHASE_ORDERS.STOCK_ORDER_ID,
+		PURCHASE_ORDERS.DEAL_TYPE,
+		PURCHASE_ORDERS.STORE_ACK,
+		PURCHASE_ORDERS.STORE_ACK_DATE,
+		PURCHASE_ORDERS.CREATE_DATE,
+		PURCHASE_ORDERS.CREATOR,
+		PURCHASE_ORDERS.PROVIDER_ID,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_PHONE,
+		PURCHASE_ORDERS.PROVIDER_LINKMAN_EMAIL,
+		PURCHASE_ORDERS.PROVIDER_NAME,
+		PURCHASE_ORDERS.APPLY_ID,
+		PURCHASE_ORDERS.LINK_MAN,
+		PURCHASE_ORDERS.LINK_MAN_PHONE,
+		PURCHASE_ORDERS.APPLY_ADDRESS,
+		PURCHASE_ORDERS.GOODS_AMOUNT,
+		PURCHASE_ORDERS.GOODS_TOTAL_PRICE,
+		PURCHASE_ORDERS.AUDIT_AMOUNT,
+		PURCHASE_ORDERS.AUDIT_TOTAL_PRICE,
+		PURCHASE_ORDERS.PAY_PLANE_DATE,
+		PURCHASE_ORDERS.PAIED_DATE,
+		PURCHASE_ORDERS.APPLY_CHECK_STATUS,
+		PURCHASE_ORDERS.APPLY_CHECKOR,
+		PURCHASE_ORDERS.AUDIT_STATUS,
+		PURCHASE_ORDERS.PAY_STATUS,
+		PURCHASE_ORDERS.ORDER_STATUS,
+		PURCHASE_ORDERS.FROM_STORE_ID, 
+		PURCHASE_ORDERS.FROM_STORE_NAME,
+		PURCHASE_ORDERS.PROVIDER_ACK_STATUS, 
+		PURCHASE_ORDERS.PROVIDER_ACK_DATE, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT, 
+    	PURCHASE_ORDERS.PROVIDER_ACK_AUDIT_DATE
+	FROM
+		PURCHASE_ORDERS
+		JOIN MERCHANT_GROUPS
+		ON PURCHASE_ORDERS.APPLY_ID = MERCHANT_GROUPS.MER_GROUP_ID
+    where PURCHASE_ORDERS.PROVIDER_ID = #{providerId,jdbcType=VARCHAR}
+    and PURCHASE_ORDERS.DEAL_TYPE = 1
+    <if test="storeAck != null">
+    and PURCHASE_ORDERS.STORE_ACK = #{storeAck,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectByUnAcked" parameterType="com.fuhuitong.applychain.model.PurchaseOrders" resultMap="allRecordCount">
+    select 
+    count(PURCHASE_ORDER_ID) as DATA_COUNT
+    from PURCHASE_ORDERS
+    where STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR} 
+      and ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from PURCHASE_ORDERS
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByStockOrderId" parameterType="java.lang.String">
+    delete from PURCHASE_ORDERS
+    where STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    insert into PURCHASE_ORDERS (PURCHASE_ORDER_ID, ORDER_SN, STOCK_ORDER_ID, 
+      DEAL_TYPE, STORE_ACK, STORE_ACK_DATE, CREATE_DATE, CREATOR, 
+      PROVIDER_ID, PROVIDER_LINKMAN, PROVIDER_LINKMAN_PHONE, 
+      PROVIDER_LINKMAN_EMAIL, APPLY_ID, LINK_MAN, LINK_MAN_PHONE, 
+      APPLY_ADDRESS, GOODS_AMOUNT, GOODS_TOTAL_PRICE, 
+      AUDIT_AMOUNT, AUDIT_TOTAL_PRICE, PAY_PLANE_DATE, 
+      PAIED_DATE, APPLY_CHECK_STATUS, APPLY_CHECKOR, 
+      AUDIT_STATUS, PAY_STATUS, OP_AUDIT1_ID, 
+      OP_AUDIT1_DATE, OP_AUDIT2_ID, OP_AUDIT2_DATE, 
+      FINAL_AUDIT_ID, FINAL_AUDIT_DATE, FINAL_ACK_DATE, 
+      FINAL_ACK_ID, FINAL_ACK_DEMO, ORDER_STATUS,
+      FROM_STORE_ID, FROM_STORE_NAME,PROVIDER_ACK_STATUS, PROVIDER_ACK_DATE, 
+      PROVIDER_ACK_AUDIT, PROVIDER_ACK_AUDIT_DATE
+      )
+    values (#{purchaseOrderId,jdbcType=VARCHAR}, #{orderSn,jdbcType=INTEGER}, #{stockOrderId,jdbcType=VARCHAR}, 
+      #{dealType,jdbcType=INTEGER}, #{storeAck,jdbcType=INTEGER}, #{storeAckDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
+      #{providerId,jdbcType=VARCHAR}, #{providerLinkman,jdbcType=VARCHAR}, #{providerLinkmanPhone,jdbcType=VARCHAR}, 
+      #{providerLinkmanEmail,jdbcType=VARCHAR}, #{applyId,jdbcType=VARCHAR}, #{linkMan,jdbcType=VARCHAR}, #{linkManPhone,jdbcType=VARCHAR}, 
+      #{applyAddress,jdbcType=VARCHAR}, #{goodsAmount,jdbcType=INTEGER}, #{goodsTotalPrice,jdbcType=INTEGER}, 
+      #{auditAmount,jdbcType=INTEGER}, #{auditTotalPrice,jdbcType=INTEGER}, #{payPlaneDate,jdbcType=TIMESTAMP}, 
+      #{paiedDate,jdbcType=TIMESTAMP}, #{applyCheckStatus,jdbcType=INTEGER}, #{applyCheckor,jdbcType=VARCHAR}, 
+      #{auditStatus,jdbcType=INTEGER}, #{payStatus,jdbcType=INTEGER}, #{opAudit1Id,jdbcType=VARCHAR}, 
+      #{opAudit1Date,jdbcType=TIMESTAMP}, #{opAudit2Id,jdbcType=VARCHAR}, #{opAudit2Date,jdbcType=TIMESTAMP}, 
+      #{finalAuditId,jdbcType=VARCHAR}, #{finalAuditDate,jdbcType=TIMESTAMP}, #{finalAckDate,jdbcType=TIMESTAMP}, 
+      #{finalAckId,jdbcType=VARCHAR}, #{finalAckDemo,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER},
+      #{fromStoreId,jdbcType=VARCHAR}, #{fromStoreName,jdbcType=VARCHAR}, #{providerAckStatus,jdbcType=INTEGER}, 
+      #{providerAckDate,jdbcType=TIMESTAMP}, #{providerAckAudit,jdbcType=INTEGER}, 
+      #{providerAckAuditDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    insert into PURCHASE_ORDERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="purchaseOrderId != null">
+        PURCHASE_ORDER_ID,
+      </if>
+      <if test="orderSn != null">
+        ORDER_SN,
+      </if>
+      <if test="stockOrderId != null">
+        STOCK_ORDER_ID,
+      </if>
+      <if test="merId != null">
+        MER_ID,
+      </if>
+      <if test="dealType != null">
+        DEAL_TYPE,
+      </if>
+      <if test="storeAck != null">
+        STORE_ACK,
+      </if>
+      <if test="storeAckDate != null">
+        STORE_ACK_DATE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="providerId != null">
+        PROVIDER_ID,
+      </if>
+      <if test="providerLinkman != null">
+        PROVIDER_LINKMAN,
+      </if>
+      <if test="providerLinkmanPhone != null">
+        PROVIDER_LINKMAN_PHONE,
+      </if>
+      <if test="providerLinkmanEmail != null">
+        PROVIDER_LINKMAN_EMAIL,
+      </if>
+      <if test="providerName != null">
+        PROVIDER_NAME,
+      </if>
+      <if test="applyId != null">
+        APPLY_ID,
+      </if>
+      <if test="linkMan != null">
+        LINK_MAN,
+      </if>
+      <if test="linkManPhone != null">
+        LINK_MAN_PHONE,
+      </if>
+      <if test="applyAddress != null">
+        APPLY_ADDRESS,
+      </if>
+      <if test="goodsAmount != null">
+        GOODS_AMOUNT,
+      </if>
+      <if test="goodsTotalPrice != null">
+        GOODS_TOTAL_PRICE,
+      </if>
+      <if test="auditAmount != null">
+        AUDIT_AMOUNT,
+      </if>
+      <if test="auditTotalPrice != null">
+        AUDIT_TOTAL_PRICE,
+      </if>
+      <if test="payPlaneDate != null">
+        PAY_PLANE_DATE,
+      </if>
+      <if test="paiedDate != null">
+        PAIED_DATE,
+      </if>
+      <if test="applyCheckStatus != null">
+        APPLY_CHECK_STATUS,
+      </if>
+      <if test="applyCheckor != null">
+        APPLY_CHECKOR,
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
+      </if>
+      <if test="payStatus != null">
+        PAY_STATUS,
+      </if>
+      <if test="opAudit1Id != null">
+        OP_AUDIT1_ID,
+      </if>
+      <if test="opAudit1Date != null">
+        OP_AUDIT1_DATE,
+      </if>
+      <if test="opAudit2Id != null">
+        OP_AUDIT2_ID,
+      </if>
+      <if test="opAudit2Date != null">
+        OP_AUDIT2_DATE,
+      </if>
+      <if test="finalAuditId != null">
+        FINAL_AUDIT_ID,
+      </if>
+      <if test="finalAuditDate != null">
+        FINAL_AUDIT_DATE,
+      </if>
+      <if test="finalAckDate != null">
+        FINAL_ACK_DATE,
+      </if>
+      <if test="finalAckId != null">
+        FINAL_ACK_ID,
+      </if>
+      <if test="finalAckDemo != null">
+        FINAL_ACK_DEMO,
+      </if>
+      <if test="orderStatus != null">
+        ORDER_STATUS,
+      </if>
+      <if test="fromStoreId != null">
+        FROM_STORE_ID,
+      </if>
+      <if test="fromStoreName != null">
+        FROM_STORE_NAME,
+      </if>
+      <if test="providerAckStatus != null">
+        PROVIDER_ACK_STATUS,
+      </if>
+      <if test="providerAckDate != null">
+        PROVIDER_ACK_DATE,
+      </if>
+      <if test="providerAckAudit != null">
+        PROVIDER_ACK_AUDIT,
+      </if>
+      <if test="providerAckAuditDate != null">
+        PROVIDER_ACK_AUDIT_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="purchaseOrderId != null">
+        #{purchaseOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSn != null">
+        #{orderSn,jdbcType=INTEGER},
+      </if>
+      <if test="stockOrderId != null">
+        #{stockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null">
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="dealType != null">
+        #{dealType,jdbcType=INTEGER},
+      </if>
+      <if test="storeAck != null">
+        #{storeAck,jdbcType=INTEGER},
+      </if>
+      <if test="storeAckDate != null">
+        #{storeAckDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="providerId != null">
+        #{providerId,jdbcType=VARCHAR},
+      </if>
+      <if test="providerLinkman != null">
+        #{providerLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="providerLinkmanPhone != null">
+        #{providerLinkmanPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="providerLinkmanEmail != null">
+        #{providerLinkmanEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="providerName != null">
+        #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyId != null">
+        #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMan != null">
+        #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkManPhone != null">
+        #{linkManPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="applyAddress != null">
+        #{applyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsAmount != null">
+        #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTotalPrice != null">
+        #{goodsTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="auditAmount != null">
+        #{auditAmount,jdbcType=INTEGER},
+      </if>
+      <if test="auditTotalPrice != null">
+        #{auditTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="payPlaneDate != null">
+        #{payPlaneDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paiedDate != null">
+        #{paiedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyCheckStatus != null">
+        #{applyCheckStatus,jdbcType=INTEGER},
+      </if>
+      <if test="applyCheckor != null">
+        #{applyCheckor,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="opAudit1Id != null">
+        #{opAudit1Id,jdbcType=VARCHAR},
+      </if>
+      <if test="opAudit1Date != null">
+        #{opAudit1Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opAudit2Id != null">
+        #{opAudit2Id,jdbcType=VARCHAR},
+      </if>
+      <if test="opAudit2Date != null">
+        #{opAudit2Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalAuditId != null">
+        #{finalAuditId,jdbcType=VARCHAR},
+      </if>
+      <if test="finalAuditDate != null">
+        #{finalAuditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalAckDate != null">
+        #{finalAckDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalAckId != null">
+        #{finalAckId,jdbcType=VARCHAR},
+      </if>
+      <if test="finalAckDemo != null">
+        #{finalAckDemo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="fromStoreId != null">
+        #{fromStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromStoreName != null">
+        #{fromStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="providerAckStatus != null">
+        #{providerAckStatus,jdbcType=INTEGER},
+      </if>
+      <if test="providerAckDate != null">
+        #{providerAckDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="providerAckAudit != null">
+        #{providerAckAudit,jdbcType=INTEGER},
+      </if>
+      <if test="providerAckAuditDate != null">
+        #{providerAckAuditDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    update PURCHASE_ORDERS
+    <set>
+      <if test="orderSn != null">
+        ORDER_SN = #{orderSn,jdbcType=INTEGER},
+      </if>
+      <if test="stockOrderId != null">
+        STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="dealType != null">
+        DEAL_TYPE = #{dealType,jdbcType=INTEGER},
+      </if>
+      <if test="storeAck != null">
+        STORE_ACK = #{storeAck,jdbcType=INTEGER},
+      </if>
+      <if test="storeAckDate != null">
+        STORE_ACK_DATE = #{storeAckDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="providerId != null">
+        PROVIDER_ID = #{providerId,jdbcType=VARCHAR},
+      </if>
+      <if test="providerLinkman != null">
+        PROVIDER_LINKMAN = #{providerLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="providerLinkmanPhone != null">
+        PROVIDER_LINKMAN_PHONE = #{providerLinkmanPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="providerLinkmanEmail != null">
+        PROVIDER_LINKMAN_EMAIL = #{providerLinkmanEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="providerName != null">
+        PROVIDER_NAME = #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyId != null">
+        APPLY_ID = #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMan != null">
+        LINK_MAN = #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkManPhone != null">
+        LINK_MAN_PHONE = #{linkManPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="applyAddress != null">
+        APPLY_ADDRESS = #{applyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsAmount != null">
+        GOODS_AMOUNT = #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTotalPrice != null">
+        GOODS_TOTAL_PRICE = #{goodsTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="auditAmount != null">
+        AUDIT_AMOUNT = #{auditAmount,jdbcType=INTEGER},
+      </if>
+      <if test="auditTotalPrice != null">
+        AUDIT_TOTAL_PRICE = #{auditTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="payPlaneDate != null">
+        PAY_PLANE_DATE = #{payPlaneDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paiedDate != null">
+        PAIED_DATE = #{paiedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyCheckStatus != null">
+        APPLY_CHECK_STATUS = #{applyCheckStatus,jdbcType=INTEGER},
+      </if>
+      <if test="applyCheckor != null">
+        APPLY_CHECKOR = #{applyCheckor,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS = #{auditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        PAY_STATUS = #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="opAudit1Id != null">
+        OP_AUDIT1_ID = #{opAudit1Id,jdbcType=VARCHAR},
+      </if>
+      <if test="opAudit1Date != null">
+        OP_AUDIT1_DATE = #{opAudit1Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opAudit2Id != null">
+        OP_AUDIT2_ID = #{opAudit2Id,jdbcType=VARCHAR},
+      </if>
+      <if test="opAudit2Date != null">
+        OP_AUDIT2_DATE = #{opAudit2Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalAuditId != null">
+        FINAL_AUDIT_ID = #{finalAuditId,jdbcType=VARCHAR},
+      </if>
+      <if test="finalAuditDate != null">
+        FINAL_AUDIT_DATE = #{finalAuditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalAckDate != null">
+        FINAL_ACK_DATE = #{finalAckDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalAckId != null">
+        FINAL_ACK_ID = #{finalAckId,jdbcType=VARCHAR},
+      </if>
+      <if test="finalAckDemo != null">
+        FINAL_ACK_DEMO = #{finalAckDemo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        ORDER_STATUS = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="fromStoreId != null">
+        FROM_STORE_ID = #{fromStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromStoreName != null">
+        FROM_STORE_NAME = #{fromStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="providerAckStatus != null">
+        PROVIDER_ACK_STATUS = #{providerAckStatus,jdbcType=INTEGER},
+      </if>
+      <if test="providerAckDate != null">
+        PROVIDER_ACK_DATE = #{providerAckDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="providerAckAudit != null">
+        PROVIDER_ACK_AUDIT = #{providerAckAudit,jdbcType=INTEGER},
+      </if>
+      <if test="providerAckAuditDate != null">
+        PROVIDER_ACK_AUDIT_DATE = #{providerAckAuditDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    update PURCHASE_ORDERS
+    set ORDER_SN = #{orderSn,jdbcType=INTEGER},
+      STOCK_ORDER_ID = #{stockOrderId,jdbcType=VARCHAR},
+      DEAL_TYPE = #{dealType,jdbcType=INTEGER},
+      STORE_ACK = #{storeAck,jdbcType=INTEGER},
+      STORE_ACK_DATE = #{storeAckDate,jdbcType=TIMESTAMP},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      PROVIDER_ID = #{providerId,jdbcType=VARCHAR},
+      PROVIDER_LINKMAN = #{providerLinkman,jdbcType=VARCHAR},
+      PROVIDER_LINKMAN_PHONE = #{providerLinkmanPhone,jdbcType=VARCHAR},
+      PROVIDER_LINKMAN_EMAIL = #{providerLinkmanEmail,jdbcType=VARCHAR},
+      APPLY_ID = #{applyId,jdbcType=VARCHAR},
+      LINK_MAN = #{linkMan,jdbcType=VARCHAR},
+      LINK_MAN_PHONE = #{linkManPhone,jdbcType=VARCHAR},
+      APPLY_ADDRESS = #{applyAddress,jdbcType=VARCHAR},
+      GOODS_AMOUNT = #{goodsAmount,jdbcType=INTEGER},
+      GOODS_TOTAL_PRICE = #{goodsTotalPrice,jdbcType=INTEGER},
+      AUDIT_AMOUNT = #{auditAmount,jdbcType=INTEGER},
+      AUDIT_TOTAL_PRICE = #{auditTotalPrice,jdbcType=INTEGER},
+      PAY_PLANE_DATE = #{payPlaneDate,jdbcType=TIMESTAMP},
+      PAIED_DATE = #{paiedDate,jdbcType=TIMESTAMP},
+      APPLY_CHECK_STATUS = #{applyCheckStatus,jdbcType=INTEGER},
+      APPLY_CHECKOR = #{applyCheckor,jdbcType=VARCHAR},
+      AUDIT_STATUS = #{auditStatus,jdbcType=INTEGER},
+      PAY_STATUS = #{payStatus,jdbcType=INTEGER},
+      OP_AUDIT1_ID = #{opAudit1Id,jdbcType=VARCHAR},
+      OP_AUDIT1_DATE = #{opAudit1Date,jdbcType=TIMESTAMP},
+      OP_AUDIT2_ID = #{opAudit2Id,jdbcType=VARCHAR},
+      OP_AUDIT2_DATE = #{opAudit2Date,jdbcType=TIMESTAMP},
+      FINAL_AUDIT_ID = #{finalAuditId,jdbcType=VARCHAR},
+      FINAL_AUDIT_DATE = #{finalAuditDate,jdbcType=TIMESTAMP},
+      FINAL_ACK_DATE = #{finalAckDate,jdbcType=TIMESTAMP},
+      FINAL_ACK_ID = #{finalAckId,jdbcType=VARCHAR},
+      FINAL_ACK_DEMO = #{finalAckDemo,jdbcType=VARCHAR},
+      ORDER_STATUS = #{orderStatus,jdbcType=INTEGER},
+      FROM_STORE_ID = #{fromStoreId,jdbcType=VARCHAR},
+      FROM_STORE_NAME = #{fromStoreName,jdbcType=VARCHAR},
+      PROVIDER_ACK_STATUS = #{providerAckStatus,jdbcType=INTEGER},
+      PROVIDER_ACK_DATE = #{providerAckDate,jdbcType=TIMESTAMP},
+      PROVIDER_ACK_AUDIT = #{providerAckAudit,jdbcType=INTEGER},
+      PROVIDER_ACK_AUDIT_DATE = #{providerAckAuditDate,jdbcType=TIMESTAMP}
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="changeOrderStatus" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    update PURCHASE_ORDERS
+    set 
+    	ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+    	
+    	<if test="orderSn != null">
+    	,ORDER_SN = #{orderSn,jdbcType=INTEGER}
+    	</if>
+      
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateStoreOutAck" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    update PURCHASE_ORDERS
+    set 
+    	STORE_ACK = #{storeAck,jdbcType=INTEGER},
+    	STORE_ACK_DATE = #{storeAckDate,jdbcType=TIMESTAMP}
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateAckAmount" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    update PURCHASE_ORDERS
+    set 
+    	AUDIT_AMOUNT = #{auditAmount,jdbcType=INTEGER},
+    	AUDIT_TOTAL_PRICE = #{auditTotalPrice,jdbcType=INTEGER}
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateTotalProviderValue" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    update PURCHASE_ORDERS
+    set 
+    	GOODS_AMOUNT = #{goodsAmount,jdbcType=INTEGER},
+    	GOODS_TOTAL_PRICE = #{goodsTotalPrice,jdbcType=INTEGER}
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateProviderAck" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    update PURCHASE_ORDERS
+    set PROVIDER_ACK_STATUS = #{providerAckStatus,jdbcType=INTEGER},
+    	PROVIDER_ACK_DATE = #{providerAckDate,jdbcType=TIMESTAMP}
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateAuditAfterProviderAck" parameterType="com.fuhuitong.applychain.model.PurchaseOrders">
+    update PURCHASE_ORDERS
+    set PROVIDER_ACK_AUDIT = #{providerAckAudit,jdbcType=INTEGER},
+    	PROVIDER_ACK_AUDIT_DATE = #{providerAckAuditDate,jdbcType=TIMESTAMP}
+    where PURCHASE_ORDER_ID = #{purchaseOrderId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>
