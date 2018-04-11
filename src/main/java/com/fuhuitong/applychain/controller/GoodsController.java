@@ -18,6 +18,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 商品控制类
+ */
 @Controller
 public class GoodsController {
 	
