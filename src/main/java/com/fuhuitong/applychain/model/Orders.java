@@ -136,6 +136,25 @@ public class Orders extends Pagable
     
     private String termSn;
 
+    String chargeRate;
+    String chargeAmount;
+
+    public String getChargeRate() {
+        return chargeRate;
+    }
+
+    public void setChargeRate(String chargeRate) {
+        this.chargeRate = chargeRate;
+    }
+
+    public String getChargeAmount() {
+        return chargeAmount;
+    }
+
+    public void setChargeAmount(String chargeAmount) {
+        this.chargeAmount = chargeAmount;
+    }
+
     public String getTermSn() {
 		return termSn;
 	}

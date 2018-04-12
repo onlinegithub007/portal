@@ -80,12 +80,19 @@ layui.use(['layer', 'form', 'laydate', 'table', 'common'], function() {
 				align: 'right',
 			},
 			{
-				field: 'shouxufei',
+				field: 'chargeRate',
 				width: 150,
-				title: '手续费',
+				title: '手续率',
 				align: 'right',
-				templet: '#shouxufei'
+
 			},
+                {
+                    field: 'chargeAmount',
+                    width: 150,
+                    title: '手续费',
+                    align: 'right',
+
+                },
 			{
 				field: 'payMethod',
 				width: 100,

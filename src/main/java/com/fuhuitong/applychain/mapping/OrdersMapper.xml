@@ -56,7 +56,8 @@
     
     <result column="ORDER_CONFIRM" jdbcType="INTEGER" property="orderConfirm" />
     <result column="ORDER_CONFIRM_DATE" jdbcType="TIMESTAMP" property="orderConfirmDate" />
-    <result column="ORDER_CONFIRM_PERSON" jdbcType="VARCHAR" property="orderConfirmPerson" />
+    <result column="CHARGE_RATE" jdbcType="VARCHAR" property="chargeRate" />
+    <result column="CHARGE_AMOUNT" jdbcType="VARCHAR" property="chargeAmount" />
   </resultMap>
   
   <resultMap id="allRecordCount" type="java.lang.Integer">
@@ -178,6 +179,8 @@
 		ORDERS.ORDER_CONFIRM_DATE,
 		ORDERS.ORDER_CONFIRM_PERSON,
 		ORDERS.TERM_CODE,
+        ORDERS.CHARGE_RATE,
+        ORDERS.CHARGE_AMOUNT,
 		ORDERS.TERM_SN 
 	FROM
 		ORDERS JOIN MERCHANT_GROUPS

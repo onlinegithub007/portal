@@ -112,6 +112,9 @@ public class POSAppServiceImpl implements IPOSAppService {
 	
 	@Resource
 	private BindingGoodsDetailsMapper bindingGoodsDetailMapper;
+
+	@Resource
+	private  ChargeMapper chargeMapper;
 	
 	@Override
 	public CheckNewVersionResp checkNewVersion(AppDownload appDownloadParam) 
@@ -1962,6 +1965,64 @@ public class POSAppServiceImpl implements IPOSAppService {
 		order.setCashAmount(reqParam.getCashAmount());
 		// 现金找零
 		order.setCashChange(reqParam.getCashChange());
+
+		Charge charge = this.chargeMapper.findByMerId(tmpOrder.getMerId());
+
+		if (order.getPayMethod()==1){//1 微信
+			order.setChargeRate(""+charge.getWechat());
+			Double payAmounts = reqParam.getPayAmount()+0.0;
+			order.setChargeAmount((payAmounts*charge.getWechat())+"");
+		}else if (order.getPayMethod()==2){//2 支付宝
+			order.setChargeRate(""+charge.getAlipay());
+			Double payAmounts = reqParam.getPayAmount()+0.0;
+			order.setChargeAmount((payAmounts*charge.getAlipay())+"");
+		}else if (order.getPayMethod()==3){//2 翼支付
+			order.setChargeRate(""+charge.getBestpay());
+			Double payAmounts = reqParam.getPayAmount()+0.0;
+			order.setChargeAmount((payAmounts*charge.getBestpay())+"");
+		}else if (order.getPayMethod()==4){//2 银行卡
+
+				BankCardBin cardBin = this.bankCardBinMapper.selectByCardNo(reqParam.getBankCard());
+				if (cardBin != null)
+				{
+					if (cardBin.getCardType() == 0)
+					{
+						order.setBankCardType("借记卡");
+						order.setChargeRate(""+charge.getDebit());
+						Double payAmounts = reqParam.getPayAmount()+0.0;
+						Double payDebit = payAmounts*charge.getDebit();
+						if(payDebit>charge.getDebitMax()){
+							order.setChargeAmount(charge.getDebitMax()+"");
+						}else {
+							order.setChargeAmount(payDebit + "");
+						}
+
+					}
+					else if (cardBin.getCardType() == 1)
+					{
+						order.setBankCardType("贷记卡");
+						order.setChargeRate(""+charge.getCredit());
+						Double payAmounts = reqParam.getPayAmount()+0.0;
+						Double payCredit = payAmounts*charge.getCredit();
+						if(payCredit>charge.getCreditMax()){
+							order.setChargeAmount(charge.getCreditMax()+"");
+						}else {
+							order.setChargeAmount(payCredit + "");
+						}
+					}
+					else
+					{
+						order.setBankCardType("其他");
+					}
+				}
+
+
+		}else {
+			order.setChargeRate(""+0);
+			order.setChargeAmount(""+0);
+		}
+
+
 		
 		// 生成可识别的，用于小票打印的订单号码
 		MerchantsGroups merchantGroup = this.merchantGroupMapper.selectByPrimaryKey(tmpOrder.getMerGroupId());
