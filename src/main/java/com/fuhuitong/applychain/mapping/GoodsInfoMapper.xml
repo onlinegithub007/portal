@@ -132,6 +132,9 @@
     <if test="parentTypeId != null and goodsTypeId != null">
     	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
     </if>
+	  <if test="goodsCode != null">
+		  and GOODS_INFO.GOODS_CODE like #{goodsCode,jdbcType=VARCHAR}
+	  </if>
     <if test="status != null">
     	and GOODS_INFO.STATUS = #{status,jdbcType=INTEGER}
     </if>
@@ -152,6 +155,9 @@
     <if test="parentTypeId != null and goodsTypeId != null">
     	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
     </if>
+	  <if test="goodsCode != null">
+		  and GOODS_INFO.GOODS_CODE like #{goodsCode,jdbcType=VARCHAR}
+	  </if>
     <if test="status != null">
     	and GOODS_INFO.STATUS = #{status,jdbcType=INTEGER}
     </if>

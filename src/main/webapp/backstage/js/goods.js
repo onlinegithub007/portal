@@ -309,11 +309,12 @@ layui.use(['layer', 'form', 'upload', 'table', 'common'], function() {
 		parentTypeId = datas.parentTypeId;
 		goodsTypeId = datas.goodsTypeId;
 		status = datas.status;
-		
+        goodsCode=datas.goodsCode;
 		tableIns.reload({
 	    	where :{
 	    		'parentTypeId':parentTypeId,
 	    		'goodsTypeId':goodsTypeId,
+                'goodsCode':goodsCode,
 	    		'status':status
 	    	}
 	    });

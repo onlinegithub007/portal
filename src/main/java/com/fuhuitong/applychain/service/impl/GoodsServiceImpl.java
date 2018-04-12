@@ -298,6 +298,13 @@ public class GoodsServiceImpl extends BaseService implements IGoodsService {
 		{
 			goodsInfo.setStatus(null);
 		}
+		if (StringUtils.isEmpty(goodsInfo.getGoodsCode()))
+		{
+			goodsInfo.setGoodsCode(null);
+		}else {
+			String booksCode = goodsInfo.getGoodsCode();
+			goodsInfo.setGoodsCode("%"+booksCode.substring(0, booksCode.length() - 1)+"%");
+		}
 		
 		goodsInfo.setMerId(this.merUser.getMerId());
 		

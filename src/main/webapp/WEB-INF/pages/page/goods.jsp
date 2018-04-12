@@ -47,6 +47,9 @@
 						<option value="">请选择商品小类[全部]</option>
 					</select>
             	</div>
+				<div class="layui-form-item layui-input-inline">
+					<input type="text" name="goodsCode" autocomplete="off"  class="layui-input" placeholder="请输入商品编号" size="20">
+				</div>
             	<div class="layui-form-item layui-input-inline">
             		<select name="status" id="subGoodsType">
 						<option value="-1">商品状态[不限]</option>
