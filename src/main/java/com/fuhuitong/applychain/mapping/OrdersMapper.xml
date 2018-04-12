@@ -288,7 +288,7 @@
       CASH_CHANGE, MEMBER_BALANCE_PAY, DISCOUNT_AMOUNT, 
       CARD_COUPON_PAY, VERSION, OS, 
       DEVICE_TYPE, LONGITUDE, LATITUDE, 
-      IP_ADDRESS, ORDER_BILL_PRINT, ORDER_BILL, OPERATOR_ID, OPERATOR_NAME, ORDER_TYPE
+      IP_ADDRESS, ORDER_BILL_PRINT, ORDER_BILL, OPERATOR_ID, OPERATOR_NAME, ORDER_TYPE,CHARGE_RATE,CHARGE_AMOUNT
       )
     values (#{orderId,jdbcType=VARCHAR}, #{merUserId,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, 
       #{merId,jdbcType=VARCHAR}, #{spCode,jdbcType=VARCHAR}, #{merGroupId,jdbcType=VARCHAR}, 
@@ -300,7 +300,8 @@
       #{cardCouponPay,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}, 
       #{deviceType,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
       #{ipAddress,jdbcType=VARCHAR}, #{orderBillPrint,jdbcType=BIT}, #{orderBill,jdbcType=VARCHAR}, 
-      #{operatorId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER}
+      #{operatorId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER},
+      #{chargeRate,jdbcType=VARCHAR},#{chargeAmount,jdbcType=VARCHAR}
       )
   </insert>
   
@@ -448,6 +449,12 @@
       <if test="orderType != null">
         ORDER_TYPE,
       </if>
+      <if test="chargeRate != null">
+        CHARGE_RATE,
+      </if>
+      <if test="chargeAmount != null">
+        CHARGE_AMOUNT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
@@ -590,6 +597,13 @@
       </if>
       <if test="orderType != null">
         #{orderType,jdbcType=INTEGER},
+      </if>
+
+      <if test="chargeRate != null">
+        #{chargeRate,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeAmount != null">
+        #{chargeAmount,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
