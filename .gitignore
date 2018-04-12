@@ -84,3 +84,4 @@ hs_err_pid*
 portal.iml
 target/
 /.idea/vcs.xml
+/.idea/

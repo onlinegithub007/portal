@@ -53,7 +53,13 @@ public class GoodsController {
 	{
 		return goodsService.deleteGoodsType(request, session, goodsTypeId);
 	}
-	
+
+	/**
+	 * 商品信息
+	 * @param request
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/backstage/goods.html")
 	public String goods(HttpServletRequest request, HttpSession session)
 	{
