@@ -47,6 +47,14 @@ public class OrdersController {
 	{
 		return orderService.merchantStoresOrderRecords(request, session);
 	}
+
+	/**
+	 * 总交易查询
+	 * @param request
+	 * @param session
+	 * @param query
+	 * @return
+	 */
 	
 	@RequestMapping("/backstage/store_orders_records_data.html")
 	public @ResponseBody String storeOrderRecordsData(HttpServletRequest request, HttpSession session, Orders query)

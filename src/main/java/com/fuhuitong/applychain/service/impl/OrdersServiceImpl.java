@@ -1287,10 +1287,10 @@ public class OrdersServiceImpl extends BaseService implements IOrdersService {
 					}
 					
 					HSSFCell cell8 = row.createCell(8);
-					cell8.setCellValue(finalPrice);
+					cell8.setCellValue(order.getChargeAmount());
+					//结算金额
 					HSSFCell cell9 = row.createCell(9);
-					
-					cell9.setCellValue(price-finalPrice);
+					cell9.setCellValue(price-Double.parseDouble(order.getChargeAmount()));
 					
 					HSSFCell cell10 = row.createCell(10);
 					

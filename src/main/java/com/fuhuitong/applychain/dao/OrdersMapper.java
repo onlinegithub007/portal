@@ -35,7 +35,7 @@ public interface OrdersMapper {
 
     int updateByPrimaryKeySelective(Orders record);
 
-    int updateByPrimaryKeyWithBLOBs(Orders record);
+//    int updateByPrimaryKeyWithBLOBs(Orders record);
 
     int updateByPrimaryKey(Orders record);
     
