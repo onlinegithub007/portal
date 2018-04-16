@@ -2004,11 +2004,7 @@ public class POSAppServiceImpl implements IPOSAppService {
 						order.setChargeRate(""+charge.getCredit());
 						Double payAmounts = reqParam.getPayAmount()+0.0;
 						Double payCredit = payAmounts*charge.getCredit();
-						if(payCredit>charge.getCreditMax()){
-							order.setChargeAmount(charge.getCreditMax()+"");
-						}else {
-							order.setChargeAmount(payCredit + "");
-						}
+						order.setChargeAmount(payCredit + "");
 					}
 					else
 					{

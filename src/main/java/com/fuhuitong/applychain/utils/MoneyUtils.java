@@ -20,4 +20,14 @@ public class MoneyUtils
 		
 		return text;
 	}
+
+	public static String getMoneyText(double v) {
+
+		double yuan = v/100;
+
+		String text = Double.toString(yuan);
+
+		return text;
+
+	}
 }

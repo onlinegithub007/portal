@@ -180,7 +180,7 @@
 		ORDERS.ORDER_CONFIRM_PERSON,
 		ORDERS.TERM_CODE,
         ORDERS.CHARGE_RATE,
-        ORDERS.CHARGE_AMOUNT,
+        (ORDERS.CHARGE_AMOUNT*0.01) AS CHARGE_AMOUNT,
 		ORDERS.TERM_SN 
 	FROM
 		ORDERS JOIN MERCHANT_GROUPS
@@ -738,6 +738,15 @@
       </if>
       <if test="referCode != null">
         REFER_CODE = #{referCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeRate != null">
+      CHARGE_RATE = #{chargeRate,jdbcType=VARCHAR},
+    </if>
+      <if test="chargeAmount != null">
+        CHARGE_AMOUNT = #{chargeAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardType !=null">
+        BANK_CARD_TYPE = #{bankCardType,jdbcType=VARCHAR},
       </if>
     </set>
     where ORDER_ID = #{orderId,jdbcType=VARCHAR}

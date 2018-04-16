@@ -263,7 +263,7 @@ public class OrderBillUtils {
 			
 			if (order.getPayMethod() == 4)
 			{
-				buffer.append("商户名称：").append(order.getMerName()).append("\n");
+			//	buffer.append("商户名称：").append(order.getMerName()).append("\n");
 				buffer.append("终端号：").append(order.getTermCode()).append("\n");
 				buffer.append("商户号：").append(order.getMerCode()).append("\n");
 				buffer.append("卡号：").append(BankCardUtils.getMarkedBankCard(order.getBankCard())).append("\n");

@@ -458,6 +458,16 @@ public class Orders extends Pagable
     	
     	return finalPriceText;
 	}
+    String chargeAmountText = "";
+    public String getChargeAmountText() {
+
+        if (chargeAmount != null)
+        {
+            chargeAmountText = MoneyUtils.getMoneyText(Double.parseDouble(this.chargeAmount));
+        }
+
+        return chargeAmountText;
+    }
     
     public String getDiscountAmountText() {
     	

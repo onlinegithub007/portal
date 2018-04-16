@@ -146,7 +146,7 @@ public class OrdersController {
 	 * 临时刷新订单的毛利润
 	 * @param request
 	 * @param session
-	 * @param createDateText
+	 * @param
 	 * @return
 	 */
 	@RequestMapping("/backstage/store_daliy_clearing_refresh_profit.html")
@@ -273,5 +273,11 @@ public class OrdersController {
 	public ResponseEntity<byte[]> downloadStoreSalesReport(HttpServletRequest request, HttpSession session, StoreSalesReports param)
 	{
 		return orderService.downloadStoreSalesReport(request, session, param);
+	}
+
+	@RequestMapping("/backstage/addRateByMerId.html")
+	public String addRateByMerId(HttpServletRequest request, HttpSession session)
+	{
+		return orderService.addRateByMerId(request, session);
 	}
 }

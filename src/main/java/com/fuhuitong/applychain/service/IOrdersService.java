@@ -58,6 +58,8 @@ public interface IOrdersService extends IBaseService{
 	public String storesSaleReports(HttpServletRequest request, HttpSession session);
 	
 	public String storesSaleReportsData(HttpServletRequest request, HttpSession session, StoreSalesReports param);
+
+	String addRateByMerId(HttpServletRequest request, HttpSession session);
 	
 	public ResponseEntity<byte[]> exportAllOrders(HttpServletRequest request, HttpSession session, Orders query);
 	public ResponseEntity<byte[]> exportAgentsAllOrders(HttpServletRequest request, HttpSession session, Orders query);
