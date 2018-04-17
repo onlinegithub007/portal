@@ -1,626 +1,671 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fuhuitong.applychain.dao.GoodsInfoMapper">
-  <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.GoodsInfo">
-    <id column="GOODS_ID" jdbcType="VARCHAR" property="goodsId" />
-    <result column="GOODS_TYPE_ID" jdbcType="VARCHAR" property="goodsTypeId" />
-    <result column="GOODS_PRICE_ID" jdbcType="BIGINT" property="goodsPriceId" />
-    <result column="GOODS_TYPE_NAME" jdbcType="VARCHAR" property="goodsTypeName" />
-    <result column="MER_ID" jdbcType="VARCHAR" property="merId" />
-    <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode" />
-    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
-    <result column="GOODS_THUMBNAIL" jdbcType="VARCHAR" property="goodsThumbnail" />
-    <result column="GOODS_COST" jdbcType="INTEGER" property="goodsCost" />
-    <result column="STORE_GOODS_COST" jdbcType="INTEGER" property="storeGoodsCost" />
-    <result column="GOODS_PRICE" jdbcType="INTEGER" property="goodsPrice" />
-    <result column="HAS_QUALITY_PERIOD" jdbcType="INTEGER" property="hasQualityPeriod" />
-    <result column="EXPIRED_DAY" jdbcType="INTEGER" property="expiredDay" />
-    
-    <result column="GOODS_MEMBER_PRICE" jdbcType="INTEGER" property="goodsMemberPrice" />
-    <result column="GOODS_MEMB_PRICE_ID" jdbcType="INTEGER" property="goodsMembPriceId" />
-    <result column="PRICE_PERCENT" jdbcType="INTEGER" property="pricePercent" />
-    
-    <result column="STORE_GOODS_PRICE" jdbcType="INTEGER" property="storeGoodsPrice" />
-    <result column="GOODS_BULK_PRICE" jdbcType="INTEGER" property="goodsBulkPrice" />
-    <result column="SPU_CODE" jdbcType="VARCHAR" property="spuCode" />
-    <result column="SKU_CODE" jdbcType="VARCHAR" property="skuCode" />
-    <result column="MEASUR_UNIT" jdbcType="VARCHAR" property="measurUnit" />
-    <result column="FLAG_NUM" jdbcType="INTEGER" property="flagNum" />
-    <result column="FLAG1" jdbcType="VARCHAR" property="flag1" />
-    <result column="FLAG2" jdbcType="VARCHAR" property="flag2" />
-    <result column="FLAG3" jdbcType="VARCHAR" property="flag3" />
-    <result column="FLAG4" jdbcType="VARCHAR" property="flag4" />
-    <result column="FLAG5" jdbcType="VARCHAR" property="flag5" />
-    <result column="STATUS" jdbcType="INTEGER" property="status" />
-    
-    <result column="OWNER_TYPE" jdbcType="INTEGER" property="ownerType" />
-    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
-    <result column="STOCK_AMOUNT" jdbcType="INTEGER" property="stockAmount" />
-    <result column="GOODS_STOCK_ID" jdbcType="BIGINT" property="goodsStockId" />
-    
-    <result column="GP_ID" jdbcType="VARCHAR" property="gpId" />
-    <result column="MER_USER_ID" jdbcType="VARCHAR" property="merUserId" />
-    <result column="GP_STATUS" jdbcType="INTEGER" property="gpStatus" />
-    
-    <result column="STOCK_ORDER_DETAIL_ID" jdbcType="INTEGER" property="stockOrderDetailId" />
-    <result column="GOODS_COUNT" jdbcType="INTEGER" property="goodsCount" />
-    
-    <result column="IMPORT_SN" jdbcType="BIGINT" property="importSn" />
-    
-    <result column="PROVIDER_UNIT" jdbcType="VARCHAR" property="providerUnit" />
-    <result column="PROVIDER_UNIT_MULTIPLE" jdbcType="INTEGER" property="providerUnitMultiple" />
-    
-    <result column="STOCK_CHECK_ID" jdbcType="INTEGER" property="stockCheckId" />
-    <result column="STOCK_CHECKOR_ID" jdbcType="VARCHAR" property="stockCheckorId" />
-    <result column="STOCK_CHECKOR_NAME" jdbcType="VARCHAR" property="stockCheckorName" />
-    <result column="CHECK_RESULT" jdbcType="INTEGER" property="checkResult" />
-    <result column="CHECK_DIFF_VALUE" jdbcType="INTEGER" property="checkDiffValue" />
-  </resultMap>
-  
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.fuhuitong.applychain.model.GoodsInfo">
-    <result column="GOODS_MEMO" jdbcType="LONGVARCHAR" property="goodsMemo" />
-  </resultMap>
-  
-  <resultMap id="allRecordCount" type="java.lang.Integer">
-  	<result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount" />
-  </resultMap>
-  
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.fuhuitong.applychain.model.GoodsInfo">
+        <id column="GOODS_ID" jdbcType="VARCHAR" property="goodsId"/>
+        <result column="GOODS_TYPE_ID" jdbcType="VARCHAR" property="goodsTypeId"/>
+        <result column="GOODS_PRICE_ID" jdbcType="BIGINT" property="goodsPriceId"/>
+        <result column="GOODS_TYPE_NAME" jdbcType="VARCHAR" property="goodsTypeName"/>
+        <result column="MER_ID" jdbcType="VARCHAR" property="merId"/>
+        <result column="GOODS_CODE" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="GOODS_THUMBNAIL" jdbcType="VARCHAR" property="goodsThumbnail"/>
+        <result column="GOODS_COST" jdbcType="INTEGER" property="goodsCost"/>
+        <result column="STORE_GOODS_COST" jdbcType="INTEGER" property="storeGoodsCost"/>
+        <result column="GOODS_PRICE" jdbcType="INTEGER" property="goodsPrice"/>
+        <result column="HAS_QUALITY_PERIOD" jdbcType="INTEGER" property="hasQualityPeriod"/>
+        <result column="EXPIRED_DAY" jdbcType="INTEGER" property="expiredDay"/>
+
+        <result column="GOODS_MEMBER_PRICE" jdbcType="INTEGER" property="goodsMemberPrice"/>
+        <result column="GOODS_MEMB_PRICE_ID" jdbcType="INTEGER" property="goodsMembPriceId"/>
+        <result column="PRICE_PERCENT" jdbcType="INTEGER" property="pricePercent"/>
+
+        <result column="STORE_GOODS_PRICE" jdbcType="INTEGER" property="storeGoodsPrice"/>
+        <result column="GOODS_BULK_PRICE" jdbcType="INTEGER" property="goodsBulkPrice"/>
+        <result column="SPU_CODE" jdbcType="VARCHAR" property="spuCode"/>
+        <result column="SKU_CODE" jdbcType="VARCHAR" property="skuCode"/>
+        <result column="MEASUR_UNIT" jdbcType="VARCHAR" property="measurUnit"/>
+        <result column="FLAG_NUM" jdbcType="INTEGER" property="flagNum"/>
+        <result column="FLAG1" jdbcType="VARCHAR" property="flag1"/>
+        <result column="FLAG2" jdbcType="VARCHAR" property="flag2"/>
+        <result column="FLAG3" jdbcType="VARCHAR" property="flag3"/>
+        <result column="FLAG4" jdbcType="VARCHAR" property="flag4"/>
+        <result column="FLAG5" jdbcType="VARCHAR" property="flag5"/>
+        <result column="STATUS" jdbcType="INTEGER" property="status"/>
+
+        <result column="OWNER_TYPE" jdbcType="INTEGER" property="ownerType"/>
+        <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="STOCK_AMOUNT" jdbcType="INTEGER" property="stockAmount"/>
+        <result column="GOODS_STOCK_ID" jdbcType="BIGINT" property="goodsStockId"/>
+
+        <result column="GP_ID" jdbcType="VARCHAR" property="gpId"/>
+        <result column="MER_USER_ID" jdbcType="VARCHAR" property="merUserId"/>
+        <result column="GP_STATUS" jdbcType="INTEGER" property="gpStatus"/>
+
+        <result column="STOCK_ORDER_DETAIL_ID" jdbcType="INTEGER" property="stockOrderDetailId"/>
+        <result column="GOODS_COUNT" jdbcType="INTEGER" property="goodsCount"/>
+
+        <result column="IMPORT_SN" jdbcType="BIGINT" property="importSn"/>
+
+        <result column="PROVIDER_UNIT" jdbcType="VARCHAR" property="providerUnit"/>
+        <result column="PROVIDER_UNIT_MULTIPLE" jdbcType="INTEGER" property="providerUnitMultiple"/>
+
+        <result column="STOCK_CHECK_ID" jdbcType="INTEGER" property="stockCheckId"/>
+        <result column="STOCK_CHECKOR_ID" jdbcType="VARCHAR" property="stockCheckorId"/>
+        <result column="STOCK_CHECKOR_NAME" jdbcType="VARCHAR" property="stockCheckorName"/>
+        <result column="CHECK_RESULT" jdbcType="INTEGER" property="checkResult"/>
+        <result column="CHECK_DIFF_VALUE" jdbcType="INTEGER" property="checkDiffValue"/>
+    </resultMap>
+
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.fuhuitong.applychain.model.GoodsInfo">
+        <result column="GOODS_MEMO" jdbcType="LONGVARCHAR" property="goodsMemo"/>
+    </resultMap>
+
+    <resultMap id="allRecordCount" type="java.lang.Integer">
+        <result column="DATA_COUNT" jdbcType="INTEGER" property="dataCount"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
     GOODS_ID, GOODS_TYPE_ID, MER_ID, GOODS_CODE, GOODS_NAME, GOODS_THUMBNAIL, GOODS_COST, 
     GOODS_PRICE, GOODS_BULK_PRICE, SPU_CODE, SKU_CODE, MEASUR_UNIT, FLAG_NUM, FLAG1, 
     FLAG2, FLAG3, FLAG4, FLAG5, STATUS, HAS_QUALITY_PERIOD, IMPORT_SN, PROVIDER_UNIT, 
     PROVIDER_UNIT_MULTIPLE, EXPIRED_DAY
   </sql>
-  <sql id="Blob_Column_List">
+    <sql id="Blob_Column_List">
     GOODS_MEMO
   </sql>
-  
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from GOODS_INFO
-    where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
-  </select>
-  
-  <select id="selectByGoodsIds" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    select 
-    GOODS_CODE, GOODS_NAME, GOODS_PRICE
-    from GOODS_INFO
-    where GOODS_ID in
-    <foreach item="item" index="index" collection="goodsIds" open="(" separator="," close=")">  
-	  #{item}  
-	 </foreach>
-  </select>
-  
-  <select id="selectByGoodsType" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    SELECT
-		GOODS_INFO.GOODS_ID,
-		GOODS_INFO.GOODS_TYPE_ID,
-		GOODS_INFO.MER_ID,
-		GOODS_INFO.GOODS_CODE,
-		GOODS_INFO.GOODS_NAME,
-		GOODS_INFO.GOODS_THUMBNAIL,
-		GOODS_INFO.GOODS_COST,
-		GOODS_INFO.GOODS_BULK_PRICE,
-		GOODS_INFO.GOODS_PRICE,
-		GOODS_INFO.SPU_CODE,
-		GOODS_INFO.SKU_CODE,
-		GOODS_INFO.MEASUR_UNIT,
-		GOODS_INFO.FLAG_NUM,
-		GOODS_INFO.FLAG1,
-		GOODS_INFO.FLAG2,
-		GOODS_INFO.FLAG3,
-		GOODS_INFO.FLAG4,
-		GOODS_INFO.FLAG5,
-		GOODS_INFO.IMPORT_SN,
-		GOODS_INFO.`STATUS`,
-		GOODS_INFO.HAS_QUALITY_PERIOD,
-		GOODS_INFO.PROVIDER_UNIT,
-		GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
-		GOODS_TYPE.GOODS_TYPE_NAME,
-		GOODS_TYPE.PARENT_TYPE_ID,
-		GOODS_INFO.EXPIRED_DAY
-	FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR}
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-	  <if test="goodsCode != null">
-		  and GOODS_INFO.GOODS_CODE like #{goodsCode,jdbcType=VARCHAR}
-	  </if>
-    <if test="status != null">
-    	and GOODS_INFO.STATUS = #{status,jdbcType=INTEGER}
-    </if>
-    	order by GOODS_INFO.IMPORT_SN ASC
-    limit #{offset},#{limit}
-  </select>
-  
-  <select id="selectCountByGoodsType" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="allRecordCount">
-    select 
-      count(*) as DATA_COUNT
-    FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR}
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-	  <if test="goodsCode != null">
-		  and GOODS_INFO.GOODS_CODE like #{goodsCode,jdbcType=VARCHAR}
-	  </if>
-    <if test="status != null">
-    	and GOODS_INFO.STATUS = #{status,jdbcType=INTEGER}
-    </if>
-  </select>
-  
-  <select id="selectStorePrice" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    SELECT
-		GOODS_INFO.GOODS_ID,
-		GOODS_INFO.GOODS_TYPE_ID,
-		GOODS_INFO.MER_ID,
-		GOODS_INFO.GOODS_CODE,
-		GOODS_INFO.GOODS_NAME,
-		GOODS_INFO.GOODS_THUMBNAIL,
-		GOODS_INFO.GOODS_COST,
-		GOODS_INFO.GOODS_BULK_PRICE,
-		GOODS_INFO.GOODS_PRICE,
-		GOODS_INFO.SPU_CODE,
-		GOODS_INFO.SKU_CODE,
-		GOODS_INFO.MEASUR_UNIT,
-		GOODS_INFO.FLAG_NUM,
-		GOODS_INFO.FLAG1,
-		GOODS_INFO.FLAG2,
-		GOODS_INFO.FLAG3,
-		GOODS_INFO.FLAG4,
-		GOODS_INFO.FLAG5,
-		GOODS_INFO.`STATUS`,
-		GOODS_INFO.IMPORT_SN,
-		GOODS_INFO.PROVIDER_UNIT,
-		GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
-		GOODS_INFO.EXPIRED_DAY,
-		GOODS_TYPE.GOODS_TYPE_NAME,
-		GOODS_TYPE.PARENT_TYPE_ID,
-		GOODS_PRICE.GOODS_PRICE AS STORE_GOODS_PRICE,
-		GOODS_PRICE.STORE_GOODS_COST,
-		GOODS_PRICE.MER_GROUP_ID,
-		GOODS_PRICE.GOODS_PRICE_ID
-	FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		LEFT JOIN GOODS_PRICE
-		ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    	order by GOODS_INFO.IMPORT_SN ASC
-    limit #{offset},#{limit}
-  </select>
-  
-  <select id="selectStorePriceCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="allRecordCount">
-    select 
-      count(*) as DATA_COUNT
-    FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		LEFT JOIN GOODS_PRICE
-		ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-  </select>
-  
-  <select id="selectStorePrice2" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    SELECT
-		GOODS_INFO.GOODS_ID,
-		GOODS_INFO.GOODS_TYPE_ID,
-		GOODS_INFO.MER_ID,
-		GOODS_INFO.GOODS_CODE,
-		GOODS_INFO.GOODS_NAME,
-		GOODS_INFO.GOODS_THUMBNAIL,
-		GOODS_INFO.GOODS_COST,
-		GOODS_INFO.GOODS_BULK_PRICE,
-		GOODS_INFO.GOODS_PRICE,
-		GOODS_INFO.SPU_CODE,
-		GOODS_INFO.SKU_CODE,
-		GOODS_INFO.MEASUR_UNIT,
-		GOODS_INFO.FLAG_NUM,
-		GOODS_INFO.FLAG1,
-		GOODS_INFO.FLAG2,
-		GOODS_INFO.FLAG3,
-		GOODS_INFO.FLAG4,
-		GOODS_INFO.FLAG5,
-		GOODS_INFO.`STATUS`,
-		GOODS_INFO.IMPORT_SN,
-		GOODS_INFO.PROVIDER_UNIT,
-		GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
-		GOODS_INFO.EXPIRED_DAY,
-		GOODS_TYPE.GOODS_TYPE_NAME,
-		GOODS_TYPE.PARENT_TYPE_ID,
-		GOODS_PRICE.GOODS_PRICE AS STORE_GOODS_PRICE,
-		GOODS_PRICE.STORE_GOODS_COST,
-		GOODS_PRICE.MER_GROUP_ID,
-		GOODS_PRICE.GOODS_PRICE_ID
-	FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_PRICE
-		ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    	order by GOODS_INFO.IMPORT_SN ASC
-    limit #{offset},#{limit}
-  </select>
-  
-  <select id="selectStorePriceCount2" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="allRecordCount">
-    select 
-      count(*) as DATA_COUNT
-    FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_PRICE
-		ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-  </select>
-  
-  <select id="selectMemberPrice" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    SELECT
-		GOODS_INFO.GOODS_ID,
-		GOODS_INFO.GOODS_TYPE_ID,
-		GOODS_INFO.MER_ID,
-		GOODS_INFO.GOODS_CODE,
-		GOODS_INFO.GOODS_NAME,
-		GOODS_INFO.GOODS_THUMBNAIL,
-		GOODS_INFO.GOODS_COST,
-		GOODS_INFO.GOODS_BULK_PRICE,
-		GOODS_INFO.GOODS_PRICE,
-		GOODS_INFO.SPU_CODE,
-		GOODS_INFO.SKU_CODE,
-		GOODS_INFO.MEASUR_UNIT,
-		GOODS_INFO.FLAG_NUM,
-		GOODS_INFO.FLAG1,
-		GOODS_INFO.FLAG2,
-		GOODS_INFO.FLAG3,
-		GOODS_INFO.FLAG4,
-		GOODS_INFO.FLAG5,
-		GOODS_INFO.`STATUS`,
-		GOODS_INFO.IMPORT_SN,
-		GOODS_INFO.PROVIDER_UNIT,
-		GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
-		GOODS_INFO.EXPIRED_DAY,
-		GOODS_TYPE.GOODS_TYPE_NAME,
-		GOODS_TYPE.PARENT_TYPE_ID,
-		GOODS_MEMBER_PRICE.GOODS_MEMB_PRICE_ID,
-		GOODS_MEMBER_PRICE.GOODS_PRICE AS GOODS_MEMBER_PRICE,
-		GOODS_MEMBER_PRICE.PRICE_PERCENT
-	FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		LEFT JOIN GOODS_MEMBER_PRICE
-		ON (GOODS_INFO.GOODS_ID = GOODS_MEMBER_PRICE.GOODS_ID and GOODS_MEMBER_PRICE.CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    <if test="importSn != null">
-    	order by GOODS_INFO.IMPORT_SN ASC
-    </if>
-    <if test="importSn == null">
-    order by GOODS_INFO.GOODS_ID desc
-    </if>
-    limit #{offset},#{limit}
-  </select>
-  
-  <select id="selectMemberPriceCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="allRecordCount">
-    select 
-      count(*) as DATA_COUNT
-    FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		LEFT JOIN GOODS_MEMBER_PRICE
-		ON (GOODS_INFO.GOODS_ID = GOODS_MEMBER_PRICE.GOODS_ID and GOODS_MEMBER_PRICE.CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-  </select>
-  
-  <select id="selectMemberPrice2" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    SELECT
-		GOODS_INFO.GOODS_ID,
-		GOODS_INFO.GOODS_TYPE_ID,
-		GOODS_INFO.MER_ID,
-		GOODS_INFO.GOODS_CODE,
-		GOODS_INFO.GOODS_NAME,
-		GOODS_INFO.GOODS_THUMBNAIL,
-		GOODS_INFO.GOODS_COST,
-		GOODS_INFO.GOODS_BULK_PRICE,
-		GOODS_INFO.GOODS_PRICE,
-		GOODS_INFO.SPU_CODE,
-		GOODS_INFO.SKU_CODE,
-		GOODS_INFO.MEASUR_UNIT,
-		GOODS_INFO.FLAG_NUM,
-		GOODS_INFO.FLAG1,
-		GOODS_INFO.FLAG2,
-		GOODS_INFO.FLAG3,
-		GOODS_INFO.FLAG4,
-		GOODS_INFO.FLAG5,
-		GOODS_INFO.`STATUS`,
-		GOODS_INFO.IMPORT_SN,
-		GOODS_INFO.PROVIDER_UNIT,
-		GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
-		GOODS_INFO.EXPIRED_DAY,
-		GOODS_TYPE.GOODS_TYPE_NAME,
-		GOODS_TYPE.PARENT_TYPE_ID,
-		GOODS_MEMBER_PRICE.GOODS_MEMB_PRICE_ID,
-		GOODS_MEMBER_PRICE.GOODS_PRICE AS GOODS_MEMBER_PRICE,
-		GOODS_MEMBER_PRICE.PRICE_PERCENT
-	FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_MEMBER_PRICE
-		ON (GOODS_INFO.GOODS_ID = GOODS_MEMBER_PRICE.GOODS_ID and GOODS_MEMBER_PRICE.CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    order by GOODS_INFO.GOODS_ID desc
-    limit #{offset},#{limit}
-  </select>
-  
-  <select id="selectMemberPriceCount2" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="allRecordCount">
-    select 
-      count(*) as DATA_COUNT
-    FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_MEMBER_PRICE
-		ON (GOODS_INFO.GOODS_ID = GOODS_MEMBER_PRICE.GOODS_ID and GOODS_MEMBER_PRICE.CLIENT_LEVEL_ID = #{clientLevelId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-  </select>
-  
-  <select id="selectMerchantGoodsStock" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    SELECT
-		GOODS_INFO.GOODS_ID,
-		GOODS_INFO.GOODS_TYPE_ID,
-		GOODS_INFO.MER_ID,
-		GOODS_INFO.GOODS_CODE,
-		GOODS_INFO.GOODS_NAME,
-		GOODS_INFO.GOODS_PRICE,
-		GOODS_INFO.MEASUR_UNIT,
-		GOODS_INFO.EXPIRED_DAY,
-		GOODS_TYPE.GOODS_TYPE_NAME,
-		GOODS_TYPE.PARENT_TYPE_ID,
-		GOODS_STOCK.GOODS_STOCK_ID,
-		GOODS_STOCK.OWNER_TYPE,
-		GOODS_STOCK.OWNER_ID,
-		GOODS_STOCK.STOCK_AMOUNT
-	FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_STOCK
-		ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    <if test="minStockAmount != null and maxStockAmount != null">
-        and  (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and #{maxStockAmount,jdbcType=INTEGER})
-    </if>
-    <if test="minStockAmount != null and maxStockAmount == null">
-        and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
-    </if>
-    order by GOODS_INFO.GOODS_ID desc
-    limit #{offset},#{limit}
-  </select>
-  
-  <select id="selectMerchantGoodsStockCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="allRecordCount">
-    select 
-      count(*) as DATA_COUNT
-    FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_STOCK
-		ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    <if test="minStockAmount != null and maxStockAmount != null">
-        and  (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and #{maxStockAmount,jdbcType=INTEGER})
-    </if>
-    <if test="minStockAmount != null and maxStockAmount == null">
-        and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
-    </if>
-  </select>
-  
-  <select id="selectStoreGoodsStock" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    SELECT
-		GOODS_INFO.GOODS_ID,
-		GOODS_INFO.GOODS_TYPE_ID,
-		GOODS_INFO.MER_ID,
-		GOODS_INFO.GOODS_CODE,
-		GOODS_INFO.GOODS_NAME,
-		GOODS_INFO.GOODS_PRICE,
-		GOODS_INFO.MEASUR_UNIT,
-		GOODS_TYPE.GOODS_TYPE_NAME,
-		GOODS_TYPE.PARENT_TYPE_ID,
-		GOODS_STOCK.GOODS_STOCK_ID,
-		GOODS_STOCK.OWNER_TYPE,
-		GOODS_STOCK.OWNER_ID,
-		GOODS_STOCK.STOCK_AMOUNT
-	FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_STOCK
-		ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merGroupId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    <if test="minStockAmount != null and maxStockAmount != null">
-        and  (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and #{maxStockAmount,jdbcType=INTEGER})
-    </if>
-    <if test="minStockAmount != null and maxStockAmount == null">
-        and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
-    </if>
-    order by GOODS_INFO.GOODS_ID desc
-    limit #{offset},#{limit}
-  </select>
-  
-  <select id="selectStoreGoodsStockCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="allRecordCount">
-    select 
-      count(*) as DATA_COUNT
-    FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_STOCK
-		ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merGroupId,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    <if test="minStockAmount != null and maxStockAmount != null">
-        and  (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and #{maxStockAmount,jdbcType=INTEGER})
-    </if>
-    <if test="minStockAmount != null and maxStockAmount == null">
-        and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
-    </if>
-  </select>
-  
-  <select id="selectStoreGoodsCheckStock" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    SELECT
-		GOODS_INFO.GOODS_ID,
-		GOODS_INFO.GOODS_TYPE_ID,
-		GOODS_INFO.MER_ID,
-		GOODS_INFO.GOODS_CODE,
-		GOODS_INFO.GOODS_NAME,
-		GOODS_INFO.GOODS_PRICE,
-		GOODS_INFO.MEASUR_UNIT,
-		GOODS_TYPE.GOODS_TYPE_NAME,
-		GOODS_TYPE.PARENT_TYPE_ID,
-		GOODS_STOCK.GOODS_STOCK_ID,
-		GOODS_STOCK.OWNER_TYPE,
-		GOODS_STOCK.OWNER_ID,
-		GOODS_STOCK.STOCK_AMOUNT,
-		
-		GOODS_STOCK_CHECK.STOCK_CHECK_ID,
-		GOODS_STOCK_CHECK.STOCK_CHECKOR_ID,
-		GOODS_STOCK_CHECK.STOCK_CHECKOR_NAME,
-		GOODS_STOCK_CHECK.CREATE_DATE,
-		GOODS_STOCK_CHECK.CHECK_RESULT,
-		GOODS_STOCK_CHECK.CHECK_DIFF_VALUE
-	FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_STOCK
-		ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merGroupId,jdbcType=VARCHAR})
-		LEFT JOIN GOODS_STOCK_CHECK
-		ON (GOODS_STOCK_CHECK.GOODS_STOCK_ID = GOODS_STOCK.GOODS_STOCK_ID and DATE_FORMAT(GOODS_STOCK_CHECK.CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    <if test="minStockAmount != null and maxStockAmount != null">
-        and  (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and #{maxStockAmount,jdbcType=INTEGER})
-    </if>
-    <if test="minStockAmount != null and maxStockAmount == null">
-        and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
-    </if>
-    <if test="goodsCode != null">
-    	and GOODS_INFO.GOODS_CODE = #{goodsCode,jdbcType=VARCHAR}
-    </if>
-    order by GOODS_INFO.GOODS_ID desc
-    limit #{offset},#{limit}
-  </select>
-  
-  <select id="selectStoreGoodsCheckStockCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="allRecordCount">
-    select 
-      count(*) as DATA_COUNT
-    FROM
-		GOODS_INFO JOIN GOODS_TYPE
-		ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
-		JOIN GOODS_STOCK
-		ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merGroupId,jdbcType=VARCHAR})
-		LEFT JOIN GOODS_STOCK_CHECK
-		ON (GOODS_STOCK_CHECK.GOODS_STOCK_ID = GOODS_STOCK.GOODS_STOCK_ID and DATE_FORMAT(GOODS_STOCK_CHECK.CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR})
-    where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
-    <if test="parentTypeId != null and goodsTypeId == null">
-    	and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR})
-    </if>
-    <if test="parentTypeId != null and goodsTypeId != null">
-    	and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR} 
-    </if>
-    <if test="minStockAmount != null and maxStockAmount != null">
-        and  (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and #{maxStockAmount,jdbcType=INTEGER})
-    </if>
-    <if test="minStockAmount != null and maxStockAmount == null">
-        and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
-    </if>
-    <if test="goodsCode != null">
-    	and GOODS_INFO.GOODS_CODE = #{goodsCode,jdbcType=VARCHAR}
-    </if>
-  </select>
-  
-  <select id="selectMerProviderGoods" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from GOODS_INFO
+        where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByGoodsIds" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
+        select
+        GOODS_CODE, GOODS_NAME, GOODS_PRICE
+        from GOODS_INFO
+        where GOODS_ID in
+        <foreach item="item" index="index" collection="goodsIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <!--根据名称或创建时间排序-->
+    <select id="selectByGoodsType" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
+        SELECT
+        GOODS_INFO.GOODS_ID,
+        GOODS_INFO.GOODS_TYPE_ID,
+        GOODS_INFO.MER_ID,
+        GOODS_INFO.GOODS_CODE,
+        GOODS_INFO.GOODS_NAME,
+        GOODS_INFO.GOODS_THUMBNAIL,
+        GOODS_INFO.GOODS_COST,
+        GOODS_INFO.GOODS_BULK_PRICE,
+        GOODS_INFO.GOODS_PRICE,
+        GOODS_INFO.SPU_CODE,
+        GOODS_INFO.SKU_CODE,
+        GOODS_INFO.MEASUR_UNIT,
+        GOODS_INFO.FLAG_NUM,
+        GOODS_INFO.FLAG1,
+        GOODS_INFO.FLAG2,
+        GOODS_INFO.FLAG3,
+        GOODS_INFO.FLAG4,
+        GOODS_INFO.FLAG5,
+        GOODS_INFO.IMPORT_SN,
+        GOODS_INFO.`STATUS`,
+        GOODS_INFO.HAS_QUALITY_PERIOD,
+        GOODS_INFO.PROVIDER_UNIT,
+        GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
+        GOODS_TYPE.GOODS_TYPE_NAME,
+        GOODS_TYPE.PARENT_TYPE_ID,
+        GOODS_INFO.EXPIRED_DAY
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR}
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="goodsCode != null">
+            and GOODS_INFO.GOODS_CODE like #{goodsCode,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null">
+            and GOODS_INFO.STATUS = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="id == 1">
+            order by GOODS_INFO.GOODS_NAME DESC
+        </if>
+        <if test="id == 0">
+            order by GOODS_INFO.GOODS_DATE DESC
+        </if>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectCountByGoodsType" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="allRecordCount">
+        select
+        count(*) as DATA_COUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR}
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="goodsCode != null">
+            and GOODS_INFO.GOODS_CODE like #{goodsCode,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null">
+            and GOODS_INFO.STATUS = #{status,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectStorePrice" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
+        SELECT
+        GOODS_INFO.GOODS_ID,
+        GOODS_INFO.GOODS_TYPE_ID,
+        GOODS_INFO.MER_ID,
+        GOODS_INFO.GOODS_CODE,
+        GOODS_INFO.GOODS_NAME,
+        GOODS_INFO.GOODS_THUMBNAIL,
+        GOODS_INFO.GOODS_COST,
+        GOODS_INFO.GOODS_BULK_PRICE,
+        GOODS_INFO.GOODS_PRICE,
+        GOODS_INFO.SPU_CODE,
+        GOODS_INFO.SKU_CODE,
+        GOODS_INFO.MEASUR_UNIT,
+        GOODS_INFO.FLAG_NUM,
+        GOODS_INFO.FLAG1,
+        GOODS_INFO.FLAG2,
+        GOODS_INFO.FLAG3,
+        GOODS_INFO.FLAG4,
+        GOODS_INFO.FLAG5,
+        GOODS_INFO.`STATUS`,
+        GOODS_INFO.IMPORT_SN,
+        GOODS_INFO.PROVIDER_UNIT,
+        GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
+        GOODS_INFO.EXPIRED_DAY,
+        GOODS_TYPE.GOODS_TYPE_NAME,
+        GOODS_TYPE.PARENT_TYPE_ID,
+        GOODS_PRICE.GOODS_PRICE AS STORE_GOODS_PRICE,
+        GOODS_PRICE.STORE_GOODS_COST,
+        GOODS_PRICE.MER_GROUP_ID,
+        GOODS_PRICE.GOODS_PRICE_ID
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        LEFT JOIN GOODS_PRICE
+        ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        order by GOODS_INFO.IMPORT_SN ASC
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectStorePriceCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="allRecordCount">
+        select
+        count(*) as DATA_COUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        LEFT JOIN GOODS_PRICE
+        ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectStorePrice2" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
+        SELECT
+        GOODS_INFO.GOODS_ID,
+        GOODS_INFO.GOODS_TYPE_ID,
+        GOODS_INFO.MER_ID,
+        GOODS_INFO.GOODS_CODE,
+        GOODS_INFO.GOODS_NAME,
+        GOODS_INFO.GOODS_THUMBNAIL,
+        GOODS_INFO.GOODS_COST,
+        GOODS_INFO.GOODS_BULK_PRICE,
+        GOODS_INFO.GOODS_PRICE,
+        GOODS_INFO.SPU_CODE,
+        GOODS_INFO.SKU_CODE,
+        GOODS_INFO.MEASUR_UNIT,
+        GOODS_INFO.FLAG_NUM,
+        GOODS_INFO.FLAG1,
+        GOODS_INFO.FLAG2,
+        GOODS_INFO.FLAG3,
+        GOODS_INFO.FLAG4,
+        GOODS_INFO.FLAG5,
+        GOODS_INFO.`STATUS`,
+        GOODS_INFO.IMPORT_SN,
+        GOODS_INFO.PROVIDER_UNIT,
+        GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
+        GOODS_INFO.EXPIRED_DAY,
+        GOODS_TYPE.GOODS_TYPE_NAME,
+        GOODS_TYPE.PARENT_TYPE_ID,
+        GOODS_PRICE.GOODS_PRICE AS STORE_GOODS_PRICE,
+        GOODS_PRICE.STORE_GOODS_COST,
+        GOODS_PRICE.MER_GROUP_ID,
+        GOODS_PRICE.GOODS_PRICE_ID
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_PRICE
+        ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        order by GOODS_INFO.IMPORT_SN ASC
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectStorePriceCount2" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="allRecordCount">
+        select
+        count(*) as DATA_COUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_PRICE
+        ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectMemberPrice" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
+        SELECT
+        GOODS_INFO.GOODS_ID,
+        GOODS_INFO.GOODS_TYPE_ID,
+        GOODS_INFO.MER_ID,
+        GOODS_INFO.GOODS_CODE,
+        GOODS_INFO.GOODS_NAME,
+        GOODS_INFO.GOODS_THUMBNAIL,
+        GOODS_INFO.GOODS_COST,
+        GOODS_INFO.GOODS_BULK_PRICE,
+        GOODS_INFO.GOODS_PRICE,
+        GOODS_INFO.SPU_CODE,
+        GOODS_INFO.SKU_CODE,
+        GOODS_INFO.MEASUR_UNIT,
+        GOODS_INFO.FLAG_NUM,
+        GOODS_INFO.FLAG1,
+        GOODS_INFO.FLAG2,
+        GOODS_INFO.FLAG3,
+        GOODS_INFO.FLAG4,
+        GOODS_INFO.FLAG5,
+        GOODS_INFO.`STATUS`,
+        GOODS_INFO.IMPORT_SN,
+        GOODS_INFO.PROVIDER_UNIT,
+        GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
+        GOODS_INFO.EXPIRED_DAY,
+        GOODS_TYPE.GOODS_TYPE_NAME,
+        GOODS_TYPE.PARENT_TYPE_ID,
+        GOODS_MEMBER_PRICE.GOODS_MEMB_PRICE_ID,
+        GOODS_MEMBER_PRICE.GOODS_PRICE AS GOODS_MEMBER_PRICE,
+        GOODS_MEMBER_PRICE.PRICE_PERCENT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        LEFT JOIN GOODS_MEMBER_PRICE
+        ON (GOODS_INFO.GOODS_ID = GOODS_MEMBER_PRICE.GOODS_ID and GOODS_MEMBER_PRICE.CLIENT_LEVEL_ID =
+        #{clientLevelId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="importSn != null">
+            order by GOODS_INFO.IMPORT_SN ASC
+        </if>
+        <if test="importSn == null">
+            order by GOODS_INFO.GOODS_ID desc
+        </if>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectMemberPriceCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="allRecordCount">
+        select
+        count(*) as DATA_COUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        LEFT JOIN GOODS_MEMBER_PRICE
+        ON (GOODS_INFO.GOODS_ID = GOODS_MEMBER_PRICE.GOODS_ID and GOODS_MEMBER_PRICE.CLIENT_LEVEL_ID =
+        #{clientLevelId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectMemberPrice2" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
+        SELECT
+        GOODS_INFO.GOODS_ID,
+        GOODS_INFO.GOODS_TYPE_ID,
+        GOODS_INFO.MER_ID,
+        GOODS_INFO.GOODS_CODE,
+        GOODS_INFO.GOODS_NAME,
+        GOODS_INFO.GOODS_THUMBNAIL,
+        GOODS_INFO.GOODS_COST,
+        GOODS_INFO.GOODS_BULK_PRICE,
+        GOODS_INFO.GOODS_PRICE,
+        GOODS_INFO.SPU_CODE,
+        GOODS_INFO.SKU_CODE,
+        GOODS_INFO.MEASUR_UNIT,
+        GOODS_INFO.FLAG_NUM,
+        GOODS_INFO.FLAG1,
+        GOODS_INFO.FLAG2,
+        GOODS_INFO.FLAG3,
+        GOODS_INFO.FLAG4,
+        GOODS_INFO.FLAG5,
+        GOODS_INFO.`STATUS`,
+        GOODS_INFO.IMPORT_SN,
+        GOODS_INFO.PROVIDER_UNIT,
+        GOODS_INFO.PROVIDER_UNIT_MULTIPLE,
+        GOODS_INFO.EXPIRED_DAY,
+        GOODS_TYPE.GOODS_TYPE_NAME,
+        GOODS_TYPE.PARENT_TYPE_ID,
+        GOODS_MEMBER_PRICE.GOODS_MEMB_PRICE_ID,
+        GOODS_MEMBER_PRICE.GOODS_PRICE AS GOODS_MEMBER_PRICE,
+        GOODS_MEMBER_PRICE.PRICE_PERCENT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_MEMBER_PRICE
+        ON (GOODS_INFO.GOODS_ID = GOODS_MEMBER_PRICE.GOODS_ID and GOODS_MEMBER_PRICE.CLIENT_LEVEL_ID =
+        #{clientLevelId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        order by GOODS_INFO.GOODS_ID desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectMemberPriceCount2" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="allRecordCount">
+        select
+        count(*) as DATA_COUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_MEMBER_PRICE
+        ON (GOODS_INFO.GOODS_ID = GOODS_MEMBER_PRICE.GOODS_ID and GOODS_MEMBER_PRICE.CLIENT_LEVEL_ID =
+        #{clientLevelId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectMerchantGoodsStock" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="BaseResultMap">
+        SELECT
+        GOODS_INFO.GOODS_ID,
+        GOODS_INFO.GOODS_TYPE_ID,
+        GOODS_INFO.MER_ID,
+        GOODS_INFO.GOODS_CODE,
+        GOODS_INFO.GOODS_NAME,
+        GOODS_INFO.GOODS_PRICE,
+        GOODS_INFO.MEASUR_UNIT,
+        GOODS_INFO.EXPIRED_DAY,
+        GOODS_TYPE.GOODS_TYPE_NAME,
+        GOODS_TYPE.PARENT_TYPE_ID,
+        GOODS_STOCK.GOODS_STOCK_ID,
+        GOODS_STOCK.OWNER_TYPE,
+        GOODS_STOCK.OWNER_ID,
+        GOODS_STOCK.STOCK_AMOUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_STOCK
+        ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="minStockAmount != null and maxStockAmount != null">
+            and (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and
+            #{maxStockAmount,jdbcType=INTEGER})
+        </if>
+        <if test="minStockAmount != null and maxStockAmount == null">
+            and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
+        </if>
+        order by GOODS_INFO.GOODS_ID desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectMerchantGoodsStockCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="allRecordCount">
+        select
+        count(*) as DATA_COUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_STOCK
+        ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="minStockAmount != null and maxStockAmount != null">
+            and (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and
+            #{maxStockAmount,jdbcType=INTEGER})
+        </if>
+        <if test="minStockAmount != null and maxStockAmount == null">
+            and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectStoreGoodsStock" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="BaseResultMap">
+        SELECT
+        GOODS_INFO.GOODS_ID,
+        GOODS_INFO.GOODS_TYPE_ID,
+        GOODS_INFO.MER_ID,
+        GOODS_INFO.GOODS_CODE,
+        GOODS_INFO.GOODS_NAME,
+        GOODS_INFO.GOODS_PRICE,
+        GOODS_INFO.MEASUR_UNIT,
+        GOODS_TYPE.GOODS_TYPE_NAME,
+        GOODS_TYPE.PARENT_TYPE_ID,
+        GOODS_STOCK.GOODS_STOCK_ID,
+        GOODS_STOCK.OWNER_TYPE,
+        GOODS_STOCK.OWNER_ID,
+        GOODS_STOCK.STOCK_AMOUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_STOCK
+        ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merGroupId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="minStockAmount != null and maxStockAmount != null">
+            and (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and
+            #{maxStockAmount,jdbcType=INTEGER})
+        </if>
+        <if test="minStockAmount != null and maxStockAmount == null">
+            and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
+        </if>
+        order by GOODS_INFO.GOODS_ID desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectStoreGoodsStockCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="allRecordCount">
+        select
+        count(*) as DATA_COUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_STOCK
+        ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merGroupId,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="minStockAmount != null and maxStockAmount != null">
+            and (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and
+            #{maxStockAmount,jdbcType=INTEGER})
+        </if>
+        <if test="minStockAmount != null and maxStockAmount == null">
+            and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectStoreGoodsCheckStock" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="BaseResultMap">
+        SELECT
+        GOODS_INFO.GOODS_ID,
+        GOODS_INFO.GOODS_TYPE_ID,
+        GOODS_INFO.MER_ID,
+        GOODS_INFO.GOODS_CODE,
+        GOODS_INFO.GOODS_NAME,
+        GOODS_INFO.GOODS_PRICE,
+        GOODS_INFO.MEASUR_UNIT,
+        GOODS_TYPE.GOODS_TYPE_NAME,
+        GOODS_TYPE.PARENT_TYPE_ID,
+        GOODS_STOCK.GOODS_STOCK_ID,
+        GOODS_STOCK.OWNER_TYPE,
+        GOODS_STOCK.OWNER_ID,
+        GOODS_STOCK.STOCK_AMOUNT,
+
+        GOODS_STOCK_CHECK.STOCK_CHECK_ID,
+        GOODS_STOCK_CHECK.STOCK_CHECKOR_ID,
+        GOODS_STOCK_CHECK.STOCK_CHECKOR_NAME,
+        GOODS_STOCK_CHECK.CREATE_DATE,
+        GOODS_STOCK_CHECK.CHECK_RESULT,
+        GOODS_STOCK_CHECK.CHECK_DIFF_VALUE
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_STOCK
+        ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merGroupId,jdbcType=VARCHAR})
+        LEFT JOIN GOODS_STOCK_CHECK
+        ON (GOODS_STOCK_CHECK.GOODS_STOCK_ID = GOODS_STOCK.GOODS_STOCK_ID and
+        DATE_FORMAT(GOODS_STOCK_CHECK.CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="minStockAmount != null and maxStockAmount != null">
+            and (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and
+            #{maxStockAmount,jdbcType=INTEGER})
+        </if>
+        <if test="minStockAmount != null and maxStockAmount == null">
+            and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
+        </if>
+        <if test="goodsCode != null">
+            and GOODS_INFO.GOODS_CODE = #{goodsCode,jdbcType=VARCHAR}
+        </if>
+        order by GOODS_INFO.GOODS_ID desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectStoreGoodsCheckStockCount" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="allRecordCount">
+        select
+        count(*) as DATA_COUNT
+        FROM
+        GOODS_INFO JOIN GOODS_TYPE
+        ON GOODS_INFO.GOODS_TYPE_ID = GOODS_TYPE.GOODS_TYPE_ID
+        JOIN GOODS_STOCK
+        ON (GOODS_INFO.GOODS_ID = GOODS_STOCK.GOODS_ID and GOODS_STOCK.OWNER_ID = #{merGroupId,jdbcType=VARCHAR})
+        LEFT JOIN GOODS_STOCK_CHECK
+        ON (GOODS_STOCK_CHECK.GOODS_STOCK_ID = GOODS_STOCK.GOODS_STOCK_ID and
+        DATE_FORMAT(GOODS_STOCK_CHECK.CREATE_DATE,'%Y-%m-%d') = #{createDateText,jdbcType=VARCHAR})
+        where GOODS_INFO.MER_ID = #{merId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0
+        <if test="parentTypeId != null and goodsTypeId == null">
+            and (GOODS_TYPE.PARENT_TYPE_ID = #{parentTypeId,jdbcType=VARCHAR} or GOODS_INFO.GOODS_TYPE_ID =
+            #{parentTypeId,jdbcType=VARCHAR})
+        </if>
+        <if test="parentTypeId != null and goodsTypeId != null">
+            and GOODS_INFO.GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="minStockAmount != null and maxStockAmount != null">
+            and (GOODS_STOCK.STOCK_AMOUNT between #{minStockAmount,jdbcType=INTEGER} and
+            #{maxStockAmount,jdbcType=INTEGER})
+        </if>
+        <if test="minStockAmount != null and maxStockAmount == null">
+            and GOODS_STOCK.STOCK_AMOUNT = #{minStockAmount,jdbcType=INTEGER}
+        </if>
+        <if test="goodsCode != null">
+            and GOODS_INFO.GOODS_CODE = #{goodsCode,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectMerProviderGoods" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="BaseResultMap">
     SELECT
 		GOODS_INFO.GOODS_ID,
 		GOODS_INFO.GOODS_TYPE_ID,
@@ -644,15 +689,16 @@
     where GOODS_PROVIDERS.MER_USER_ID = #{merUserId,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
     order by GOODS_INFO.GOODS_ID desc
   </select>
-  
-  <select id="selectByGoodsCode" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from GOODS_INFO
-    where GOODS_CODE = #{goodsCode,jdbcType=VARCHAR} and MER_ID = #{merId,jdbcType=VARCHAR}
-  </select>
-  
-  <select id="selectStoreGoodsPriceBy" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
+
+    <select id="selectByGoodsCode" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from GOODS_INFO
+        where GOODS_CODE = #{goodsCode,jdbcType=VARCHAR} and MER_ID = #{merId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectStoreGoodsPriceBy" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="BaseResultMap">
     SELECT
 		GOODS_INFO.GOODS_NAME,
 		GOODS_INFO.GOODS_ID,
@@ -667,41 +713,42 @@
 		ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
     where GOODS_INFO.GOODS_CODE = #{goodsCode,jdbcType=VARCHAR} AND GOODS_INFO.`STATUS` = 0 
   </select>
-  
-  <select id="selectStoreGoodsListPriceBy" parameterType="com.fuhuitong.applychain.model.GoodsInfo" resultMap="BaseResultMap">
-    SELECT
-		GOODS_INFO.GOODS_NAME,
-		GOODS_INFO.GOODS_ID,
-		GOODS_INFO.GOODS_CODE,
-		GOODS_INFO.GOODS_PRICE,
-		GOODS_INFO.MER_ID,
-		GOODS_PRICE.GOODS_PRICE AS STORE_GOODS_PRICE
-	FROM
-		GOODS_PRICE
-		RIGHT JOIN GOODS_INFO
-		ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
-    where GOODS_INFO.GOODS_CODE IN
-    <foreach item="item" index="index" collection="goodsCodes" open="(" separator="," close=")">  
-	  #{item}  
-	 </foreach>
-	 AND GOODS_INFO.`STATUS` = 0 
-  </select>
-  
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+
+    <select id="selectStoreGoodsListPriceBy" parameterType="com.fuhuitong.applychain.model.GoodsInfo"
+            resultMap="BaseResultMap">
+        SELECT
+        GOODS_INFO.GOODS_NAME,
+        GOODS_INFO.GOODS_ID,
+        GOODS_INFO.GOODS_CODE,
+        GOODS_INFO.GOODS_PRICE,
+        GOODS_INFO.MER_ID,
+        GOODS_PRICE.GOODS_PRICE AS STORE_GOODS_PRICE
+        FROM
+        GOODS_PRICE
+        RIGHT JOIN GOODS_INFO
+        ON (GOODS_PRICE.GOODS_ID = GOODS_INFO.GOODS_ID and GOODS_PRICE.MER_GROUP_ID = #{merGroupId,jdbcType=VARCHAR})
+        where GOODS_INFO.GOODS_CODE IN
+        <foreach item="item" index="index" collection="goodsCodes" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND GOODS_INFO.`STATUS` = 0
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from GOODS_INFO
     where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
   </delete>
-  
-  <insert id="insert" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
+
+    <insert id="insert" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
     insert into GOODS_INFO (GOODS_ID, GOODS_TYPE_ID, MER_ID, 
-      GOODS_CODE, GOODS_NAME, GOODS_THUMBNAIL, 
+      GOODS_CODE, GOODS_NAME, GOODS_DATE, GOODS_THUMBNAIL,
       GOODS_COST, GOODS_PRICE, GOODS_BULK_PRICE, 
       SPU_CODE, SKU_CODE, MEASUR_UNIT, 
       FLAG_NUM, FLAG1, FLAG2, 
       FLAG3, FLAG4, FLAG5, STATUS, 
       GOODS_MEMO, IMPORT_SN, EXPIRED_DAY)
     values (#{goodsId,jdbcType=VARCHAR}, #{goodsTypeId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, 
-      #{goodsCode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsThumbnail,jdbcType=VARCHAR}, 
+      #{goodsCode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR},#{goodsDate,jdbcType=VARCHAR}, #{goodsThumbnail,jdbcType=VARCHAR},
       #{goodsCost,jdbcType=INTEGER}, #{goodsPrice,jdbcType=INTEGER}, #{goodsBulkPrice,jdbcType=INTEGER}, 
       #{spuCode,jdbcType=VARCHAR}, #{skuCode,jdbcType=VARCHAR}, #{measurUnit,jdbcType=VARCHAR}, 
       #{flagNum,jdbcType=INTEGER}, #{flag1,jdbcType=VARCHAR}, #{flag2,jdbcType=VARCHAR}, 
@@ -709,278 +756,284 @@
       #{status,jdbcType=INTEGER}, #{goodsMemo,jdbcType=LONGVARCHAR}, #{importSn,jdbcType=BIGINT},
       #{expiredDay,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
-    insert into GOODS_INFO
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="goodsId != null">
-        GOODS_ID,
-      </if>
-      <if test="goodsTypeId != null">
-        GOODS_TYPE_ID,
-      </if>
-      <if test="merId != null">
-        MER_ID,
-      </if>
-      <if test="goodsCode != null">
-        GOODS_CODE,
-      </if>
-      <if test="goodsName != null">
-        GOODS_NAME,
-      </if>
-      <if test="goodsThumbnail != null">
-        GOODS_THUMBNAIL,
-      </if>
-      <if test="goodsCost != null">
-        GOODS_COST,
-      </if>
-      <if test="goodsPrice != null">
-        GOODS_PRICE,
-      </if>
-      <if test="goodsBulkPrice != null">
-        GOODS_BULK_PRICE,
-      </if>
-      <if test="spuCode != null">
-        SPU_CODE,
-      </if>
-      <if test="skuCode != null">
-        SKU_CODE,
-      </if>
-      <if test="measurUnit != null">
-        MEASUR_UNIT,
-      </if>
-      <if test="flagNum != null">
-        FLAG_NUM,
-      </if>
-      <if test="flag1 != null">
-        FLAG1,
-      </if>
-      <if test="flag2 != null">
-        FLAG2,
-      </if>
-      <if test="flag3 != null">
-        FLAG3,
-      </if>
-      <if test="flag4 != null">
-        FLAG4,
-      </if>
-      <if test="flag5 != null">
-        FLAG5,
-      </if>
-      <if test="status != null">
-        STATUS,
-      </if>
-      <if test="goodsMemo != null">
-        GOODS_MEMO,
-      </if>
-      <if test="hasQualityPeriod != null">
-        HAS_QUALITY_PERIOD,
-      </if>
-      <if test="importSn != null">
-        IMPORT_SN,
-      </if>
-      <if test="providerUnit != null">
-        PROVIDER_UNIT,
-      </if>
-      <if test="providerUnitMultiple != null">
-        PROVIDER_UNIT_MULTIPLE,
-      </if>
-      <if test="expiredDay != null">
-      	EXPIRED_DAY,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="goodsId != null">
-        #{goodsId,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsTypeId != null">
-        #{goodsTypeId,jdbcType=VARCHAR},
-      </if>
-      <if test="merId != null">
-        #{merId,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsCode != null">
-        #{goodsCode,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsName != null">
-        #{goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsThumbnail != null">
-        #{goodsThumbnail,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsCost != null">
-        #{goodsCost,jdbcType=INTEGER},
-      </if>
-      <if test="goodsPrice != null">
-        #{goodsPrice,jdbcType=INTEGER},
-      </if>
-      <if test="goodsBulkPrice != null">
-        #{goodsBulkPrice,jdbcType=INTEGER},
-      </if>
-      <if test="spuCode != null">
-        #{spuCode,jdbcType=VARCHAR},
-      </if>
-      <if test="skuCode != null">
-        #{skuCode,jdbcType=VARCHAR},
-      </if>
-      <if test="measurUnit != null">
-        #{measurUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="flagNum != null">
-        #{flagNum,jdbcType=INTEGER},
-      </if>
-      <if test="flag1 != null">
-        #{flag1,jdbcType=VARCHAR},
-      </if>
-      <if test="flag2 != null">
-        #{flag2,jdbcType=VARCHAR},
-      </if>
-      <if test="flag3 != null">
-        #{flag3,jdbcType=VARCHAR},
-      </if>
-      <if test="flag4 != null">
-        #{flag4,jdbcType=VARCHAR},
-      </if>
-      <if test="flag5 != null">
-        #{flag5,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="goodsMemo != null">
-        #{goodsMemo,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="hasQualityPeriod != null">
-        #{hasQualityPeriod,jdbcType=INTEGER},
-      </if>
-      <if test="importSn != null">
-      	#{importSn,jdbcType=BIGINT},
-      </if>
-      <if test="providerUnit != null">
-        #{providerUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="providerUnitMultiple != null">
-        #{providerUnitMultiple,jdbcType=INTEGER},
-      </if>
-      <if test="expiredDay != null">
-      	#{expiredDay,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  
-  <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
-    update GOODS_INFO
-    <set>
-      <if test="goodsTypeId != null">
-        GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR},
-      </if>
-      <if test="merId != null">
-        MER_ID = #{merId,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsCode != null">
-        GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsName != null">
-        GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsThumbnail != null">
-        GOODS_THUMBNAIL = #{goodsThumbnail,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsCost != null">
-        GOODS_COST = #{goodsCost,jdbcType=INTEGER},
-      </if>
-      <if test="goodsPrice != null">
-        GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
-      </if>
-      <if test="goodsBulkPrice != null">
-        GOODS_BULK_PRICE = #{goodsBulkPrice,jdbcType=INTEGER},
-      </if>
-      <if test="spuCode != null">
-        SPU_CODE = #{spuCode,jdbcType=VARCHAR},
-      </if>
-      <if test="skuCode != null">
-        SKU_CODE = #{skuCode,jdbcType=VARCHAR},
-      </if>
-      <if test="measurUnit != null">
-        MEASUR_UNIT = #{measurUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="flagNum != null">
-        FLAG_NUM = #{flagNum,jdbcType=INTEGER},
-      </if>
-      <if test="flag1 != null">
-        FLAG1 = #{flag1,jdbcType=VARCHAR},
-      </if>
-      <if test="flag2 != null">
-        FLAG2 = #{flag2,jdbcType=VARCHAR},
-      </if>
-      <if test="flag3 != null">
-        FLAG3 = #{flag3,jdbcType=VARCHAR},
-      </if>
-      <if test="flag4 != null">
-        FLAG4 = #{flag4,jdbcType=VARCHAR},
-      </if>
-      <if test="flag5 != null">
-        FLAG5 = #{flag5,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsMemo != null">
-        GOODS_MEMO = #{goodsMemo,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="hasQualityPeriod != null">
-        HAS_QUALITY_PERIOD = #{hasQualityPeriod,jdbcType=INTEGER},
-      </if>
-      <if test="importSn != null">
-      	IMPORT_SN = #{importSn,jdbcType=BIGINT}
-      </if>
-      <if test="providerUnit != null">
-        PROVIDER_UNIT = #{providerUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="providerUnitMultiple != null">
-        PROVIDER_UNIT_MULTIPLE = #{providerUnitMultiple,jdbcType=INTEGER},
-      </if>
-      <if test="expiredDay != null">
-      	EXPIRED_DAY = #{expiredDay,jdbcType=INTEGER},
-      </if>
-    </set>
-    where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
-  </update>
-  
-  <update id="updateWhenImportExcel" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
-    update GOODS_INFO
-    <set>
-      <if test="goodsCode != null">
-        GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsName != null">
-        GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsCost != null">
-        GOODS_COST = #{goodsCost,jdbcType=INTEGER},
-      </if>
-      <if test="goodsPrice != null">
-        GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
-      </if>
-      <if test="goodsBulkPrice != null">
-        GOODS_BULK_PRICE = #{goodsBulkPrice,jdbcType=INTEGER},
-      </if>
-      <if test="measurUnit != null">
-        MEASUR_UNIT = #{measurUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="providerUnit != null">
-        PROVIDER_UNIT = #{providerUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="providerUnitMultiple != null">
-        PROVIDER_UNIT_MULTIPLE = #{providerUnitMultiple,jdbcType=INTEGER},
-      </if>
-      <if test="hasQualityPeriod != null">
-        HAS_QUALITY_PERIOD = #{hasQualityPeriod,jdbcType=INTEGER},
-      </if>
-      <if test="expiredDay != null">
-      	EXPIRED_DAY = #{expiredDay,jdbcType=INTEGER},
-      </if>
-    </set>
-    where GOODS_ID = #{goodsId,jdbcType=VARCHAR} and MER_ID = #{merId,jdbcType=VARCHAR}
-  </update>
-  
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
+    <insert id="insertSelective" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
+        insert into GOODS_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">
+                GOODS_ID,
+            </if>
+            <if test="goodsTypeId != null">
+                GOODS_TYPE_ID,
+            </if>
+            <if test="merId != null">
+                MER_ID,
+            </if>
+            <if test="goodsCode != null">
+                GOODS_CODE,
+            </if>
+            <if test="goodsName != null">
+                GOODS_NAME,
+            </if>
+            <if test="goodsDate != null">
+                GOODS_DATE,
+            </if>
+            <if test="goodsThumbnail != null">
+                GOODS_THUMBNAIL,
+            </if>
+            <if test="goodsCost != null">
+                GOODS_COST,
+            </if>
+            <if test="goodsPrice != null">
+                GOODS_PRICE,
+            </if>
+            <if test="goodsBulkPrice != null">
+                GOODS_BULK_PRICE,
+            </if>
+            <if test="spuCode != null">
+                SPU_CODE,
+            </if>
+            <if test="skuCode != null">
+                SKU_CODE,
+            </if>
+            <if test="measurUnit != null">
+                MEASUR_UNIT,
+            </if>
+            <if test="flagNum != null">
+                FLAG_NUM,
+            </if>
+            <if test="flag1 != null">
+                FLAG1,
+            </if>
+            <if test="flag2 != null">
+                FLAG2,
+            </if>
+            <if test="flag3 != null">
+                FLAG3,
+            </if>
+            <if test="flag4 != null">
+                FLAG4,
+            </if>
+            <if test="flag5 != null">
+                FLAG5,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="goodsMemo != null">
+                GOODS_MEMO,
+            </if>
+            <if test="hasQualityPeriod != null">
+                HAS_QUALITY_PERIOD,
+            </if>
+            <if test="importSn != null">
+                IMPORT_SN,
+            </if>
+            <if test="providerUnit != null">
+                PROVIDER_UNIT,
+            </if>
+            <if test="providerUnitMultiple != null">
+                PROVIDER_UNIT_MULTIPLE,
+            </if>
+            <if test="expiredDay != null">
+                EXPIRED_DAY,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsTypeId != null">
+                #{goodsTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="merId != null">
+                #{merId,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsCode != null">
+                #{goodsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsDate != null">
+                #{goodsDate,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsThumbnail != null">
+                #{goodsThumbnail,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsCost != null">
+                #{goodsCost,jdbcType=INTEGER},
+            </if>
+            <if test="goodsPrice != null">
+                #{goodsPrice,jdbcType=INTEGER},
+            </if>
+            <if test="goodsBulkPrice != null">
+                #{goodsBulkPrice,jdbcType=INTEGER},
+            </if>
+            <if test="spuCode != null">
+                #{spuCode,jdbcType=VARCHAR},
+            </if>
+            <if test="skuCode != null">
+                #{skuCode,jdbcType=VARCHAR},
+            </if>
+            <if test="measurUnit != null">
+                #{measurUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="flagNum != null">
+                #{flagNum,jdbcType=INTEGER},
+            </if>
+            <if test="flag1 != null">
+                #{flag1,jdbcType=VARCHAR},
+            </if>
+            <if test="flag2 != null">
+                #{flag2,jdbcType=VARCHAR},
+            </if>
+            <if test="flag3 != null">
+                #{flag3,jdbcType=VARCHAR},
+            </if>
+            <if test="flag4 != null">
+                #{flag4,jdbcType=VARCHAR},
+            </if>
+            <if test="flag5 != null">
+                #{flag5,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="goodsMemo != null">
+                #{goodsMemo,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="hasQualityPeriod != null">
+                #{hasQualityPeriod,jdbcType=INTEGER},
+            </if>
+            <if test="importSn != null">
+                #{importSn,jdbcType=BIGINT},
+            </if>
+            <if test="providerUnit != null">
+                #{providerUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="providerUnitMultiple != null">
+                #{providerUnitMultiple,jdbcType=INTEGER},
+            </if>
+            <if test="expiredDay != null">
+                #{expiredDay,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
+        update GOODS_INFO
+        <set>
+            <if test="goodsTypeId != null">
+                GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="merId != null">
+                MER_ID = #{merId,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsCode != null">
+                GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsThumbnail != null">
+                GOODS_THUMBNAIL = #{goodsThumbnail,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsCost != null">
+                GOODS_COST = #{goodsCost,jdbcType=INTEGER},
+            </if>
+            <if test="goodsPrice != null">
+                GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+            </if>
+            <if test="goodsBulkPrice != null">
+                GOODS_BULK_PRICE = #{goodsBulkPrice,jdbcType=INTEGER},
+            </if>
+            <if test="spuCode != null">
+                SPU_CODE = #{spuCode,jdbcType=VARCHAR},
+            </if>
+            <if test="skuCode != null">
+                SKU_CODE = #{skuCode,jdbcType=VARCHAR},
+            </if>
+            <if test="measurUnit != null">
+                MEASUR_UNIT = #{measurUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="flagNum != null">
+                FLAG_NUM = #{flagNum,jdbcType=INTEGER},
+            </if>
+            <if test="flag1 != null">
+                FLAG1 = #{flag1,jdbcType=VARCHAR},
+            </if>
+            <if test="flag2 != null">
+                FLAG2 = #{flag2,jdbcType=VARCHAR},
+            </if>
+            <if test="flag3 != null">
+                FLAG3 = #{flag3,jdbcType=VARCHAR},
+            </if>
+            <if test="flag4 != null">
+                FLAG4 = #{flag4,jdbcType=VARCHAR},
+            </if>
+            <if test="flag5 != null">
+                FLAG5 = #{flag5,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsMemo != null">
+                GOODS_MEMO = #{goodsMemo,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="hasQualityPeriod != null">
+                HAS_QUALITY_PERIOD = #{hasQualityPeriod,jdbcType=INTEGER},
+            </if>
+            <if test="importSn != null">
+                IMPORT_SN = #{importSn,jdbcType=BIGINT}
+            </if>
+            <if test="providerUnit != null">
+                PROVIDER_UNIT = #{providerUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="providerUnitMultiple != null">
+                PROVIDER_UNIT_MULTIPLE = #{providerUnitMultiple,jdbcType=INTEGER},
+            </if>
+            <if test="expiredDay != null">
+                EXPIRED_DAY = #{expiredDay,jdbcType=INTEGER},
+            </if>
+        </set>
+        where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateWhenImportExcel" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
+        update GOODS_INFO
+        <set>
+            <if test="goodsCode != null">
+                GOODS_CODE = #{goodsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsCost != null">
+                GOODS_COST = #{goodsCost,jdbcType=INTEGER},
+            </if>
+            <if test="goodsPrice != null">
+                GOODS_PRICE = #{goodsPrice,jdbcType=INTEGER},
+            </if>
+            <if test="goodsBulkPrice != null">
+                GOODS_BULK_PRICE = #{goodsBulkPrice,jdbcType=INTEGER},
+            </if>
+            <if test="measurUnit != null">
+                MEASUR_UNIT = #{measurUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="providerUnit != null">
+                PROVIDER_UNIT = #{providerUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="providerUnitMultiple != null">
+                PROVIDER_UNIT_MULTIPLE = #{providerUnitMultiple,jdbcType=INTEGER},
+            </if>
+            <if test="hasQualityPeriod != null">
+                HAS_QUALITY_PERIOD = #{hasQualityPeriod,jdbcType=INTEGER},
+            </if>
+            <if test="expiredDay != null">
+                EXPIRED_DAY = #{expiredDay,jdbcType=INTEGER},
+            </if>
+        </set>
+        where GOODS_ID = #{goodsId,jdbcType=VARCHAR} and MER_ID = #{merId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
     update GOODS_INFO
     set GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR},
       MER_ID = #{merId,jdbcType=VARCHAR},
@@ -1004,8 +1057,8 @@
       EXPIRED_DAY = #{expiredDay,jdbcType=INTEGER}
     where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
   </update>
-  
-  <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
+
+    <update id="updateByPrimaryKey" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
     update GOODS_INFO
     set GOODS_TYPE_ID = #{goodsTypeId,jdbcType=VARCHAR},
       MER_ID = #{merId,jdbcType=VARCHAR},
@@ -1028,11 +1081,11 @@
       EXPIRED_DAY = #{expiredDay,jdbcType=INTEGER}
     where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
   </update>
-  
-  <update id="changeStatus" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
+
+    <update id="changeStatus" parameterType="com.fuhuitong.applychain.model.GoodsInfo">
     update GOODS_INFO
     set STATUS = #{status,jdbcType=INTEGER}
     where GOODS_ID = #{goodsId,jdbcType=VARCHAR}
   </update>
-  
+
 </mapper>

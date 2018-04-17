@@ -6,60 +6,62 @@ import com.fuhuitong.applychain.utils.MoneyUtils;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class GoodsInfo extends POSParam
-{
+public class GoodsInfo extends POSParam {
+    private String id;
     private String goodsId;
-    
+
     private ArrayList<String> goodsIds;
 
     private String goodsTypeId;
-    
+
     private String parentTypeId;
-    
+
     private String goodsTypeName;
-    
+
     private Long goodsPriceId;
-    
+
     private Long goodsStockId;
-    
+
     private Integer stockOrderDetailId;
     private Integer goodsCount;
     private String stockOrderId;
-    
+
     private Integer goodsMemberPrice;
-    
+
     private Long goodsMembPriceId;
-    
+
     private Integer pricePercent;
-    
+
     private String clientLevelId;
 
     private String merId;
 
     private String goodsCode;
-    
+
     private ArrayList<String> goodsCodes;
 
     private String goodsName;
+
+    private String goodsDate;
 
     private String goodsThumbnail;
 
     private Integer goodsCost;
 
     private Integer goodsPrice;
-    
+
     private Integer storeGoodsPrice;
-    
+
     private String goodsCostText;
 
     private String goodsPriceText;
-    
+
     private String storeGoodsPriceText;
-    
+
     private Integer storeGoodsCost;
-    
+
     private String storeGoodsCostText;
-    
+
     private String merGroupId;
 
     private Integer goodsBulkPrice;
@@ -69,13 +71,13 @@ public class GoodsInfo extends POSParam
     private String skuCode;
 
     private String measurUnit;
-    
+
     private String providerUnit;
 
     private Integer providerUnitMultiple = 1;
 
     private Integer flagNum;
-    
+
     private Long importSn;
 
     private String flag1;
@@ -89,46 +91,46 @@ public class GoodsInfo extends POSParam
     private String flag5;
 
     private String goodsMemo;
-    
+
     private int page;
-	
+
     private int limit;
-	
+
     private int offset;
-    
+
     private int seeAllGoods = 0;
-    
+
     private String priceSetting = null;
-    
+
     private Integer status;
-    
+
     private boolean blank;
-    
+
     private Integer ownerType;
 
     private String ownerId;
-    
+
     private Date productDate;
-    
+
     private Date expiredDate;
-    
+
     private Integer expiredDay = 0;
-    
+
     private Integer hasQualityPeriod;
 
     private String stockAmountParam;
     private Integer stockAmount;
     private Integer minStockAmount;
     private Integer maxStockAmount;
-    
+
     private String gpId;
     private String merUserId;
     private Integer gpStatus;
-    
+
     private int providerCount = 0;
     private String providerId = "";
     private String providerName = "";
-    
+
     private Integer stockCheckId;
     private String stockCheckorId;
     private String stockCheckorName;
@@ -136,14 +138,30 @@ public class GoodsInfo extends POSParam
     private Integer checkResult;
     private Integer checkDiffValue;
     private String createDateText;
-    
+
     private boolean show;
-    
+
     private Integer goodsBinding;
-    
+
     // 是否已经享受过促销的标记
     private boolean catchedDiscount = false;
-    
+
+    public String getGoodsDate() {
+        return goodsDate;
+    }
+
+    public void setGoodsDate(String goodsDate) {
+        this.goodsDate = goodsDate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getGoodsId() {
         return goodsId;
     }
@@ -155,14 +173,14 @@ public class GoodsInfo extends POSParam
     public String getGoodsTypeId() {
         return goodsTypeId;
     }
-    
+
     public boolean isCatchedDiscount() {
-		return catchedDiscount;
-	}
-    
+        return catchedDiscount;
+    }
+
     public void setCatchedDiscount(boolean catchedDiscount) {
-		this.catchedDiscount = catchedDiscount;
-	}
+        this.catchedDiscount = catchedDiscount;
+    }
 
     public void setGoodsTypeId(String goodsTypeId) {
         this.goodsTypeId = goodsTypeId == null ? null : goodsTypeId.trim();
@@ -303,447 +321,443 @@ public class GoodsInfo extends POSParam
     public void setGoodsMemo(String goodsMemo) {
         this.goodsMemo = goodsMemo == null ? null : goodsMemo.trim();
     }
-    
+
     public void setStoreGoodsPrice(Integer storeGoodsPrice) {
-		this.storeGoodsPrice = storeGoodsPrice;
-	}
-    
+        this.storeGoodsPrice = storeGoodsPrice;
+    }
+
     public Integer getStoreGoodsPrice() {
-		return storeGoodsPrice;
-	}
-    
+        return storeGoodsPrice;
+    }
+
     public void setMerGroupId(String merGroupId) {
-		this.merGroupId = merGroupId;
-	}
-    
+        this.merGroupId = merGroupId;
+    }
+
     public String getMerGroupId() {
-		return merGroupId;
-	}
-    
+        return merGroupId;
+    }
+
     public void setGoodsCodes(ArrayList<String> goodsCodes) {
-		this.goodsCodes = goodsCodes;
-	}
-    
+        this.goodsCodes = goodsCodes;
+    }
+
     public ArrayList<String> getGoodsCodes() {
-		return goodsCodes;
-	}
-    
+        return goodsCodes;
+    }
+
     public int getPage() {
-		return page;
-	}
-    
+        return page;
+    }
+
     public void setPage(int page) {
-		this.page = page;
-	}
+        this.page = page;
+    }
 
-	public int getLimit() {
-		return limit;
-	}
+    public int getLimit() {
+        return limit;
+    }
 
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
-	
-	public int getOffset() {
-		
-		offset = (page - 1) * limit;
-		
-		return offset;
-	}
-	
-	public String getParentTypeId() {
-		return parentTypeId;
-	}
-	
-	public void setParentTypeId(String parentTypeId) {
-		this.parentTypeId = parentTypeId;
-	}
-	
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	
-	public Integer getStatus() {
-		return status;
-	}
-	
-	public void setGoodsTypeName(String goodsTypeName) {
-		this.goodsTypeName = goodsTypeName;
-	}
-	
-	public String getGoodsTypeName() {
-		return goodsTypeName;
-	}
-	
-	public void setSeeAllGoods(int seeAllGoods) {
-		this.seeAllGoods = seeAllGoods;
-	}
-	
-	public int getSeeAllGoods() {
-		return seeAllGoods;
-	}
-	
-	public void setPriceSetting(String priceSetting) {
-		this.priceSetting = priceSetting;
-	}
-	
-	public String getPriceSetting() {
-		return priceSetting;
-	}
-	
-	public void setGoodsPriceId(Long goodsPriceId) {
-		this.goodsPriceId = goodsPriceId;
-	}
-	
-	public Long getGoodsPriceId() {
-		return goodsPriceId;
-	}
-	
-	public boolean isBlank() {
-		return blank;
-	}
-	
-	public void setBlank(boolean blank) {
-		this.blank = blank;
-	}
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
 
-	public Integer getGoodsMemberPrice() {
-		return goodsMemberPrice;
-	}
+    public int getOffset() {
 
-	public void setGoodsMemberPrice(Integer goodsMemberPrice) {
-		this.goodsMemberPrice = goodsMemberPrice;
-	}
+        offset = (page - 1) * limit;
 
-	public Long getGoodsMembPriceId() {
-		return goodsMembPriceId;
-	}
+        return offset;
+    }
 
-	public void setGoodsMembPriceId(Long goodsMembPriceId) {
-		this.goodsMembPriceId = goodsMembPriceId;
-	}
-	
-	public void setPricePercent(Integer pricePercent) {
-		this.pricePercent = pricePercent;
-	}
-	
-	public Integer getPricePercent() {
-		return pricePercent;
-	}
-	
-	public void setClientLevelId(String clientLevelId) {
-		this.clientLevelId = clientLevelId;
-	}
-	
-	public String getClientLevelId() {
-		return clientLevelId;
-	}
+    public String getParentTypeId() {
+        return parentTypeId;
+    }
 
-	public Integer getOwnerType() {
-		return ownerType;
-	}
+    public void setParentTypeId(String parentTypeId) {
+        this.parentTypeId = parentTypeId;
+    }
 
-	public void setOwnerType(Integer ownerType) {
-		this.ownerType = ownerType;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public String getOwnerId() {
-		return ownerId;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
-	}
+    public void setGoodsTypeName(String goodsTypeName) {
+        this.goodsTypeName = goodsTypeName;
+    }
 
-	public String getStockAmountParam() {
-		return stockAmountParam;
-	}
+    public String getGoodsTypeName() {
+        return goodsTypeName;
+    }
 
-	public void setStockAmountParam(String stockAmountParam) {
-		this.stockAmountParam = stockAmountParam == null?null:stockAmountParam.trim();
-	}
+    public void setSeeAllGoods(int seeAllGoods) {
+        this.seeAllGoods = seeAllGoods;
+    }
 
-	public Integer getStockAmount() {
-		return stockAmount;
-	}
+    public int getSeeAllGoods() {
+        return seeAllGoods;
+    }
 
-	public void setStockAmount(Integer stockAmount) {
-		this.stockAmount = stockAmount;
-	}
+    public void setPriceSetting(String priceSetting) {
+        this.priceSetting = priceSetting;
+    }
 
-	public Integer getMinStockAmount() {
-		return minStockAmount;
-	}
+    public String getPriceSetting() {
+        return priceSetting;
+    }
 
-	public void setMinStockAmount(Integer minStockAmount) {
-		this.minStockAmount = minStockAmount;
-	}
+    public void setGoodsPriceId(Long goodsPriceId) {
+        this.goodsPriceId = goodsPriceId;
+    }
 
-	public Integer getMaxStockAmount() {
-		return maxStockAmount;
-	}
+    public Long getGoodsPriceId() {
+        return goodsPriceId;
+    }
 
-	public void setMaxStockAmount(Integer maxStockAmount) {
-		this.maxStockAmount = maxStockAmount;
-	}
-	
-	public void setGoodsStockId(Long goodsStockId) {
-		this.goodsStockId = goodsStockId;
-	}
-	
-	public Long getGoodsStockId() {
-		return goodsStockId;
-	}
-	
-	public void setProductDate(Date productDate) {
-		this.productDate = productDate;
-	}
-	
-	public Date getProductDate() {
-		return productDate;
-	}
-	
-	public Date getExpiredDate() {
-		return expiredDate;
-	}
-	
-	public void setExpiredDate(Date expiredDate) {
-		this.expiredDate = expiredDate;
-	}
+    public boolean isBlank() {
+        return blank;
+    }
 
-	public String getGpId() {
-		return gpId;
-	}
+    public void setBlank(boolean blank) {
+        this.blank = blank;
+    }
 
-	public void setGpId(String gpId) {
-		this.gpId = gpId;
-	}
+    public Integer getGoodsMemberPrice() {
+        return goodsMemberPrice;
+    }
 
-	public String getMerUserId() {
-		return merUserId;
-	}
+    public void setGoodsMemberPrice(Integer goodsMemberPrice) {
+        this.goodsMemberPrice = goodsMemberPrice;
+    }
 
-	public void setMerUserId(String merUserId) {
-		this.merUserId = merUserId;
-	}
+    public Long getGoodsMembPriceId() {
+        return goodsMembPriceId;
+    }
 
-	public Integer getGpStatus() {
-		return gpStatus;
-	}
+    public void setGoodsMembPriceId(Long goodsMembPriceId) {
+        this.goodsMembPriceId = goodsMembPriceId;
+    }
 
-	public void setGpStatus(Integer gpStatus) {
-		this.gpStatus = gpStatus;
-	}
+    public void setPricePercent(Integer pricePercent) {
+        this.pricePercent = pricePercent;
+    }
 
-	public Integer getStockOrderDetailId() {
-		return stockOrderDetailId;
-	}
+    public Integer getPricePercent() {
+        return pricePercent;
+    }
 
-	public void setStockOrderDetailId(Integer stockOrderDetailId) {
-		this.stockOrderDetailId = stockOrderDetailId;
-	}
+    public void setClientLevelId(String clientLevelId) {
+        this.clientLevelId = clientLevelId;
+    }
 
-	public Integer getGoodsCount() {
-		return goodsCount;
-	}
+    public String getClientLevelId() {
+        return clientLevelId;
+    }
 
-	public void setGoodsCount(Integer goodsCount) {
-		this.goodsCount = goodsCount;
-	}
-	
-	public void setStockOrderId(String stockOrderId) {
-		this.stockOrderId = stockOrderId;
-	}
-	
-	public String getStockOrderId() {
-		return stockOrderId;
-	}
-	
-	public void setProviderCount(int providerCount) {
-		this.providerCount = providerCount;
-	}
-	
-	public int getProviderCount() {
-		return providerCount;
-	}
-	
-	public void setProviderId(String providerId) {
-		this.providerId = providerId;
-	}
-	
-	public String getProviderId() {
-		return providerId;
-	}
-	
-	public void setProviderName(String providerName) {
-		this.providerName = providerName;
-	}
-	
-	public String getProviderName() {
-		return providerName;
-	}
-	
-	public void setHasQualityPeriod(Integer hasQualityPeriod) {
-		this.hasQualityPeriod = hasQualityPeriod;
-	}
-	
-	public Integer getHasQualityPeriod() {
-		return hasQualityPeriod;
-	}
-	
-	public void setImportSn(Long importSn) {
-		this.importSn = importSn;
-	}
-	
-	public Long getImportSn() {
-		return importSn;
-	}
-	
-	public void setGoodsIds(ArrayList<String> goodsIds) {
-		this.goodsIds = goodsIds;
-	}
-	
-	public ArrayList<String> getGoodsIds() {
-		return goodsIds;
-	}
+    public Integer getOwnerType() {
+        return ownerType;
+    }
 
-	public String getProviderUnit() {
-		return providerUnit;
-	}
+    public void setOwnerType(Integer ownerType) {
+        this.ownerType = ownerType;
+    }
 
-	public void setProviderUnit(String providerUnit) {
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getStockAmountParam() {
+        return stockAmountParam;
+    }
+
+    public void setStockAmountParam(String stockAmountParam) {
+        this.stockAmountParam = stockAmountParam == null ? null : stockAmountParam.trim();
+    }
+
+    public Integer getStockAmount() {
+        return stockAmount;
+    }
+
+    public void setStockAmount(Integer stockAmount) {
+        this.stockAmount = stockAmount;
+    }
+
+    public Integer getMinStockAmount() {
+        return minStockAmount;
+    }
+
+    public void setMinStockAmount(Integer minStockAmount) {
+        this.minStockAmount = minStockAmount;
+    }
+
+    public Integer getMaxStockAmount() {
+        return maxStockAmount;
+    }
+
+    public void setMaxStockAmount(Integer maxStockAmount) {
+        this.maxStockAmount = maxStockAmount;
+    }
+
+    public void setGoodsStockId(Long goodsStockId) {
+        this.goodsStockId = goodsStockId;
+    }
+
+    public Long getGoodsStockId() {
+        return goodsStockId;
+    }
+
+    public void setProductDate(Date productDate) {
+        this.productDate = productDate;
+    }
+
+    public Date getProductDate() {
+        return productDate;
+    }
+
+    public Date getExpiredDate() {
+        return expiredDate;
+    }
+
+    public void setExpiredDate(Date expiredDate) {
+        this.expiredDate = expiredDate;
+    }
+
+    public String getGpId() {
+        return gpId;
+    }
+
+    public void setGpId(String gpId) {
+        this.gpId = gpId;
+    }
+
+    public String getMerUserId() {
+        return merUserId;
+    }
+
+    public void setMerUserId(String merUserId) {
+        this.merUserId = merUserId;
+    }
+
+    public Integer getGpStatus() {
+        return gpStatus;
+    }
+
+    public void setGpStatus(Integer gpStatus) {
+        this.gpStatus = gpStatus;
+    }
+
+    public Integer getStockOrderDetailId() {
+        return stockOrderDetailId;
+    }
+
+    public void setStockOrderDetailId(Integer stockOrderDetailId) {
+        this.stockOrderDetailId = stockOrderDetailId;
+    }
+
+    public Integer getGoodsCount() {
+        return goodsCount;
+    }
+
+    public void setGoodsCount(Integer goodsCount) {
+        this.goodsCount = goodsCount;
+    }
+
+    public void setStockOrderId(String stockOrderId) {
+        this.stockOrderId = stockOrderId;
+    }
+
+    public String getStockOrderId() {
+        return stockOrderId;
+    }
+
+    public void setProviderCount(int providerCount) {
+        this.providerCount = providerCount;
+    }
+
+    public int getProviderCount() {
+        return providerCount;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
+    }
+
+    public String getProviderName() {
+        return providerName;
+    }
+
+    public void setHasQualityPeriod(Integer hasQualityPeriod) {
+        this.hasQualityPeriod = hasQualityPeriod;
+    }
+
+    public Integer getHasQualityPeriod() {
+        return hasQualityPeriod;
+    }
+
+    public void setImportSn(Long importSn) {
+        this.importSn = importSn;
+    }
+
+    public Long getImportSn() {
+        return importSn;
+    }
+
+    public void setGoodsIds(ArrayList<String> goodsIds) {
+        this.goodsIds = goodsIds;
+    }
+
+    public ArrayList<String> getGoodsIds() {
+        return goodsIds;
+    }
+
+    public String getProviderUnit() {
+        return providerUnit;
+    }
+
+    public void setProviderUnit(String providerUnit) {
         this.providerUnit = providerUnit == null ? null : providerUnit.trim();
     }
 
-	public Integer getProviderUnitMultiple() {
-		return providerUnitMultiple;
-	}
+    public Integer getProviderUnitMultiple() {
+        return providerUnitMultiple;
+    }
 
-	public void setProviderUnitMultiple(Integer providerUnitMultiple) {
-		this.providerUnitMultiple = providerUnitMultiple;
-	}
-	
-	public void setStoreGoodsCost(Integer storeGoodsCost) {
-		this.storeGoodsCost = storeGoodsCost;
-	}
-	
-	public Integer getStoreGoodsCost() {
-		return storeGoodsCost;
-	}
+    public void setProviderUnitMultiple(Integer providerUnitMultiple) {
+        this.providerUnitMultiple = providerUnitMultiple;
+    }
 
-	public String getGoodsCostText() {
-		if (goodsCost != null)
-		{
-			goodsCostText = MoneyUtils.getMoneyText(goodsCost);
-		}
-		
-		return goodsCostText;
-	}
+    public void setStoreGoodsCost(Integer storeGoodsCost) {
+        this.storeGoodsCost = storeGoodsCost;
+    }
 
-	public String getGoodsPriceText() {
-		if (goodsPrice != null)
-		{
-			goodsPriceText = MoneyUtils.getMoneyText(goodsPrice);
-		}
-		
-		return goodsPriceText;
-	}
+    public Integer getStoreGoodsCost() {
+        return storeGoodsCost;
+    }
 
-	public String getStoreGoodsPriceText() {
-		if (storeGoodsPrice != null)
-		{
-			storeGoodsPriceText = MoneyUtils.getMoneyText(storeGoodsPrice);
-		}
-		
-		return storeGoodsPriceText;
-	}
+    public String getGoodsCostText() {
+        if (goodsCost != null) {
+            goodsCostText = MoneyUtils.getMoneyText(goodsCost);
+        }
 
-	public String getStockCheckorId() {
-		return stockCheckorId;
-	}
+        return goodsCostText;
+    }
 
-	public void setStockCheckorId(String stockCheckorId) {
-		this.stockCheckorId = stockCheckorId;
-	}
+    public String getGoodsPriceText() {
+        if (goodsPrice != null) {
+            goodsPriceText = MoneyUtils.getMoneyText(goodsPrice);
+        }
 
-	public String getStockCheckorName() {
-		return stockCheckorName;
-	}
+        return goodsPriceText;
+    }
 
-	public void setStockCheckorName(String stockCheckorName) {
-		this.stockCheckorName = stockCheckorName;
-	}
+    public String getStoreGoodsPriceText() {
+        if (storeGoodsPrice != null) {
+            storeGoodsPriceText = MoneyUtils.getMoneyText(storeGoodsPrice);
+        }
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+        return storeGoodsPriceText;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public String getStockCheckorId() {
+        return stockCheckorId;
+    }
 
-	public Integer getCheckResult() {
-		return checkResult;
-	}
+    public void setStockCheckorId(String stockCheckorId) {
+        this.stockCheckorId = stockCheckorId;
+    }
 
-	public void setCheckResult(Integer checkResult) {
-		this.checkResult = checkResult;
-	}
+    public String getStockCheckorName() {
+        return stockCheckorName;
+    }
 
-	public Integer getCheckDiffValue() {
-		return checkDiffValue;
-	}
+    public void setStockCheckorName(String stockCheckorName) {
+        this.stockCheckorName = stockCheckorName;
+    }
 
-	public void setCheckDiffValue(Integer checkDiffValue) {
-		this.checkDiffValue = checkDiffValue;
-	}
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-	public String getCreateDateText() {
-		return createDateText;
-	}
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public void setCreateDateText(String createDateText) {
-		this.createDateText = createDateText;
-	}
+    public Integer getCheckResult() {
+        return checkResult;
+    }
 
-	public Integer getStockCheckId() {
-		return stockCheckId;
-	}
+    public void setCheckResult(Integer checkResult) {
+        this.checkResult = checkResult;
+    }
 
-	public void setStockCheckId(Integer stockCheckId) {
-		this.stockCheckId = stockCheckId;
-	}
+    public Integer getCheckDiffValue() {
+        return checkDiffValue;
+    }
 
-	public Integer getExpiredDay() {
-		return expiredDay;
-	}
+    public void setCheckDiffValue(Integer checkDiffValue) {
+        this.checkDiffValue = checkDiffValue;
+    }
 
-	public void setExpiredDay(Integer expiredDay) {
-		this.expiredDay = expiredDay;
-	}
-	
-	public void setShow(boolean show) {
-		this.show = show;
-	}
-	
-	public boolean isShow() {
-		return show;
-	}
-	
-	public String getStoreGoodsCostText() {
-		if (storeGoodsCost != null)
-		{
-			storeGoodsCostText = MoneyUtils.getMoneyText(storeGoodsCost);
-		}
-		
-		return storeGoodsCostText;
-	}
-	
-	public void setGoodsBinding(Integer goodsBinding) {
-		this.goodsBinding = goodsBinding;
-	}
-	
-	public Integer getGoodsBinding() {
-		return goodsBinding;
-	}
+    public String getCreateDateText() {
+        return createDateText;
+    }
+
+    public void setCreateDateText(String createDateText) {
+        this.createDateText = createDateText;
+    }
+
+    public Integer getStockCheckId() {
+        return stockCheckId;
+    }
+
+    public void setStockCheckId(Integer stockCheckId) {
+        this.stockCheckId = stockCheckId;
+    }
+
+    public Integer getExpiredDay() {
+        return expiredDay;
+    }
+
+    public void setExpiredDay(Integer expiredDay) {
+        this.expiredDay = expiredDay;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
+    public boolean isShow() {
+        return show;
+    }
+
+    public String getStoreGoodsCostText() {
+        if (storeGoodsCost != null) {
+            storeGoodsCostText = MoneyUtils.getMoneyText(storeGoodsCost);
+        }
+
+        return storeGoodsCostText;
+    }
+
+    public void setGoodsBinding(Integer goodsBinding) {
+        this.goodsBinding = goodsBinding;
+    }
+
+    public Integer getGoodsBinding() {
+        return goodsBinding;
+    }
 }

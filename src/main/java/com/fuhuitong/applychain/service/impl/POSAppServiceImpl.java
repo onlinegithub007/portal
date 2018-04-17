@@ -1968,6 +1968,10 @@ public class POSAppServiceImpl implements IPOSAppService {
 
 		Charge charge = this.chargeMapper.findByMerId(tmpOrder.getMerId());
 
+
+		/*
+		* 手续费率的计算
+		* */
 		if (order.getPayMethod()==1){//1 微信
 			order.setChargeRate(""+charge.getWechat());
 			Double payAmounts = reqParam.getPayAmount()+0.0;

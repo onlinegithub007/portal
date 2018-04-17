@@ -57,6 +57,9 @@
 						<option value="1">已下架</option>
 					</select>
             	</div>
+				<div class="layui-form-item layui-input-inline">
+					<button class="layui-btn" lay-submit lay-filter="goodsQuery"><i class="layui-icon">&#xe615;</i><cite>创建时间</cite></button>
+				</div>
             	<div class="layui-form-item layui-input-inline">
 	                <button class="layui-btn" lay-submit lay-filter="goodsQuerySubmit"><i class="layui-icon">&#xe615;</i><cite>查询</cite></button>
             	</div>
