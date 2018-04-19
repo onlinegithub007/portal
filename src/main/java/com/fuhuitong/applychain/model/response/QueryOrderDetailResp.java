@@ -2,120 +2,139 @@ package com.fuhuitong.applychain.model.response;
 
 import java.util.ArrayList;
 
-public class QueryOrderDetailResp 
-{
-	private HeadResp headResp;
-	
-	private String retCode;
-	
-	private String orderCode;
-	
-	private String orderDatetime;
-	
-	private int goodsCount;
-	
-	private int totalAmount;
-	
-	private int actTotalAmount;
-	
-	private int discountAmount;
-	
-	private String memberCode;
-	
-	private String memberName;
+public class QueryOrderDetailResp {
+    private HeadResp headResp;
 
-	private ArrayList<GoodsInfoItem> goodsList = new ArrayList<GoodsInfoItem>();
-	
-	public HeadResp getHeadResp() {
-		return headResp;
-	}
+    private String retCode;
 
-	public void setHeadResp(HeadResp headResp) {
-		this.headResp = headResp;
-	}
+    private String orderCode;
 
-	public String getRetCode() {
-		return retCode;
-	}
+    private String orderDatetime;
 
-	public void setRetCode(String retCode) {
-		this.retCode = retCode;
-	}
+    private int goodsCount;
 
-	public String getOrderCode() {
-		return orderCode;
-	}
+    private int totalAmount;
 
-	public void setOrderCode(String orderCode) {
-		this.orderCode = orderCode;
-	}
+    private int actTotalAmount;
 
-	public String getOrderDatetime() {
-		return orderDatetime;
-	}
+    private int discountAmount;
 
-	public void setOrderDatetime(String orderDatetime) {
-		this.orderDatetime = orderDatetime;
-	}
+    private String memberCode;
 
-	public int getGoodsCount() {
-		return goodsCount;
-	}
+    private String memberName;
 
-	public void setGoodsCount(int goodsCount) {
-		this.goodsCount = goodsCount;
-	}
+    private String payBillNumber;
 
-	public int getTotalAmount() {
-		return totalAmount;
-	}
+    private Integer payMethod;
 
-	public void setTotalAmount(int totalAmount) {
-		this.totalAmount = totalAmount;
-	}
+    private ArrayList<GoodsInfoItem> goodsList = new ArrayList<GoodsInfoItem>();
 
-	public int getActTotalAmount() {
-		return actTotalAmount;
-	}
 
-	public void setActTotalAmount(int actTotalAmount) {
-		this.actTotalAmount = actTotalAmount;
-	}
+    public Integer getPayMethod() {
+        return payMethod;
+    }
 
-	public int getDiscountAmount() {
-		return discountAmount;
-	}
+    public void setPayMethod(Integer payMethod) {
+        this.payMethod = payMethod;
+    }
 
-	public void setDiscountAmount(int discountAmount) {
-		this.discountAmount = discountAmount;
-	}
+    public String getPayBillNumber() {
+        return payBillNumber;
+    }
 
-	public String getMemberCode() {
-		return memberCode;
-	}
+    public void setPayBillNumber(String payBillNumber) {
+        this.payBillNumber = payBillNumber;
+    }
 
-	public void setMemberCode(String memberCode) {
-		this.memberCode = memberCode;
-	}
+    public HeadResp getHeadResp() {
+        return headResp;
+    }
 
-	public String getMemberName() {
-		return memberName;
-	}
+    public void setHeadResp(HeadResp headResp) {
+        this.headResp = headResp;
+    }
 
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
-	}
+    public String getRetCode() {
+        return retCode;
+    }
 
-	public ArrayList<GoodsInfoItem> getGoodsList() {
-		return goodsList;
-	}
+    public void setRetCode(String retCode) {
+        this.retCode = retCode;
+    }
 
-	public void setGoodsList(ArrayList<GoodsInfoItem> goodsList) {
-		this.goodsList = goodsList;
-	}
-	
-	public void add(GoodsInfoItem goodsInfo)
-	{
-		this.goodsList.add(goodsInfo);
-	}
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public String getOrderDatetime() {
+        return orderDatetime;
+    }
+
+    public void setOrderDatetime(String orderDatetime) {
+        this.orderDatetime = orderDatetime;
+    }
+
+    public int getGoodsCount() {
+        return goodsCount;
+    }
+
+    public void setGoodsCount(int goodsCount) {
+        this.goodsCount = goodsCount;
+    }
+
+    public int getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(int totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public int getActTotalAmount() {
+        return actTotalAmount;
+    }
+
+    public void setActTotalAmount(int actTotalAmount) {
+        this.actTotalAmount = actTotalAmount;
+    }
+
+    public int getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(int discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public String getMemberCode() {
+        return memberCode;
+    }
+
+    public void setMemberCode(String memberCode) {
+        this.memberCode = memberCode;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public ArrayList<GoodsInfoItem> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(ArrayList<GoodsInfoItem> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+    public void add(GoodsInfoItem goodsInfo) {
+        this.goodsList.add(goodsInfo);
+    }
 }

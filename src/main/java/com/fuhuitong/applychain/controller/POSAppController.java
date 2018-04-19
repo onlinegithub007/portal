@@ -128,7 +128,18 @@ public class POSAppController{
 		
 		return respStr;
 	}
-	
+
+
+	@RequestMapping(value="/posRepayment")
+	public @ResponseBody String posRepayment(HttpServletRequest request, POSPaySuccessReq reqParam)
+	{
+		PosRepaymentResp resp = this.posAppService.posRepayment(reqParam, request.getRemoteAddr());
+		String respStr = JSON.toJSONString(resp);
+		logger.info(respStr);
+
+		return respStr;
+	}
+
 	@RequestMapping(value="/posQueryOrders", method = RequestMethod.POST)
 	public @ResponseBody String posQueryOrders(HttpServletRequest request, QueryOrdersReq reqParam)
 	{
@@ -150,7 +161,19 @@ public class POSAppController{
 		
 		return respStr;
 	}
-	
+
+/*
+	@RequestMapping(value="/posQueryOrderDetailByBill", method = RequestMethod.POST)
+	public @ResponseBody String posGetOrderDetailByBill(HttpServletRequest request, QueryOrderDetailReq reqParam)
+	{
+		QueryOrderDetailResp resp = this.posAppService.posGetOrderDetailByBill(reqParam, request.getRemoteAddr());
+
+		String respStr = JSON.toJSONString(resp);
+		logger.info(respStr);
+
+		return respStr;
+	}*/
+
 	@RequestMapping(value="/posGetOrderPrintInfo", method = RequestMethod.POST)
 	public @ResponseBody String posGetOrderPrintInfo(HttpServletRequest request, QueryOrderDetailReq reqParam)
 	{
@@ -160,7 +183,7 @@ public class POSAppController{
 		
 		return respStr;
 	}
-	
+
 	@RequestMapping(value="/posQueryMember", method = RequestMethod.POST)
 	public @ResponseBody String posQueryMember(HttpServletRequest request, QueryMemberReq reqParam)
 	{

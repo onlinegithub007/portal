@@ -14,9 +14,11 @@ public interface OrdersMapper {
     Orders selectByPrimaryKey(String orderId);
     
     Orders selectByOrderCode(Orders query);
+
+    Orders selectByPayBillNumber(Orders query);
     
     Orders selectPrintByOrderCode(Orders query);
-    
+
     Orders statOnClearingByDate(Orders query);
     
     ArrayList<Orders> selectByDate(Orders record);

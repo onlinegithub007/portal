@@ -42,6 +42,16 @@ public class POSPaySuccessReq extends POSParam
     
     private String termSn;
 
+    private String orderCode;
+
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
+	}
+
 	public String getOrderId() {
 		return orderId;
 	}

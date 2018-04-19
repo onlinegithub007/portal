@@ -222,4 +222,9 @@ public class OrderDetails {
 	public String getBindingId() {
 		return bindingId;
 	}
+
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 }

@@ -265,6 +265,13 @@
     from ORDERS
     where ORDER_CODE = #{orderCode,jdbcType=VARCHAR} and MER_ID = #{merId,jdbcType=VARCHAR}
   </select>
+
+ <!-- <select id="selectByPayBillNumber" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ORDERS
+    where PAY_BILL_NUMBER = #{payBillNumber,jdbcType=VARCHAR} and MER_ID = #{merId,jdbcType=VARCHAR}
+  </select>-->
   
   <select id="selectPrintByOrderCode" parameterType="com.fuhuitong.applychain.model.Orders" resultMap="BaseResultMap">
     select 

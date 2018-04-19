@@ -1,96 +1,113 @@
 package com.fuhuitong.applychain.model.response;
 
-public class POSPaySuccessResp
-{
-	private HeadResp headResp;
-	
-	private String retCode;
-	
-	private String orderId;
-	
-	private String memberCode;
-	
-	private String memberName;
-	
-	private int memberLevel;
-	
-	private int memberScore;
-	
-	private int menberBalance;
-	
-	private String printInfo;
+public class POSPaySuccessResp {
+    private HeadResp headResp;
 
-	public HeadResp getHeadResp() {
-		return headResp;
-	}
+    private String retCode;
 
-	public void setHeadResp(HeadResp headResp) {
-		this.headResp = headResp;
-	}
+    private String orderId;
+    private String orderCode;
+    private String memberCode;
 
-	public String getRetCode() {
-		return retCode;
-	}
+    private String memberName;
 
-	public void setRetCode(String retCode) {
-		this.retCode = retCode;
-	}
+    private int memberLevel;
 
-	public String getOrderId() {
-		return orderId;
-	}
+    private int memberScore;
 
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
-	}
+    private int menberBalance;
 
-	public String getMemberCode() {
-		return memberCode;
-	}
+    private String printInfo;
 
-	public void setMemberCode(String memberCode) {
-		this.memberCode = memberCode;
-	}
+    private String payBillNumber;
 
-	public String getMemberName() {
-		return memberName;
-	}
+    public String getOrderCode() {
+        return orderCode;
+    }
 
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
-	}
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
 
-	public int getMemberLevel() {
-		return memberLevel;
-	}
+    public String getPayBillNumber() {
+        return payBillNumber;
+    }
 
-	public void setMemberLevel(int memberLevel) {
-		this.memberLevel = memberLevel;
-	}
+    public void setPayBillNumber(String payBillNumber) {
+        this.payBillNumber = payBillNumber;
+    }
 
-	public int getMemberScore() {
-		return memberScore;
-	}
+    public HeadResp getHeadResp() {
+        return headResp;
+    }
 
-	public void setMemberScore(int memberScore) {
-		this.memberScore = memberScore;
-	}
+    public void setHeadResp(HeadResp headResp) {
+        this.headResp = headResp;
+    }
 
-	public int getMenberBalance() {
-		return menberBalance;
-	}
+    public String getRetCode() {
+        return retCode;
+    }
 
-	public void setMenberBalance(int menberBalance) {
-		this.menberBalance = menberBalance;
-	}
+    public void setRetCode(String retCode) {
+        this.retCode = retCode;
+    }
 
-	public String getPrintInfo() {
-		return printInfo;
-	}
+    public String getOrderId() {
+        return orderId;
+    }
 
-	public void setPrintInfo(String printInfo) {
-		this.printInfo = printInfo;
-	}
-	
-	
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getMemberCode() {
+        return memberCode;
+    }
+
+    public void setMemberCode(String memberCode) {
+        this.memberCode = memberCode;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public int getMemberLevel() {
+        return memberLevel;
+    }
+
+    public void setMemberLevel(int memberLevel) {
+        this.memberLevel = memberLevel;
+    }
+
+    public int getMemberScore() {
+        return memberScore;
+    }
+
+    public void setMemberScore(int memberScore) {
+        this.memberScore = memberScore;
+    }
+
+    public int getMenberBalance() {
+        return menberBalance;
+    }
+
+    public void setMenberBalance(int menberBalance) {
+        this.menberBalance = menberBalance;
+    }
+
+    public String getPrintInfo() {
+        return printInfo;
+    }
+
+    public void setPrintInfo(String printInfo) {
+        this.printInfo = printInfo;
+    }
+
+
 }
